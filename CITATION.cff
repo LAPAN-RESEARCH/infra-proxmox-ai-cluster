@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: Proxmox LAPAN AI Setup
+message: If you use this software/repository, please cite it using the metadata from
+  this file.
+type: software
+authors:
+- family-names: de Paula
+  given-names: Hugo
+  affiliation: Universidade Federal de Minas Gerais / LAPAN
+  website: https://github.com/hugodepaula
+repository-code: https://github.com/LAPAN-RESEARCH/infra-proxmox-ai-cluster
+abstract: Production-grade setup notes and Docker configuration for local AI research
+  cluster running on Proxmox VE with GPU passthrough.
+keywords:
+- proxmox
+- ai-cluster
+- docker
+- ollama
+- whisper
+- cuda
+- gpu-passthrough
+date-released: '2026-07-26'

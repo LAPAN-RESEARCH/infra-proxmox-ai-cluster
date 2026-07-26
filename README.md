@@ -1,5 +1,12 @@
 # Proxmox LAPAN AI Setup
 
+[![Proxmox](https://img.shields.io/badge/Proxmox_VE-E57000?style=for-the-badge&logo=proxmox&logoColor=white)](https://proxmox.com)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://ubuntu.com)
+[![NVIDIA](https://img.shields.io/badge/NVIDIA_CUDA-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-zone)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
+[![CITATION.cff](https://img.shields.io/badge/CITATION.cff-cited-blue?style=for-the-badge&logo=github)](CITATION.cff)
+
+
 Production-grade notes for a local AI research stack running on Proxmox with a GPU-passthrough Ubuntu Server VM.
 
 ## Target Architecture
@@ -119,3 +126,7 @@ archive/      Raw chat logs and pre-restructure drafts
 - No public service exposure by default.
 - Bind AI service ports to `127.0.0.1` unless a reverse proxy and authentication policy are explicitly deployed.
 - Keep Proxmox minimal: no NVIDIA driver, no AI services, no Tailscale unless intentionally reintroduced.
+
+## 👥 Authors & Contributors
+
+- 👨‍🏫 [Prof. Hugo de Paula](https://github.com/hugodepaula) (Universidade Federal de Minas Gerais / LAPAN)
