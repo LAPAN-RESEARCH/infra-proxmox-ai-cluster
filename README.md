@@ -42,8 +42,8 @@ Validated on 2026-05-21:
 - GPU passthrough: RTX 5060 Ti `[10de:2d04]` and audio function `[10de:22eb]` bound to `vfio-pci` on host and visible inside the VM.
 - NVIDIA guest driver: `595.71.05`, CUDA reported by `nvidia-smi`: `13.2`.
 - AI data disk: `/dev/sdb1` mounted at `/srv/ai`, 492G total with 480G available at validation time.
-- Running local model set: `qwen3:8b`, `qwen2.5-coder:7b`, `bge-m3`, `embeddinggemma`.
-- AI services bind to `127.0.0.1` except SSH on port 22.
+- Running local model set: `qwen3:8b`, `qwen2.5-coder:7b`, `gemma4:8b` (added 2026-06-11), `bge-m3`, `embeddinggemma`.
+- AI services bind to `127.0.0.1` except SSH on port 22. Includes the `ai-api` gateway (FastAPI, OpenAI-compatible with RAG citations, port 8088) since 2026-06; see `services/ai-api/`.
 - Jupyter base image tag: `JUPYTER_BASE_TAG=2026-05-11`.
 
 See [Validated State](docs/00-project-context/03-validated-state-2026-05-21.md) for the measured output summary.
