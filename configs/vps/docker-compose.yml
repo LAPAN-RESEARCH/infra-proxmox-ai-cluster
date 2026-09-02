@@ -1,0 +1,110 @@
+# VPS stack (lapan-vps): LiteLLM AI gateway + n8n automation, behind the
+# existing Traefik. Reaches the hospital services over the tailnet at
+# https://lapan-ai.tailf9eac9.ts.net (tailscale serve, tailnet-only).
+#
+# Deploy: see configs/vps/README.md. Requires the Traefik external network
+# (TRAEFIK_NETWORK, default "traefik-proxy") and HTTPS entrypoint
+# (TRAEFIK_ENTRYPOINT, default "websecure").
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lapan-postgres
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-America/Sao_Paulo}
+      POSTGRES_USER: lapan
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: litellm
+    volumes:
+      - /srv/vps/postgres/data:/var/lib/postgresql/data
+      - ./init-dbs.sh:/docker-entrypoint-initdb.d/init-dbs.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lapan -d litellm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lapan-vps-net
+
+  litellm:
+    image: ghcr.io/berriai/litellm:${LITELLM_TAG:-main-stable}
+    container_name: lapan-litellm
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./litellm-config.yaml:/app/config.yaml:ro
+    command:
+      - "--config=/app/config.yaml"
+      - "--port=4000"
+    environment:
+      TZ: ${TZ:-America/Sao_Paulo}
+      DATABASE_URL: postgresql://lapan:${POSTGRES_PASSWORD}@postgres:5432/litellm
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+      LITELLM_SALT_KEY: ${LITELLM_SALT_KEY}
+      STORE_MODEL_IN_DB: "True"
+      # Hospital gateway credentials (AI_API_KEY from lapan-ai .env).
+      LAPAN_AI_API_KEY: ${LAPAN_AI_API_KEY}
+      LAPAN_AI_BASE_URL: ${LAPAN_AI_BASE_URL:-https://lapan-ai.tailf9eac9.ts.net/v1}
+    ports:
+      - "127.0.0.1:4000:4000"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik-proxy}
+      - traefik.http.routers.lapan-api.rule=Host(`api.${DOMAIN:?set DOMAIN in .env}`)
+      - traefik.http.routers.lapan-api.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.lapan-api.tls=true
+      - traefik.http.services.lapan-api.loadbalancer.server.port=4000
+      - traefik.http.routers.lapan-api.middlewares=lapan-api-ratelimit
+      - traefik.http.middlewares.lapan-api-ratelimit.ratelimit.average=30
+      - traefik.http.middlewares.lapan-api-ratelimit.ratelimit.burst=60
+    networks:
+      - lapan-vps-net
+      - ${TRAEFIK_NETWORK:-traefik-proxy}
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:${N8N_TAG:-latest}
+    container_name: lapan-n8n
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ:-America/Sao_Paulo}
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: "5432"
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: lapan
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_HOST: n8n.${DOMAIN}
+      N8N_PROTOCOL: https
+      WEBHOOK_URL: https://n8n.${DOMAIN}/
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_SECURE_COOKIE: "true"
+      # Local AI models via LiteLLM (use the n8n virtual key, not the master).
+      N8N_AI_GATEWAY_BASE_URL: http://litellm:4000/v1
+    ports:
+      - "127.0.0.1:5678:5678"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik-proxy}
+      - traefik.http.routers.lapan-n8n.rule=Host(`n8n.${DOMAIN}`)
+      - traefik.http.routers.lapan-n8n.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.lapan-n8n.tls=true
+      - traefik.http.services.lapan-n8n.loadbalancer.server.port=5678
+    volumes:
+      - /srv/vps/n8n/data:/home/node/.n8n
+      - /srv/vps/n8n/files:/files
+    networks:
+      - lapan-vps-net
+      - ${TRAEFIK_NETWORK:-traefik-proxy}
+
+networks:
+  lapan-vps-net:
+    driver: bridge
+  traefik-proxy:
+    external: true

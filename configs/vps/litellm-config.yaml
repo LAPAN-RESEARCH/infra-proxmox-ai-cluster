@@ -1,0 +1,32 @@
+# LiteLLM proxy config for the LAPAN VPS gateway.
+# Upstream is the hospital's ai-api gateway (OpenAI-compatible, with RAG
+# citations) exposed tailnet-only via `tailscale serve` on lapan-ai.
+
+model_list:
+  # Main route: hospital gateway with optional RAG + citations.
+  - model_name: lapan
+    litellm_params:
+      model: openai/lapan-upstream
+      api_base: os.environ/LAPAN_AI_BASE_URL
+      api_key: os.environ/LAPAN_AI_API_KEY
+
+  # Passthrough variants addressed straight at Ollama model names via the
+  # same gateway (ai-api forwards to Ollama). Adjust as models change; the
+  # gateway lists what is live on GET /v1/models.
+  - model_name: lapan-qwen3-8b
+    litellm_params:
+      model: openai/qwen3:8b
+      api_base: os.environ/LAPAN_AI_BASE_URL
+      api_key: os.environ/LAPAN_AI_API_KEY
+
+litellm_settings:
+  # LGPD: never persist prompt/completion content on the VPS; only metadata
+  # (model, tokens, timings, virtual key) is stored in Postgres.
+  turn_off_message_logging: true
+  drop_params: true
+  num_retries: 2
+  request_timeout: 600
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
