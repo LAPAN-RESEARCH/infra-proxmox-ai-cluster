@@ -1,21 +1,23 @@
 # LiteLLM proxy config for the LAPAN VPS gateway.
 # Upstream is the hospital's ai-api gateway (OpenAI-compatible, with RAG
 # citations) exposed tailnet-only via `tailscale serve` on lapan-ai.
+#
+# Model routing:
+#   lapan            -> default chat model at the hospital (switch here when
+#                       the benchmark picks the titular model)
+#   lapan/<ollama>   -> passthrough to any Ollama model the gateway serves
+#                       (e.g. model="lapan/qwen3:8b", "lapan/gpt-oss:20b")
 
 model_list:
-  # Main route: hospital gateway with optional RAG + citations.
   - model_name: lapan
     litellm_params:
-      model: openai/lapan-upstream
+      model: openai/qwen3:8b
       api_base: os.environ/LAPAN_AI_BASE_URL
       api_key: os.environ/LAPAN_AI_API_KEY
 
-  # Passthrough variants addressed straight at Ollama model names via the
-  # same gateway (ai-api forwards to Ollama). Adjust as models change; the
-  # gateway lists what is live on GET /v1/models.
-  - model_name: lapan-qwen3-8b
+  - model_name: "lapan/*"
     litellm_params:
-      model: openai/qwen3:8b
+      model: "openai/*"
       api_base: os.environ/LAPAN_AI_BASE_URL
       api_key: os.environ/LAPAN_AI_API_KEY
 

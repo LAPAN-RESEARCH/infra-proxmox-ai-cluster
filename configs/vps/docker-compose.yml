@@ -3,7 +3,7 @@
 # https://lapan-ai.tailf9eac9.ts.net (tailscale serve, tailnet-only).
 #
 # Deploy: see configs/vps/README.md. Requires the Traefik external network
-# (TRAEFIK_NETWORK, default "traefik-proxy") and HTTPS entrypoint
+# (TRAEFIK_NETWORK, default "traefik_proxy") and HTTPS entrypoint
 # (TRAEFIK_ENTRYPOINT, default "websecure").
 services:
   postgres:
@@ -51,17 +51,18 @@ services:
       - "127.0.0.1:4000:4000"
     labels:
       - traefik.enable=true
-      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik-proxy}
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik_proxy}
       - traefik.http.routers.lapan-api.rule=Host(`api.${DOMAIN:?set DOMAIN in .env}`)
       - traefik.http.routers.lapan-api.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
       - traefik.http.routers.lapan-api.tls=true
+      - traefik.http.routers.lapan-api.tls.certresolver=le
       - traefik.http.services.lapan-api.loadbalancer.server.port=4000
       - traefik.http.routers.lapan-api.middlewares=lapan-api-ratelimit
       - traefik.http.middlewares.lapan-api-ratelimit.ratelimit.average=30
       - traefik.http.middlewares.lapan-api-ratelimit.ratelimit.burst=60
     networks:
       - lapan-vps-net
-      - ${TRAEFIK_NETWORK:-traefik-proxy}
+      - ${TRAEFIK_NETWORK:-traefik_proxy}
 
   n8n:
     image: docker.n8n.io/n8nio/n8n:${N8N_TAG:-latest}
@@ -91,20 +92,23 @@ services:
       - "127.0.0.1:5678:5678"
     labels:
       - traefik.enable=true
-      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik-proxy}
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik_proxy}
       - traefik.http.routers.lapan-n8n.rule=Host(`n8n.${DOMAIN}`)
       - traefik.http.routers.lapan-n8n.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
       - traefik.http.routers.lapan-n8n.tls=true
+      - traefik.http.routers.lapan-n8n.tls.certresolver=le
       - traefik.http.services.lapan-n8n.loadbalancer.server.port=5678
     volumes:
       - /srv/vps/n8n/data:/home/node/.n8n
       - /srv/vps/n8n/files:/files
     networks:
       - lapan-vps-net
-      - ${TRAEFIK_NETWORK:-traefik-proxy}
+      - ${TRAEFIK_NETWORK:-traefik_proxy}
 
 networks:
   lapan-vps-net:
     driver: bridge
-  traefik-proxy:
+  # Must match the Traefik network name on the VPS AND the top-level key here
+  # (compose network keys are not interpolated).
+  traefik_proxy:
     external: true
