@@ -11,7 +11,7 @@
 model_list:
   - model_name: lapan
     litellm_params:
-      model: openai/qwen3:8b
+      model: openai/gpt-oss:20b
       api_base: os.environ/LAPAN_AI_BASE_URL
       api_key: os.environ/LAPAN_AI_API_KEY
 
