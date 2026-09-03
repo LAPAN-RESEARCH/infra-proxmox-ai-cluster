@@ -32,6 +32,95 @@ Traefik (VPS, 72.61.60.27, TLS Let's Encrypt)
         (ver benchmark 06)                        (2 falantes, realtime)
 ```
 
+## Message exchange (sequence diagrams)
+
+### 1. Workflow "Consulta Drive → IA LAPAN" (validado 2026-09-03)
+
+Cada salto tem sua própria autenticação: OAuth2 do Google no Drive, chave
+virtual do LiteLLM na rota pública, `AI_API_KEY` do ai-api na tailnet.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor U as Usuário (chat n8n)
+    participant N as n8n (VPS)
+    participant G as Google Drive API
+    participant T as Traefik (api.lapan.cloud)
+    participant L as LiteLLM (VPS)
+    participant A as ai-api (lapan-ai :8088)
+    participant O as Ollama (gpt-oss:20b)
+
+    U->>N: mensagem (link Drive ou nome do arquivo + instrução)
+    N->>N: Preparar busca (extrai file-id ou termo; filtra stopwords)
+    N->>G: GET /drive/v3/files?q=name contains 'X' (OAuth2 Google)
+    G-->>N: lista [id, name, mimeType]
+    N->>N: Selecionar arquivo (prefere .md/.txt/.json/Docs)
+    N->>G: GET /files/{id}?alt=media (ou /export?mimeType=text/plain)
+    G-->>N: conteúdo textual do documento
+    N->>T: POST /v1/chat/completions (Bearer sk-virtual-n8n)
+    T->>T: TLS Let's Encrypt + rate-limit
+    T->>L: roteia para LiteLLM :4000
+    L->>L: valida chave virtual (rpm/budget); payload NÃO é logado
+    L->>A: POST https://lapan-ai...ts.net/v1/chat/completions (Bearer AI_API_KEY, TLS tailnet)
+    A->>A: RAG opcional (Qdrant/BM25 + reranker)
+    A->>O: /api/chat (modelo + mensagens + contexto)
+    O-->>A: geração (GPU)
+    A-->>L: 200 completions (+ citations)
+    L-->>T: 200 (grava só metadados no Postgres)
+    T-->>N: 200 completions
+    N->>N: Resposta: {output: conteúdo}
+    N-->>U: resposta citada no chat
+```
+
+### 2. API pública — qualquer aplicação
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor App as Aplicação (VPS/internet)
+    participant T as Traefik (api.lapan.cloud)
+    participant L as LiteLLM (:4000)
+    participant A as ai-api (tailnet, TLS ts.net)
+    participant S as Serviços (Ollama / Speaches)
+
+    App->>T: POST /v1/chat/completions ou /v1/audio/transcriptions (Bearer sk-virtual)
+    T->>L: Host api.lapan.cloud, rate-limit 30 rpm
+    L->>L: chave virtual: identidade, budget, limites, revogação
+    alt modelo "lapan" ou "lapan/<ollama>"
+        L->>A: repassa (Bearer AI_API_KEY) pela tailnet
+        A->>S: inferência local (GPU)
+        S-->>A: resultado
+        A-->>L: 200
+    else chave inválida/estourada
+        L-->>App: 401/429
+    end
+    L-->>App: resposta OpenAI-compatible (+ uso de tokens por chave)
+```
+
+### 3. Transcrição de consulta em tempo real (WhisperLiveKit)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor M as Médico/Paciente (navegador na sala)
+    participant W as WhisperLiveKit (:8010, token WLK)
+    participant F as faster-whisper large-v3-turbo (GPU)
+    participant D as Sortformer diarização (GPU, máx 2)
+
+    Note over M,W: conexão WebSocket /asr via túnel SSH<br/>(-L 8010:127.0.0.1:8010) ou tailnet
+    M->>W: fluxo de áudio (chunks de microfone)
+    loop a cada chunk (política SimulStreaming ~1 s)
+        W->>F: janela de áudio
+        F-->>W: texto parcial (LocalAgreement confirma prefixo)
+        W->>D: janela de áudio
+        D-->>W: rótulo de falante (Speaker 1/2)
+        W-->>M: transcrição ao vivo com falante (diff/snapshot)
+    end
+    Note over W: futuro: enrollment por embeddings de voz<br/>(ECAPA/TitaNet) rotula Speaker 1 = Médico
+    M->>W: fim da sessão
+    W-->>M: transcript final diarizado (30–40 min)
+```
+
 ## Components
 
 ### Hospital side (lapan-ai) — nothing public, no inbound ports
