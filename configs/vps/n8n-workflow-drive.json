@@ -1,0 +1,238 @@
+{
+  "name": "Consulta Drive → IA LAPAN",
+  "id": "lapanDriveChat",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "id": "a1f3e5d7-1111-4a2b-8c3d-000000000001",
+      "name": "Chat",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "webhookId": "a1f3e5d7-2222-4a2b-8c3d-000000000002",
+      "position": [
+        -320,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const msg = ($json.chatInput || '').trim();\nconst idMatch = msg.match(/drive\\.google\\.com\\/file\\/d\\/([A-Za-z0-9_-]+)/) || msg.match(/drive\\.google\\.com\\/open\\?id=([A-Za-z0-9_-]+)/) || msg.match(/docs\\.google\\.com\\/document\\/d\\/([A-Za-z0-9_-]+)/);\nlet fileId = null, query = '';\nif (idMatch) {\n  fileId = idMatch[1];\n} else {\n  const stop = new Set(['arquivo','arquivos','documento','doc','docs','gere','gerar','gera','um','uma','o','a','os','as','de','do','da','dos','das','para','sobre','com','sem','no','na','em','por','resuma','resumo','resumir','laudo','laudos','faça','faca','liste','listar','diga','quais','qual','como','por favor','pf']);\n  const toks = msg.split(/[\\s,.:;!?()]+/).map(t => t.trim()).filter(t => t.length > 3 && !stop.has(t.toLowerCase()));\n  query = toks[0] || msg.slice(0, 40);\n}\nreturn [{json: {fileId, query, question: msg}}];"
+      },
+      "id": "preparar-node",
+      "name": "Preparar busca",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.fileId ? 'https://www.googleapis.com/drive/v3/files/' + $json.fileId : 'https://www.googleapis.com/drive/v3/files' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "=name contains '{{ $json.query }}' and trashed = false"
+            },
+            {
+              "name": "fields",
+              "value": "files(id,name,mimeType)"
+            },
+            {
+              "name": "pageSize",
+              "value": "5"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "buscar-node",
+      "name": "Buscar no Drive",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        120,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "lapan-google-drive",
+          "name": "Google Drive (LAPAN)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const prev = $('Buscar no Drive').first().json;\nconst src = $('Preparar busca').first().json;\nconst list = Array.isArray(prev.files) ? prev.files : (prev.id ? [prev] : []);\nif (!list.length) {\n  throw new Error('Nenhum arquivo encontrado no Drive para: \"' + (src.query || src.fileId || src.question) + '\". Envie um link do Drive ou comece a mensagem com o nome do arquivo.');\n}\nconst pref = list.filter(f => /markdown|text|json|csv|google-apps\\.(document|spreadsheet)/i.test(f.mimeType || ''));\nconst file = (pref.length ? pref : list)[0];\nif (!file.id) throw new Error('Arquivo sem id: ' + JSON.stringify(file));\nreturn [{json: {file, question: src.question}}];"
+      },
+      "id": "selecionar-node",
+      "name": "Selecionar arquivo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.file.id }}{{ /google-apps\\.document|google-apps\\.spreadsheet/.test($json.file.mimeType) ? '/export?mimeType=text/plain' : '?alt=media' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "baixar-node",
+      "name": "Baixar documento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        560,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "lapan-google-drive",
+          "name": "Google Drive (LAPAN)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.lapan.cloud/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer __N8N_KEY__"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({model: \"lapan\", max_tokens: 1024, messages: [{role: \"system\", content: \"Você é o assistente do LAPAN. Responda em português, com base no documento fornecido. Cite trechos relevantes. Se a informação não estiver no documento, diga claramente.\"}, {role: \"user\", content: \"Pergunta: \" + $('Selecionar arquivo').item.json.question + \"\\n\\n--- DOCUMENTO: \" + $('Selecionar arquivo').item.json.file.name + \" ---\\n\" + ($json.data || '').substring(0, 12000)}]}) }}",
+        "options": {}
+      },
+      "id": "consultar-node",
+      "name": "Consultar IA LAPAN",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        780,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "resp-out",
+              "name": "output",
+              "value": "={{ $json.choices ? $json.choices[0].message.content : JSON.stringify($json) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "resposta-node",
+      "name": "Resposta",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Preparar busca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar busca": {
+      "main": [
+        [
+          {
+            "node": "Buscar no Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar no Drive": {
+      "main": [
+        [
+          {
+            "node": "Selecionar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Selecionar arquivo": {
+      "main": [
+        [
+          {
+            "node": "Baixar documento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar documento": {
+      "main": [
+        [
+          {
+            "node": "Consultar IA LAPAN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar IA LAPAN": {
+      "main": [
+        [
+          {
+            "node": "Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
