@@ -1,0 +1,12 @@
+# Minimal SearXNG config for the n8n AI Assistant (internal network only).
+# use_default_settings inherits the engine list; we only enable JSON output
+# (required by the Assistant) and disable the rate limiter (internal service).
+use_default_settings: true
+server:
+  secret_key: "${SEARXNG_SECRET}"
+  limiter: false
+  image_proxy: false
+search:
+  formats:
+    - html
+    - json
