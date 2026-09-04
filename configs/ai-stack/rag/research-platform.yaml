@@ -9,6 +9,112 @@ rag:
   ingest_root: /srv/ai/ingest
   benchmark_root: /srv/ai/rag/benchmarks
 
+resolver:
+  trust_bib_file_paths: false
+  trust_bib_file_names: true
+  use_fuzzy_matching: true
+  auto_accept_threshold: 0.78
+  review_threshold: 0.65
+  fuzzy_threshold: 0.78
+  min_score_gap: 0.08
+  filename_matches_path: /srv/ai/ingest/metadata/filename_matches.jsonl
+  fuzzy_matches_path: /srv/ai/ingest/metadata/fuzzy_matches.jsonl
+  candidate_matches_path: /srv/ai/ingest/metadata/candidate_matches.jsonl
+  ambiguous_matches_path: /srv/ai/ingest/metadata/ambiguous_matches.jsonl
+  unresolved_sources_path: /srv/ai/ingest/metadata/unresolved_sources.jsonl
+  documents_path: /srv/ai/ingest/metadata/documents.jsonl
+  verified_documents_path: /srv/ai/ingest/metadata/verified_documents.jsonl
+  included_documents_path: /srv/ai/ingest/metadata/included_documents.jsonl
+  zotero_report_path: /srv/ai/ingest/metadata/zotero_export_report.json
+  allowed_extensions:
+    - .pdf
+    - .html
+    - .epub
+    - .docx
+    - .pptx
+  filename_extension_priority:
+    - .pdf
+    - .epub
+    - .docx
+    - .pptx
+    - .html
+  ambiguous_policy: report_and_skip
+
+content_verification:
+  enabled: true
+  max_candidates_per_record: 5
+  max_probe_chars: 20000
+  pdf_pages: 4
+  promote_threshold: 0.82
+  promote_min_score_gap: 0.08
+  verify_auto_resolved: true
+  reject_auto_resolved: false
+  promoted_matches_path: /srv/ai/ingest/metadata/content_promoted_matches.jsonl
+  verified_matches_path: /srv/ai/ingest/metadata/content_verified_matches.jsonl
+  rejected_matches_path: /srv/ai/ingest/metadata/content_rejected_matches.jsonl
+  unresolved_matches_path: /srv/ai/ingest/metadata/content_unresolved_matches.jsonl
+
+music_scores:
+  action: exclude
+  report_path: /srv/ai/ingest/metadata/excluded_music_scores.jsonl
+  filename_patterns:
+    - score
+    - sheet
+    - quartet
+    - symphony
+    - sonata
+    - concerto
+    - beethoven
+    - mozart
+    - bach
+    - kv
+    - op_
+    - op.
+
+parser:
+  primary: docling
+  outputs:
+    markdown: true
+    structured_json: true
+  parse_manifest_path: /srv/ai/ingest/metadata/parse_manifest.jsonl
+
+chunking:
+  chunks_path: /srv/ai/ingest/chunks/chunks.jsonl
+  metadata_path: /srv/ai/ingest/metadata/chunks.jsonl
+  target_tokens: 700
+  overlap_tokens: 120
+  min_chunk_chars: 300
+
+embedding:
+  provider: ollama
+  base_url: http://ollama:11434
+  model: bge-m3
+  expected_dimension: 1024
+  batch_size: 16
+  retries: 3
+  timeout_seconds: 120
+  embeddings_path: /srv/ai/ingest/metadata/embeddings.jsonl
+  manifest_path: /srv/ai/ingest/metadata/embeddings_manifest.jsonl
+
+qdrant:
+  url: http://qdrant:6333
+  collection: research_chunks_bge_m3
+  distance: Cosine
+  upsert_batch_size: 64
+
+neo4j:
+  http_url: http://neo4j:7474/db/neo4j/tx/commit
+  create_document_clusters: true
+  create_chunk_clusters: true
+  max_document_clusters: 40
+  max_chunk_clusters: 80
+
+retrieval:
+  bm25_candidate_k: 50
+  dense_candidate_k: 50
+  rerank_candidate_k: 50
+  final_k: 10
+
 graph:
   constraints:
     - label: Paper
@@ -24,3 +130,6 @@ graph:
 agents:
   policy_root: /srv/ai/agents/policies
   audit_root: /srv/ai/agents/audit
+
+review:
+  manual_review_path: /srv/ai/ingest/metadata/manual_review_actions.jsonl

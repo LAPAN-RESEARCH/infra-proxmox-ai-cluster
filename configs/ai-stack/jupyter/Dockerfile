@@ -32,6 +32,15 @@ RUN uv pip install \
     duckdb \
     qdrant-client \
     neo4j \
+    PyYAML \
+    bibtexparser \
+    rapidfuzz \
+    rank-bm25 \
+    beautifulsoup4 \
+    markdownify \
+    ebooklib \
+    python-docx \
+    python-pptx \
     pypdf \
     pymupdf \
     docling \
