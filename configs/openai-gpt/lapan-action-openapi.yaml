@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: LAPAN AI — Laudos (Custom GPT Action)
+  description: >
+    Gera laudos/extrai estruturas com o modelo local do hospital
+    (gpt-oss:20b) via api.lapan.cloud. Configure Authentication = API Key
+    (Bearer) com uma chave virtual exclusiva (alias sugerido: openai-gpt).
+    Limites da Action: resposta < 45 s e < 100.000 caracteres.
+servers:
+  - url: https://api.lapan.cloud
+paths:
+  /v1/chat/completions:
+    post:
+      operationId: gerarLaudo
+      summary: Gera texto (laudo/nota/extração) com o modelo local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model, messages]
+              properties:
+                model:
+                  type: string
+                  default: lapan
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role: {type: string, enum: [system, user]}
+                      content: {type: string}
+                max_tokens: {type: integer, default: 1500}
+                temperature: {type: number, default: 0.3}
+      responses:
+        "200":
+          description: Resposta do modelo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: object
+                          properties:
+                            content: {type: string}
+  /v1/models:
+    get:
+      operationId: listarModelos
+      summary: Lista os modelos disponíveis
+      responses:
+        "200":
+          description: Lista de modelos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: {type: string}
