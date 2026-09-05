@@ -210,6 +210,34 @@ services:
     networks:
       - lapan-vps-net
 
+  # --- LAPAN MCP server (ChatGPT Developer Mode connectors) ---
+  # Prototype: unauthenticated FastMCP on its own path behind Traefik
+  # rate-limit; spends are capped by the MCP_LITELLM_KEY virtual key.
+  # Upgrade path: FastMCP OAuth (oauth-proxy pattern) if needed.
+  mcp:
+    build: ./mcp
+    container_name: lapan-mcp
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-America/Sao_Paulo}
+      MCP_LITELLM_KEY: ${MCP_LITELLM_KEY}
+      LITELLM_BASE: http://litellm:4000/v1
+      MCP_MODEL: lapan
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik_proxy}
+      - traefik.http.routers.lapan-mcp.rule=Host(`api.${DOMAIN:?set DOMAIN in .env}`) && PathPrefix(`/mcp`)
+      - traefik.http.routers.lapan-mcp.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.lapan-mcp.tls=true
+      - traefik.http.routers.lapan-mcp.tls.certresolver=le
+      - traefik.http.services.lapan-mcp.loadbalancer.server.port=8000
+      - traefik.http.routers.lapan-mcp.middlewares=lapan-mcp-ratelimit
+      - traefik.http.middlewares.lapan-mcp-ratelimit.ratelimit.average=10
+      - traefik.http.middlewares.lapan-mcp-ratelimit.ratelimit.burst=20
+    networks:
+      - lapan-vps-net
+      - ${TRAEFIK_NETWORK:-traefik_proxy}
+
 networks:
   lapan-vps-net:
     driver: bridge

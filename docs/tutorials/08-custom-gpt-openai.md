@@ -67,10 +67,25 @@ O clínico pode **anexar** um arquivo de áudio na conversa; com
 `/v1/audio/transcriptions` e devolve o texto. Não é realtime — para tempo
 real use o tutorial 05.
 
-## Alternativa mais fiel e barata: MCP (Developer mode)
+## Alternativa mais fiel e barata: MCP (Developer mode) — JÁ DISPONÍVEL
 
-O ChatGPT (web, planos pagos, *Developer mode*) conecta um servidor MCP
-**seu** por OAuth 2.1 — estamos provisionando um em `api.lapan.cloud/mcp`
-(tools `gerar_laudo`, `listar_modelos`, `transcrever_audio`). Vantagens:
-tools descritas com metadados, confirmação de escrita e sem o limite de
-45 s. Avisos de dados valem igualmente (texto transita a OpenAI).
+Servidor MCP próprio em produção: **`https://api.lapan.cloud/mcp`**
+(código em `configs/vps/mcp/`, tools `gerar_laudo` e `listar_modelos`,
+validado ponta a ponta em 2026-09-04). Vantagens sobre Action: sem limite
+de 45 s, tools com metadados (`readOnlyHint` pula confirmação), mesma
+chave virtual `mcp-tools` com budget no LiteLLM.
+
+Conectar no ChatGPT (planos Pro/Business/Enterprise, versão web):
+
+1. Settings → **Connectors → Advanced → Developer mode** (ativar).
+2. Settings → **Connectors → Create** → nome "LAPAN AI", Server URL
+   `https://api.lapan.cloud/mcp` → "I trust this provider" → sem
+   autenticação (o protótipo roda sem OAuth; gastos limitados pela
+   chave interna de 20 rpm/US$ 10/30d).
+3. Num chat: **+ → More → Developer Mode** → ative o conector LAPAN AI.
+4. Peça: *"use gerar_laudo para um rascunho: ceratocone confirmado, 32
+   anos"* — a resposta sai do `gpt-oss:20b` do hospital.
+
+Avisos de dados valem igualmente (o texto digitado transita a OpenAI).
+Upgrade de segurança quando necessário: OAuth 2.1 no FastMCP
+(padrão oauth-proxy) ou allowlist dos IPs de egress da OpenAI no Traefik.
