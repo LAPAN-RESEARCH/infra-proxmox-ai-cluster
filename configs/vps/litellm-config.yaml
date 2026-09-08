@@ -21,6 +21,14 @@ model_list:
       api_base: os.environ/LAPAN_AI_BASE_URL
       api_key: os.environ/LAPAN_AI_API_KEY
 
+  # STT: transcription for OpenAI-compatible consumers (OpenWhispr etc.),
+  # served by the hospital Speaches over the tailnet mount /stt.
+  - model_name: whisper-1
+    litellm_params:
+      model: openai/whisper-1
+      api_base: os.environ/LAPAN_STT_BASE_URL
+      api_key: os.environ/LAPAN_STT_API_KEY
+
 litellm_settings:
   # LGPD: never persist prompt/completion content on the VPS; only metadata
   # (model, tokens, timings, virtual key) is stored in Postgres.
