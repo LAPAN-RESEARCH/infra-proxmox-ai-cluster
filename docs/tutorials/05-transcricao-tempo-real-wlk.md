@@ -85,6 +85,31 @@ O transcript final (com `Speaker 1/2`) alimenta o prompt do tutorial 09
 médico ainda é manual; o enrollment por embeddings de voz (rotular
 automaticamente Médico/Paciente) é a evolução planejada.
 
+## Consumir de fora do hospital (OpenWhispr e afins)
+
+O STT público é o próprio WLK, via LiteLLM (`model=whisper-1`, chave
+virtual com allowlist de STT):
+
+```bash
+curl -X POST https://api.lapan.cloud/v1/audio/transcriptions \
+  -H "Authorization: Bearer sk-CHAVE-VIRTUAL-STT" \
+  -F file=@consulta.mp3 -F model=whisper-1
+```
+
+**OpenWhispr (ditado no desktop externo)** — Settings → Speech-to-Text →
+provider **Custom** (repetir em cada aba usada: Dictation, Audio Upload):
+
+| Campo | Valor |
+|---|---|
+| Endpoint URL | `https://api.lapan.cloud/v1` |
+| API Key | chave virtual STT (alias `openwhispr`) |
+| Model | `whisper-1` |
+
+O polimento de texto (Settings → Language Models → Self-Hosted) pode usar
+o modelo local: mesma Endpoint URL, chave virtual de LLM (alias
+`openwhispr-llm`) e model `lapan`. Detalhe: OpenWhispr é push-to-talk
+batch (não streaming) — tempo real é a Web UI acima.
+
 ## Limitações operacionais
 
 - **VRAM**: durante a sessão, WLK usa ~3 GB. Se o modelo titular estiver

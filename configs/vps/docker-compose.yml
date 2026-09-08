@@ -47,6 +47,9 @@ services:
       # Hospital gateway credentials (AI_API_KEY from lapan-ai .env).
       LAPAN_AI_API_KEY: ${LAPAN_AI_API_KEY}
       LAPAN_AI_BASE_URL: ${LAPAN_AI_BASE_URL:-https://lapan-ai.tailf9eac9.ts.net/v1}
+      # Hospital STT (Speaches) via the /stt tailnet serve mount.
+      LAPAN_STT_API_KEY: ${LAPAN_STT_API_KEY}
+      LAPAN_STT_BASE_URL: ${LAPAN_STT_BASE_URL:-https://lapan-ai.tailf9eac9.ts.net/stt/v1}
     ports:
       - "127.0.0.1:4000:4000"
     labels:

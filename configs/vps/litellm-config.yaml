@@ -22,10 +22,12 @@ model_list:
       api_key: os.environ/LAPAN_AI_API_KEY
 
   # STT: transcription for OpenAI-compatible consumers (OpenWhispr etc.),
-  # served by the hospital Speaches over the tailnet mount /stt.
+  # served by the hospital Speaches over the tailnet mount /stt. Clients
+  # call "whisper-1"; the deployment sends the real model name upstream
+  # (Speaches' own whisper-1 alias points elsewhere).
   - model_name: whisper-1
     litellm_params:
-      model: openai/whisper-1
+      model: openai/mobiuslabsgmbh/faster-whisper-large-v3-turbo
       api_base: os.environ/LAPAN_STT_BASE_URL
       api_key: os.environ/LAPAN_STT_API_KEY
 
