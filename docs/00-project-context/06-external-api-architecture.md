@@ -189,7 +189,7 @@ All under `configs/vps/` (compose + runbook):
 ## Secrets inventory (never in the repo)
 
 | Secret | Where |
-|---|---|
+| --- | --- |
 | `AI_API_KEY` | hospital `/srv/ai/compose/core/.env` (ai-api bearer) |
 | `LITELLM_MASTER_KEY` / `SALT_KEY` | VPS `/srv/vps/.env` |
 | LiteLLM virtual keys (`sk-...`) | VPS LiteLLM DB; `n8n-*` also inside the live workflow file on the VPS |

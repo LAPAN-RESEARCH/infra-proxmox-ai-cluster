@@ -3,7 +3,7 @@
 ## Os dois servidores
 
 | | **lapan-ai** (hospital) | **lapan-vps** (nuvem) |
-|---|---|---|
+| --- | --- | --- |
 | Papel | inferência e dados clínicos | porta pública + automação |
 | GPU | RTX 5060 Ti 16 GB | — |
 | Exposto à internet? | **NÃO** (tudo 127.0.0.1) | sim, só 80/443 via Traefik |
@@ -16,13 +16,13 @@ Regra de ouro: **dado clínico só no hospital**. O VPS vê metadados
 ## Serviços e portas (lapan-ai, via túnel)
 
 | Porta | Serviço | O que é |
-|---|---|---|
+| --- | --- | --- |
 | 3000 | Open WebUI | chat local (frente clínica) |
 | 6333/6334 | Qdrant | base vetorial do RAG |
 | 7474/7687 | Neo4j | grafo de pesquisa |
 | 8000 | Speaches | transcrição de ARQUIVOS (pt-BR) |
 | 8010 | WhisperLiveKit | transcrição TEMPO REAL com diarização |
-| 8088 | ai-api | gateway OpenAI-compatível com RAG (tailnet: https://lapan-ai.tailf9eac9.ts.net) |
+| 8088 | ai-api | gateway OpenAI-compatível com RAG (tailnet: <https://lapan-ai.tailf9eac9.ts.net>) |
 | 8888 | JupyterLab | notebooks |
 | 11434 | Ollama | modelos (`gpt-oss:20b` titular) |
 

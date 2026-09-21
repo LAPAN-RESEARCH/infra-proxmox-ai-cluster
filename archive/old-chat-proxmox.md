@@ -250,11 +250,9 @@ The main clarifying question: do you want the first prototype to be a coding age
 [12]: https://pypi.org/project/langgraph/?utm_source=chatgpt.com "langgraph · PyPI"
 [13]: https://www.theverge.com/news/874011/openclaw-ai-skill-clawhub-extensions-security-nightmare?utm_source=chatgpt.com "OpenClaw's AI 'skill' extensions are a security nightmare"
 
-
 ---
 
-new information came along. I will send you several posts and you can search more of them: `https://evoailabs.medium.com/openclaw-nanobot-picoclaw-ironclaw-and-zeroclaw-this-claw-craziness-is-continuing-87c72456e6dc` , `https://levelup.gitconnected.com/openclaw-vs-picoclaw-vs-nullclaw-vs-zeroclaw-vs-nanobot-vs-tinyclaw-the-comparison-5ac42125c99d` , `https://medium.com/@gemQueenx/nanobot-vs-nanoclaw-vs-ironclaw-vs-zeroclaw-vs-picoclaw-vs-tinyclaw-which-openclaw-mini-wins-for-9a0537220f3b` , `https://goldie.agency/agent-zero-vs-openclaw/`. You rtask is to analyze the recent updates in all the solutions and provide me with a decision support to create my local research agent. I will install in a windows machine, with the Nvidia Quadro P5000. I will download some local agents that can be run or tested depending on the task I will execute. The most common tasks that I will execute will be coding, making scientific paper summaries and semantic graphs and taxonomies, or making clinical reports from patient data. 
-
+new information came along. I will send you several posts and you can search more of them: `https://evoailabs.medium.com/openclaw-nanobot-picoclaw-ironclaw-and-zeroclaw-this-claw-craziness-is-continuing-87c72456e6dc` , `https://levelup.gitconnected.com/openclaw-vs-picoclaw-vs-nullclaw-vs-zeroclaw-vs-nanobot-vs-tinyclaw-the-comparison-5ac42125c99d` , `https://medium.com/@gemQueenx/nanobot-vs-nanoclaw-vs-ironclaw-vs-zeroclaw-vs-picoclaw-vs-tinyclaw-which-openclaw-mini-wins-for-9a0537220f3b` , `https://goldie.agency/agent-zero-vs-openclaw/`. You rtask is to analyze the recent updates in all the solutions and provide me with a decision support to create my local research agent. I will install in a windows machine, with the Nvidia Quadro P5000. I will download some local agents that can be run or tested depending on the task I will execute. The most common tasks that I will execute will be coding, making scientific paper summaries and semantic graphs and taxonomies, or making clinical reports from patient data.
 
 ---
 
@@ -455,15 +453,6 @@ For your actual work, I would choose:
 
 Your first prototype should be the **paper summarization + taxonomy/semantic graph agent**, because it is lower-risk than clinical reporting and will validate your local model stack before touching patient data.
 
-[1]: https://evoailabs.medium.com/openclaw-nanobot-picoclaw-ironclaw-and-zeroclaw-this-claw-craziness-is-continuing-87c72456e6dc "OpenClaw, NanoBot, PicoClaw, IronClaw, ZeroClaw, NullClaw: This *Claw Craziness Is Continuing… | by evoailabs | Medium"
-[2]: https://github.com/HKUDS/nanobot?utm_source=chatgpt.com "GitHub - HKUDS/nanobot: \" nanobot: The Ultra-Lightweight Personal AI ..."
-[3]: https://github.com/nearai/ironclaw/releases?utm_source=chatgpt.com "Releases · nearai/ironclaw - GitHub"
-[4]: https://github.com/agent0ai/agent-zero?utm_source=chatgpt.com "GitHub - agent0ai/agent-zero: Agent Zero AI framework · GitHub"
-[5]: https://www.theverge.com/news/874011/openclaw-ai-skill-clawhub-extensions-security-nightmare?utm_source=chatgpt.com "OpenClaw's AI 'skill' extensions are a security nightmare"
-[6]: https://github.com/ollama/ollama/blob/main/docs/gpu.mdx?utm_source=chatgpt.com "ollama/docs/gpu.mdx at main · ollama/ollama · GitHub"
-[7]: https://huggingface.co/docs/hub/gguf-llamacpp?utm_source=chatgpt.com "GGUF usage with llama.cpp · Hugging Face"
-[8]: https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF?utm_source=chatgpt.com "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF · Hugging Face"
-
 
 ---
 
@@ -526,7 +515,6 @@ embedding_backends:
 
 Bottom line: **Gemini Embedding 2 is likely excellent for multimodal retrieval, but it conflicts with your local-private requirement.** It should be optional, not foundational.
 
-[1]: https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/?utm_source=chatgpt.com "Gemini Embedding 2: Our first natively multimodal embedding model"
 
 ---
 
@@ -589,9 +577,6 @@ pip install sentence-transformers FlagEmbedding faiss-cpu rank-bm25
 
 Start with **BGE-M3**. Add **Qwen3-Embedding-4B** later only after you have a benchmark set of your own papers/questions, because “best leaderboard model” is not always best for your corpus.
 
-[1]: https://huggingface.co/BAAI/bge-m3?utm_source=chatgpt.com "BAAI/bge-m3 · Hugging Face"
-[2]: https://github.com/QwenLM/Qwen3-Embedding?utm_source=chatgpt.com "GitHub - QwenLM/Qwen3-Embedding"
-[3]: https://huggingface.co/jinaai/jina-embeddings-v3?utm_source=chatgpt.com "jinaai/jina-embeddings-v3 · Hugging Face"
 
 ---
 
@@ -794,7 +779,6 @@ That difference is usually the biggest performance gain in RAG systems.
 ---
 
 If you want, I can give you a **minimal working Python implementation** of hybrid search using your local setup (FAISS + BGE + BM25 + reranker).
-
 
 ---
 
@@ -1022,7 +1006,6 @@ If you want, I can help you design:
 * indexing pipeline for your PDFs
 * or a full RAG system tailored to your research workflow
 
-
 ---
 
 What about tool use? I have a zotero library. Do you suggest that I export all the zotero library to a single folder or can you access the library to local api?
@@ -1112,12 +1095,6 @@ graph_tool:
 ```
 
 Bottom line: **keep Zotero as the library manager; let your agent index it locally.** Start with Better BibTeX auto-export, then add local API access only when you need live synchronization or writing notes back into Zotero.
-
-[1]: https://www.zotero.org/support/dev/client_coding/javascript_api?utm_source=chatgpt.com "dev:client_coding:javascript_api [Zotero Documentation]"
-[2]: https://github.com/retorquere/zotero-better-bibtex?utm_source=chatgpt.com "GitHub - retorquere/zotero-better-bibtex: Make Zotero effective for us ..."
-[3]: https://www.zotero.org/support/attaching_files?utm_source=chatgpt.com "attaching_files [Zotero Documentation]"
-[4]: https://github.com/MunGell/ZotServer?utm_source=chatgpt.com "GitHub - MunGell/ZotServer: Zotero Local HTTP Server"
-
 
 
 ---
@@ -1503,7 +1480,6 @@ Docker + Ollama + Open WebUI + Qdrant + Neo4j
 ```
 
 as your core AI research platform.
-
 
 ---
 
@@ -2139,7 +2115,6 @@ Then build the AI stack around:
 * local embedding pipelines
 
 This is currently the most stable and extensible architecture for your goals.
-
 
 ---
 
@@ -3145,11 +3120,4 @@ than many consumer Intel platforms for VFIO/IOMMU.
 
 So your hardware choice is good for this project.
 
-
 ---
-
-
-
-
-
-

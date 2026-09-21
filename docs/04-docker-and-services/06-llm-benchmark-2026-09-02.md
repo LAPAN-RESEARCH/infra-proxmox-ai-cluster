@@ -14,7 +14,7 @@ tuned with `OLLAMA_KEEP_ALIVE=30m`, `OLLAMA_FLASH_ATTENTION=1`,
 ## Speed (GPU, 8/8 cases per model)
 
 | Model | avg wall/case | tok/s | VRAM fit | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **gpt-oss:20b** | 13.5 s | **89.5** | fits fully (13.8 GB) | MoE 3.6B active, MXFP4 |
 | qwen3:8b (ref) | 15.3 s | 74.0 | fits easily | previous default |
 | gemma4:26b | 33.6 s | 50.5 | partial CPU offload (19 GB) | MoE 3.8B active |
@@ -23,7 +23,7 @@ tuned with `OLLAMA_KEEP_ALIVE=30m`, `OLLAMA_FLASH_ATTENTION=1`,
 ## Objective format/extraction checks
 
 | Model | conformidade-json (single valid JSON) | extracao-exame (8 keys) |
-|---|---|---|
+| --- | --- | --- |
 | gpt-oss:20b | perfect | complete, direct JSON |
 | qwen3.8:27b | perfect | complete, direct JSON |
 | gemma4:26b | perfect | complete, JSON inside code fences |
@@ -46,7 +46,7 @@ tuned with `OLLAMA_KEEP_ALIVE=30m`, `OLLAMA_FLASH_ATTENTION=1`,
 ## VRAM budget after the upgrade (16.3 GB total)
 
 | Process | VRAM |
-|---|---|
+| --- | --- |
 | Ollama gpt-oss:20b | ~12.4–13.8 GB |
 | Speaches faster-whisper-large-v3-turbo | ~1.2 GB |
 | whisper-livekit (turbo + Sortformer) | ~3–4 GB (loaded on demand) |

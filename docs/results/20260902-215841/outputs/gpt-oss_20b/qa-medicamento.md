@@ -33,7 +33,7 @@ Let's produce final answer.
 **Alternativas tópicas de primeira linha para glaucoma primário de ângulo aberto (sem uso de beta‑bloqueador)**  
 
 | Classe | Princípio ativo | Concentração habitual | Posologia típica | Observação |
-|--------|-----------------|-----------------------|------------------|------------|
+| -------- | ----------------- | ----------------------- | ------------------ | ------------ |
 | **Prostaglandina analog** | Latanoprost | 0,005 % | 1 gota, uma vez ao dia (preferencialmente à noite) | Reduz a pressão intraocular principalmente aumentando a drenagem a partir do canal de Schlemm. Pouco efeito sistêmico. |
 | | Bimatoprost | 0,03 % | 1 gota, uma vez ao dia (preferencialmente à noite) | Similar ao latanoprost, com maior potência em alguns pacientes. |
 | | Travoprost | 0,004 % | 1 gota, uma vez ao dia (preferencialmente à noite) | Também aumenta a drenagem; pode causar hiperpigmentação ocular. |
@@ -43,12 +43,14 @@ Let's produce final answer.
 | | Dorzolamide | 2 % | 1 gota, 2 vezes ao dia | Mais forte, mas com maior risco de irritação. |
 
 ### Classe preferida neste cenário cardiovascular
+
 - **Prostaglandina analog** é a classe de escolha quando há contraindicação ou efeito colateral de beta‑bloqueadores (bradicardia, bradicardia sintomática).  
 - Prostaglandinas têm quase nenhum efeito sistêmico, o que as torna seguras em pacientes com problemas cardíacos.
 
 ---
 
 ### ALERTA  
+
 Antes de trocar o medicamento, verifique:
 
 1. **Condições oculares** – inflamação ocular ativa, uveíte, alergias a prostaglandinas, histórico de hiperpigmentação ou cicatrização anormal.  

@@ -65,15 +65,16 @@ Converta o relato abaixo em nota SOAP (Subjetivo, Objetivo, Avaliação, Plano).
 **S:** Paciente queixa-se de ardor e sensação de corpo estranho (areia) em ambos os olhos há 3 meses, com piora vespertina. Relata uso intensivo de computador durante a jornada de trabalho. Refere uso prévio de lágrimas artificiais sem melhora significativa.
 
 **O:**
-* **Segmento Anterior:** Leve hiperemia conjuntival bilateral.
-* **Rosa Bengal:** Presença de pontilhado periquerático.
-* **Fluoresceína:** Ausência de ceratite pontuada central.
-* **Schirmer (5 min):** 6 mm (OD) e 5 mm (OE).
-* **TBUT:** 6 segundos.
+- **Segmento Anterior:** Leve hiperemia conjuntival bilateral.
+- **Rosa Bengal:** Presença de pontilhado periquerático.
+- **Fluoresceína:** Ausência de ceratite pontuada central.
+- **Schirmer (5 min):** 6 mm (OD) e 5 mm (OE).
+- **TBUT:** 6 segundos.
 
 **A:** Ceratoconjuntivite seca (provável etiologia por uso de telas/disfunção lacrimal).
 
-**P:** 
+**P:**
+
 1. Prescrição de lubrificantes oculares (preferencialmente sem conservantes).
 2. Orientações de higiene ocular e pausas frequentes durante o uso de telas (regra 20-20-20).
 3. Retorno para reavaliação clínica.

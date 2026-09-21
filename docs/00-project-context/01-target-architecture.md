@@ -33,33 +33,42 @@ flowchart TD
 ### 2. Step-by-Step Execution
 
 **Step 1: Keep Proxmox minimal**
+
 - **Purpose:** Reduce host failure modes by limiting Proxmox to virtualization, networking, storage, and VFIO.
 - **Command(s):**
+
 ```bash
 pveversion -v
 qm list
 pvesm status
 ```
+
 - **Explanation:** These commands inspect the hypervisor without installing AI or NVIDIA runtime components on the host.
 - **Expected Output:**
+
 ```text
 proxmox-ve: ...
 VMID NAME       STATUS ...
 Name  Type  Status ...
 ```
+
 - **Verification:** `dpkg -l | grep -Ei 'nvidia-driver|cuda|ollama|docker'` -> Should not show host-side AI runtime packages unless intentionally installed.
 - **⚠️ Caveats/Traps:** Do not install NVIDIA drivers on the Proxmox host when the GPU is intended to belong to the VM.
 
 **Step 2: Put all AI runtime inside Ubuntu**
+
 - **Purpose:** Make the VM the single AI appliance and keep application state reproducible.
 - **Command(s):**
+
 ```bash
 ssh ${VM_USER}@${VM_IP}
 df -h /srv/ai
 sudo docker compose -f /srv/ai/compose/core/docker-compose.yml ps
 ```
+
 - **Explanation:** This validates that AI services live inside the Ubuntu VM and use `/srv/ai` for persistent data.
 - **Expected Output:**
+
 ```text
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/...        ...   ...  ...   ...  /srv/ai
@@ -67,6 +76,7 @@ NAME            STATUS
 ollama          Up ...
 ...
 ```
+
 - **Verification:** `sudo docker info | grep 'Docker Root Dir'` -> Must show `/srv/ai/docker`.
 - **⚠️ Caveats/Traps:** If Docker uses `/var/lib/docker`, model downloads can fill the VM root filesystem.
 

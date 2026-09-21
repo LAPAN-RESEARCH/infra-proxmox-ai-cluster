@@ -9,48 +9,63 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Use existing session or console**
+
 - **Purpose:** Avoid losing the only control channel while repairing SSH/networking.
 - **Command(s):**
+
 ```bash
 ip -br addr
 systemctl status ssh --no-pager
 sudo ufw status verbose
 ```
+
 - **Explanation:** Check IP, SSH service state, and firewall rules.
 - **Expected Output:**
+
 ```text
 ssh.service active (running)
 22/tcp ALLOW IN ${LAN_CIDR}
 ```
+
 - **Verification:** Open a second SSH session.
 - **⚠️ Caveats/Traps:** Do not close the working session until the second one works.
 
 **Step 2: Recover SSH config**
+
 - **Purpose:** Restore login if hardening was too aggressive.
 - **Command(s):**
+
 ```bash
 sudo cp /etc/ssh/sshd_config.bak /etc/ssh/sshd_config
 sudo systemctl restart ssh
 ```
+
 - **Explanation:** Reverts to the backup taken before hardening.
 - **Expected Output:**
+
 ```text
 No output on success.
 ```
+
 - **Verification:** `ssh ${VM_USER}@${VM_IP}` -> Login works.
 - **⚠️ Caveats/Traps:** If password login is disabled and keys are absent, console access is required.
 
 **Step 3: Disable UFW temporarily if needed**
+
 - **Purpose:** Restore access during recovery.
 - **Command(s):**
+
 ```bash
 sudo ufw disable
 ```
+
 - **Explanation:** Temporarily removes firewall enforcement while fixing rules.
 - **Expected Output:**
+
 ```text
 Firewall stopped and disabled on system startup
 ```
+
 - **Verification:** SSH login works, then re-enable correct rules.
 - **⚠️ Caveats/Traps:** Re-enable firewall after repair.
 

@@ -100,7 +100,7 @@ curl -X POST https://api.lapan.cloud/v1/audio/transcriptions \
 provider **Custom** (repetir em cada aba usada: Dictation, Audio Upload):
 
 | Campo | Valor |
-|---|---|
+| --- | --- |
 | Endpoint URL | `https://api.lapan.cloud/v1` |
 | API Key | chave virtual STT (alias `openwhispr`) |
 | Model | `whisper-1` |

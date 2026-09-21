@@ -55,6 +55,7 @@ Let me write this in concise technical Portuguese.
 Paciente refere ardência e sensação de "areia" em ambos os olhos, há 3 meses, com piora vespertina. Exposição ocupacional a tela de computador em tempo integral. Previa uso de lágrima artificial (tubinho) sem melhora relevante.
 
 **O – Objetivo**
+
 - Hiperemia conjuntival bilateral, leve.
 - MEI diminuído (fluoresceína).
 - Rosa bengal: pontilhado periquerático bilateral.
@@ -67,6 +68,7 @@ Síndrome do olho seco bilateral, grau leve–moderado, com componente evaporati
 
 **P – Plano**
 *(Não explicitado no relato. Sugestão condicional:)*
+
 - Lágrima artificial sem conservante (gotas ou gel noturno), 4×/dia.
 - Pausas visuais (regra 20-20-20) e aumento de piscadas.
 - Reavaliação em 4 semanas; se persistência → considerar ciclosporina 0,1 % ou lipídios tópicos; descartar componente inflamatório com OCT de pálpebra / meibografia.

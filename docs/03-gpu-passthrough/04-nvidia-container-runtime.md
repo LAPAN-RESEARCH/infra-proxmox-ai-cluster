@@ -9,8 +9,10 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Install NVIDIA Container Toolkit**
+
 - **Purpose:** Add Docker GPU runtime integration.
 - **Command(s):**
+
 ```bash
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey   | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 
@@ -21,25 +23,33 @@ sudo apt install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
+
 - **Explanation:** `nvidia-ctk` updates Docker runtime configuration.
 - **Expected Output:**
+
 ```text
 nvidia-container-toolkit 1.19.0-1
 ```
+
 - **Verification:** `dpkg -l | grep nvidia-container` shows toolkit packages.
 - **⚠️ Caveats/Traps:** Restart Docker after runtime configuration.
 
 **Step 2: Validate GPU from container**
+
 - **Purpose:** Confirm containers can use the GPU.
 - **Command(s):**
+
 ```bash
 sudo docker run --rm --gpus all nvidia/cuda:12.8.1-base-ubuntu24.04 nvidia-smi
 ```
+
 - **Expected Output:**
+
 ```text
 NVIDIA-SMI 595.71.05
 NVIDIA GeForce RTX 5060 Ti
 ```
+
 - **Verification:** The container reports the same GPU as the host guest driver.
 - **⚠️ Caveats/Traps:** The CUDA image tag can lag the host-reported CUDA version; this test validates runtime visibility, not full CUDA toolkit development.
 

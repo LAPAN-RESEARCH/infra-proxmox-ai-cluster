@@ -9,32 +9,42 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Split agents by task**
+
 - **Purpose:** Avoid a single overpowered agent with broad filesystem and shell access.
 - **Command(s):**
+
 ```bash
 mkdir -p /srv/ai/agents/{coding,papers,graphs,clinical,audit,scratch}
 ```
+
 - **Explanation:** Separate workspaces make permissions and audit easier.
 - **Expected Output:**
+
 ```text
 No output on success.
 ```
+
 - **Verification:** `find /srv/ai/agents -maxdepth 1 -type d` -> Shows role-specific directories.
 - **⚠️ Caveats/Traps:** Do not mount the Docker socket into agent containers.
 
 **Step 2: Require tool allowlists**
+
 - **Purpose:** Prevent destructive or privacy-violating tool use.
 - **Command(s):**
+
 ```bash
 # Future policy file placeholder:
 # tools_allowed: read_file, write_scratch, query_qdrant, query_neo4j
 # tools_denied: unrestricted_shell, docker_socket, internet_for_clinical_data
 ```
+
 - **Explanation:** Agents should call narrow tools with logged inputs and outputs.
 - **Expected Output:**
+
 ```text
 [MISSING] Agent policy implementation.
 ```
+
 - **Verification:** Every tool call should produce an audit log entry.
 - **⚠️ Caveats/Traps:** Autonomous shell tools are not appropriate for clinical data workflows.
 

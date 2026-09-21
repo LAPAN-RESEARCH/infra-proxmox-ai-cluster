@@ -81,6 +81,7 @@ Paciente com glaucoma primário de ângulo aberto usa maleato de timolol 0,5% du
 O maleato de timolol é um betabloqueador não seletivo. Embora seja aplicado topicamente, parte da droga é absorvida sistemicamente através do ducto nasolacrimal, podendo causar efeitos adversos cardiovasculares, como bradicardia e bloqueios de condução, especialmente em pacientes sensíveis.
 
 ### Classe Preferida neste Cenário
+
 Neste cenário cardiovascular, a classe de primeira linha preferida é a dos **Análogos de Prostaglandinas (PGAs)**. Eles são preferidos porque atuam aumentando o escoamento uveoescleral do humor aquoso e apresentam um perfil de segurança cardiovascular significativamente superior aos betabloqueadores, com mínima absorção sistêmica que impacte a frequência cardíaca.
 
 ### Alternativas Tópicas de Primeira Linha

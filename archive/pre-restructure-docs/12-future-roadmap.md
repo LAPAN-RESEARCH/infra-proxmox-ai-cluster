@@ -34,4 +34,3 @@
 7. Restart containers.
 8. Pull Ollama models again.
 9. Begin RAG pipeline implementation.
-

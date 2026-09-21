@@ -90,6 +90,7 @@ Realizada retinografia macular em campo central (50°) e campo ampliado (200°),
 ## 3. DESCRIÇÃO
 
 **Biomicroscopia prévia:**
+
 - Córnea: transparente, sem sinais de edema ou neovascularização.
 - Câmara anterior: regular, sem células ou flare.
 - Cristalino: opacidades nucleares posteriores incipientes (classificação NO2NC2), sem comprometimento significativo da transparência das mídias.
@@ -114,7 +115,7 @@ Realizada retinografia macular em campo central (50°) e campo ampliado (200°),
 ## 4. IMPRESSÃO DIAGNÓSTICA
 
 | Diagnóstico | CID-10 |
-|---|---|
+| --- | --- |
 | Retinopatia diabética não proliferativa moderada (NPDR moderada), bilateral, com exsudatos duros em região perimacular (arcada temporal superior, ~2 DD da fóvea) e micro-hemorragia em chama | **H36.00** |
 | Catarata nuclear incipiente (NO2NC2) | **H26.4** |
 | Diabetes mellitus tipo 2 com complicações oftálmicas | **E11.3** |

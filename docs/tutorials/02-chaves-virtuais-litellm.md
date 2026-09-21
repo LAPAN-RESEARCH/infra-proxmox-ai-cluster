@@ -50,7 +50,7 @@ possível ver spend por equipe e por modelo.
 ## Inventário atual (2026-09-04)
 
 | Alias | Situação | Uso |
-|---|---|---|
+| --- | --- | --- |
 | `n8n` | ativa (60 rpm) | reservada para automações gerais n8n |
 | `n8n-workflow` | ativa (30 rpm) | workflow "Consulta Drive → IA LAPAN" |
 | `n8n-assistant` | ativa (20 rpm, US$ 3/30d) | Assistant do n8n |

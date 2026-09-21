@@ -9,8 +9,10 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Create the VM without GPU passthrough**
+
 - **Purpose:** Keep installation and recovery simple before assigning the physical GPU.
 - **Command(s):**
+
 ```bash
 # GUI recommended for first creation:
 # OS: Ubuntu Server 26.04 LTS ISO
@@ -21,27 +23,35 @@
 # Network: VirtIO on vmbr0
 # QEMU Agent: enabled
 ```
+
 - **Explanation:** `q35` and OVMF are required for modern PCIe passthrough. CPU type `host` exposes AVX/AVX2/FMA to the guest.
 - **Expected Output:**
+
 ```text
 VM ${VMID} created.
 ```
+
 - **Verification:** `qm config ${VMID} | grep -Ei 'bios|machine|cpu|scsihw|net0'` -> Shows OVMF, q35, host CPU, VirtIO.
 - **⚠️ Caveats/Traps:** Do not attach the GPU until SSH and QEMU guest agent work.
 
 **Step 2: Allocate CPU and memory**
+
 - **Purpose:** Balance AI performance with Proxmox host stability.
 - **Command(s):**
+
 ```bash
 qm set ${VMID} --cpu host --cores 8 --sockets 1
 qm set ${VMID} --memory ${VM_MEMORY_MB} --balloon 0
 ```
+
 - **Explanation:** `--balloon 0` disables memory ballooning for predictable AI/database performance.
 - **Expected Output:**
+
 ```text
 update VM ${VMID}: -cpu host -cores 8 -sockets 1
 update VM ${VMID}: -memory ... -balloon 0
 ```
+
 - **Verification:** `qm config ${VMID} | grep -Ei 'cpu|cores|sockets|memory|balloon'` -> Confirm settings.
 - **⚠️ Caveats/Traps:** Do not allocate all host threads to the VM; leave capacity for Proxmox.
 

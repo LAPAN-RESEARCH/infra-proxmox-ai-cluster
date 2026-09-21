@@ -9,15 +9,19 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Configure Docker data-root before heavy use**
+
 - **Purpose:** Prevent Docker images, layers, and build cache from filling `/`.
 - **Command(s):**
+
 ```bash
 sudo mkdir -p /etc/docker /srv/ai/docker
 sudo cp configs/ubuntu-vm/docker-daemon.json /etc/docker/daemon.json
 python3 -m json.tool /etc/docker/daemon.json
 ```
+
 - **Explanation:** `data-root` must be `/srv/ai/docker` before model and image pulls.
 - **Expected Output:**
+
 ```json
 {
     "data-root": "/srv/ai/docker",
@@ -34,12 +38,15 @@ python3 -m json.tool /etc/docker/daemon.json
     }
 }
 ```
+
 - **Verification:** JSON validation succeeds.
 - **⚠️ Caveats/Traps:** If Docker is already installed, stop Docker before migrating `/var/lib/docker`.
 
 **Step 2: Install Docker packages**
+
 - **Purpose:** Install Docker Engine, CLI, Buildx, and Compose plugin.
 - **Command(s):**
+
 ```bash
 sudo apt update
 sudo apt install -y ca-certificates curl
@@ -58,12 +65,15 @@ sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable --now docker
 ```
+
 - **Explanation:** `${UBUNTU_CODENAME}` must match `/etc/os-release`; do not assume a codename from another release.
 - **Expected Output:**
+
 ```text
 Setting up docker-ce ...
 Setting up docker-compose-plugin ...
 ```
+
 - **Verification:** `sudo docker info | grep 'Docker Root Dir'` -> `/srv/ai/docker`.
 - **⚠️ Caveats/Traps:** If Docker's repository does not yet support Ubuntu 26.04 codename, use the officially supported fallback only after validating compatibility.
 

@@ -9,8 +9,10 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Enable virtualization features**
+
 - **Purpose:** Allow Proxmox to run hardware-accelerated VMs and assign PCI devices to guests.
 - **Command(s):**
+
 ```bash
 # Firmware UI, not shell commands:
 # SVM = Enabled
@@ -18,11 +20,14 @@
 # Above 4G Decoding = Enabled
 # Resizable BAR = Enabled
 ```
+
 - **Explanation:** SVM enables AMD virtualization; IOMMU enables safe PCI passthrough; Above 4G Decoding and Resizable BAR support modern GPU address mapping.
 - **Expected Output:**
+
 ```text
 Manual confirmation recorded on 2026-06-03.
 ```
+
 - **Verification:** `journalctl -k -b | grep -Ei 'iommu|amd-vi'` -> Kernel should report AMD-Vi/IOMMU availability after boot.
 - **⚠️ Caveats/Traps:** Firmware labels vary by motherboard; do not disable CSM/UEFI settings blindly if the host already boots reliably.
 

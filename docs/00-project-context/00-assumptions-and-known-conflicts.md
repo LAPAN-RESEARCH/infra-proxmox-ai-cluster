@@ -9,27 +9,36 @@
 ### 2. Resolved Conflicts
 
 **Step 1: Ubuntu version**
+
 - **Purpose:** Remove the prior 24.04/26.04 ambiguity.
 - **Command(s):**
+
 ```bash
 cat /etc/os-release
 ```
+
 - **Expected Output:**
+
 ```text
 PRETTY_NAME="Ubuntu 26.04 LTS"
 VERSION="26.04 LTS (Resolute Raccoon)"
 ```
+
 - **Verification:** This repository now documents Ubuntu Server 26.04 LTS as the working guest OS.
 - **⚠️ Caveats/Traps:** Earlier 24.04 references are historical notes unless explicitly marked as alternate guidance.
 
 **Step 2: Current status**
+
 - **Purpose:** Replace stale roadmap assumptions with measured state.
 - **Command(s):**
+
 ```bash
 VMID=2020 scripts/gather_host_state.sh
 scripts/gather_vm_state.sh
 ```
+
 - **Expected Output:**
+
 ```text
 Proxmox VE 9.1.0
 Ubuntu 26.04 LTS
@@ -38,6 +47,7 @@ NVIDIA-SMI 595.71.05
 /srv/ai mounted on /dev/sdb1
 Ollama models listed by API
 ```
+
 - **Verification:** See [Validated State](03-validated-state-2026-05-21.md).
 - **⚠️ Caveats/Traps:** The old future roadmap is archived and must not be treated as current deployment state.
 

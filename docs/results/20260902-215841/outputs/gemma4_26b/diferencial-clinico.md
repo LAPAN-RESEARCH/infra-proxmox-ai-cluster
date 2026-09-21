@@ -73,35 +73,35 @@ Este é um caso clínico sugestivo de uma ectasia corneana em estágio inicial, 
 
 ### Raciocínio Clínico
 
-1.  **Sinais de Alerta:** A paciente apresenta alta miopia, paquimetria reduzida (especialmente no OD, < 500 µm) e sintomas visuais de dispersão de luz (halos), que sugerem irregularidade na superfície corneana ou edema.
-2.  **O "Pulo do Gato":** A ceratometria (47.2 D no OD) está relativamente baixa/plana para um ceratocone avançado, o que poderia levar ao erro de diagnóstico se baseada apenas na curvatura anterior. No entanto, o achado de **afinamento inferior com elevação posterior** é o marcador clássico de **Ceratocone Subclínico ou Inicial**. A elevação posterior costuma preceder a alteração da curvatura anterior.
-3.  **Histórico de Lentes RGP:** O uso de lentes rígidas por 15 anos pode estar mascarando a progressão da irregularidade (pois a lente compensa o astigmatismo irregular), mas também pode estar associando hipóxia crônica, embora o ceratocone seja a causa primária mais provável.
+1. **Sinais de Alerta:** A paciente apresenta alta miopia, paquimetria reduzida (especialmente no OD, < 500 µm) e sintomas visuais de dispersão de luz (halos), que sugerem irregularidade na superfície corneana ou edema.
+2. **O "Pulo do Gato":** A ceratometria (47.2 D no OD) está relativamente baixa/plana para um ceratocone avançado, o que poderia levar ao erro de diagnóstico se baseada apenas na curvatura anterior. No entanto, o achado de **afinamento inferior com elevação posterior** é o marcador clássico de **Ceratocone Subclínico ou Inicial**. A elevação posterior costuma preceder a alteração da curvatura anterior.
+3. **Histórico de Lentes RGP:** O uso de lentes rígidas por 15 anos pode estar mascarando a progressão da irregularidade (pois a lente compensa o astigmatismo irregular), mas também pode estar associando hipóxia crônica, embora o ceratocone seja a causa primária mais provável.
 
 ---
 
 ### Diagnósticos Diferenciais (Ordenados por Probabilidade)
 
-1.  **Ceratocone (Estágio Inicial/Subclínico):**
-    *   *Justificativa:* É a hipótese principal devido à combinação de paquimetria reduzida, elevação posterior detectada na topografia e sintomas de halos. A elevação posterior é um dos sinais mais precoces e sensíveis para esta patologia.
-2.  **Degeneração Marginal Pélcida (DMP):**
-    *   *Justificativa:* Caracteriza-se por afinamento e steepening na periferia inferior. Embora a localização "inferior" citada possa sugerir DMP, a elevação posterior e o perfil de afinamento são mais típicos do ceratocone. A DMP geralmente apresenta um padrão de "garra de caranguejo" na topografia.
-3.  **Ectasia Corneana Pós-Cirúrgica ou Iatrogênica (menos provável):**
-    *   *Justificativa:* Embora a paciente não relate cirurgia refrativa, o termo "ectasia" engloba deformidades estruturais. Contudo, sem histórico de LASIK/PRK, esta hipótese perde força frente ao ceratocone primário.
-4.  **Distrofia de Fuchs (ou disfunção endotelial):**
-    *   *Justificativa:* Poderia causar halos por edema, mas não explicaria o afinamento localizado e a elevação posterior na topografia.
+1. **Ceratocone (Estágio Inicial/Subclínico):**
+    - *Justificativa:* É a hipótese principal devido à combinação de paquimetria reduzida, elevação posterior detectada na topografia e sintomas de halos. A elevação posterior é um dos sinais mais precoces e sensíveis para esta patologia.
+2. **Degeneração Marginal Pélcida (DMP):**
+    - *Justificativa:* Caracteriza-se por afinamento e steepening na periferia inferior. Embora a localização "inferior" citada possa sugerir DMP, a elevação posterior e o perfil de afinamento são mais típicos do ceratocone. A DMP geralmente apresenta um padrão de "garra de caranguejo" na topografia.
+3. **Ectasia Corneana Pós-Cirúrgica ou Iatrogênica (menos provável):**
+    - *Justificativa:* Embora a paciente não relate cirurgia refrativa, o termo "ectasia" engloba deformidades estruturais. Contudo, sem histórico de LASIK/PRK, esta hipótese perde força frente ao ceratocone primário.
+4. **Distrofia de Fuchs (ou disfunção endotelial):**
+    - *Justificativa:* Poderia causar halos por edema, mas não explicaria o afinamento localizado e a elevação posterior na topografia.
 
 ---
 
 ### Conduta Proposta
 
-1.  **Estabilização do Diagnóstico:** Confirmar se há progressão ou se é uma condição estável.
-2.  **Avaliação de Risco:** Determinar a necessidade de intervenção para impedir a progressão (Cross-linking).
-3.  **Manejo Óptico:** Avaliar se a correção atual com RGP ainda é adequada ou se há necessidade de transição para lentes esclerais (que oferecem maior conforto e melhor qualidade visual em ectasias).
-4.  **Monitoramento:** Se não houver indicação imediata de tratamento cirúrgico, realizar acompanhamento periódico com topografia/tomografia.
+1. **Estabilização do Diagnóstico:** Confirmar se há progressão ou se é uma condição estável.
+2. **Avaliação de Risco:** Determinar a necessidade de intervenção para impedir a progressão (Cross-linking).
+3. **Manejo Óptico:** Avaliar se a correção atual com RGP ainda é adequada ou se há necessidade de transição para lentes esclerais (que oferecem maior conforto e melhor qualidade visual em ectasias).
+4. **Monitoramento:** Se não houver indicação imediata de tratamento cirúrgico, realizar acompanhamento periódico com topografia/tomografia.
 
 ---
 
 ### Exames Complementares
 
-1.  **Tomografia de Córnea (Pentacam ou Orbscan):** Essencial para mapear a curvatura anterior, posterior e a paquimetria de forma segmentada (padrão-ouro para confirmar a elevação posterior).
-2.  **Microscopia
+1. **Tomografia de Córnea (Pentacam ou Orbscan):** Essencial para mapear a curvatura anterior, posterior e a paquimetria de forma segmentada (padrão-ouro para confirmar a elevação posterior).
+2. **Microscopia

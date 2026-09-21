@@ -49,6 +49,7 @@ Make concise. Let's produce.
 • Sintomas associados ao uso prolongado de computador.  
 
 | **P – Plano** |  
+
 1. **Compressas mornas** – 5–10 min, 2 x/dia.  
 2. **Higiene das pálpebras** – solução de limpeza (baby shampoo ou produto específico) 3 x/dia.  
 3. **Lágrimas artificiais preservative‑free** – 1 gota q6h.  

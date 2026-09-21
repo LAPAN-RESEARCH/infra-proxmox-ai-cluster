@@ -1,6 +1,7 @@
 # Tutorial 08 — Custom GPT da OpenAI (alternativa secundária)
 
 > ## ⚠️ AVISO LGPD — leia antes
+>
 > Diferente do resto do LAPAN AI, **por esta rota o conteúdo clínico sai do
 > hospital**: tudo que o clínico digita (anamnese, dados do paciente), o
 > áudio no modo voz (retido 30 dias pela OpenAI) e o **próprio laudo

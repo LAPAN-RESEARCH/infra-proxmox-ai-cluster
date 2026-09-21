@@ -235,5 +235,3 @@ We need to mention that the patient has no
 ```
 
 ## Resposta
-
-

@@ -3,7 +3,7 @@
 VRAM de pico global: **15509 MiB** (soma de todos os processos GPU, inclui modelos residuais)
 
 | Modelo | Caso | wall(s) | tok/s | tokens | done |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | qwen3:8b | laudo-retina | 30.17 | 71.8 | 1550 | stop |
 | qwen3:8b | extracao-exame | 10.6 | 74.0 | 768 | stop |
 | qwen3:8b | diferencial-clinico | 28.55 | 72.1 | 2048 | length |
@@ -48,4 +48,3 @@ VRAM de pico global: **15509 MiB** (soma de todos os processos GPU, inclui model
 
 Compare às cegas os arquivos em `outputs/<model>/<case>.md` (critérios por caso no
 `cases.jsonl`, campo `rubric`). Nota 0-5 por caso; some por modelo.
-

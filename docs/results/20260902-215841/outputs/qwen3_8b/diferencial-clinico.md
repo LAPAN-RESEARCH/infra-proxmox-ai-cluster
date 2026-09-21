@@ -81,6 +81,7 @@ The next steps would be to perform a detailed corneal topography, maybe with a P
 ---
 
 **Conduta e Exames Complementares Propostos:**  
+
 1. **Topografia Corneal Avançada (Pentacam/Orbscan):**  
    - Avaliar **curvatura corneal** (mapa de elevação), **pachimetria** e **índice de irregularidade** para confirmar ectasia.  
    - Verificar **presença de estafiloma posterior** ou **afinamento central**.  
@@ -103,6 +104,7 @@ The next steps would be to perform a detailed corneal topography, maybe with a P
 ---
 
 **Próximos Passos:**  
+
 - **Priorizar a topografia corneal avançada** para confirmar ectasia ou outras alterações.  
 - **Avaliar a viabilidade de lentes de contato de curto prazo** (ex.: lentes de contato rígidas de curto prazo) para aliviar os sintomas.  
 - **Monitorar a evolução da visão** e considerar **cirurgia corneal** (ex.: transplante de córnea) se a ectasia for confirmada e sintomática.  

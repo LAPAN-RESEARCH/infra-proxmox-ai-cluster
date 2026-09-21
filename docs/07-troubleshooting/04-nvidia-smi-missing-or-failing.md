@@ -9,32 +9,42 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Determine whether command is missing or driver is failing**
+
 - **Purpose:** Separate package installation problems from kernel driver problems.
 - **Command(s):**
+
 ```bash
 command -v nvidia-smi || true
 dpkg -l | grep -E 'nvidia-driver|nvidia-utils|libnvidia|nvidia-dkms' | sort
 ```
+
 - **Explanation:** `nvidia-smi` is provided by `nvidia-utils-*` packages.
 - **Expected Output:**
+
 ```text
 /usr/bin/nvidia-smi
 ```
+
 - **Verification:** If missing, install matching utils package.
 - **⚠️ Caveats/Traps:** Match utils version to installed driver branch.
 
 **Step 2: Install matching utils**
+
 - **Purpose:** Provide the user-space NVIDIA management tool.
 - **Command(s):**
+
 ```bash
 sudo apt install -y nvidia-utils-${NVIDIA_DRIVER_BRANCH}-server
 sudo reboot
 ```
+
 - **Explanation:** Example branch: `580`. Use `-server` if the installed driver is server branch.
 - **Expected Output:**
+
 ```text
 Setting up nvidia-utils-${NVIDIA_DRIVER_BRANCH}-server ...
 ```
+
 - **Verification:** `nvidia-smi` -> Shows GPU table.
 - **⚠️ Caveats/Traps:** Do not install several branches at once.
 

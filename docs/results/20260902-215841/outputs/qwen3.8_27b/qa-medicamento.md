@@ -100,7 +100,7 @@ O maleato de timolol é um **β-bloqueador não seletivo (β₁/β₂)** de uso 
 ## Opções de primeira linha (PGAs) – princípio ativo, concentração usual e posologia
 
 | Fármaco | Concentração usual | Posologia | Observação |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Latanoprost** | 0,005 % (1 gota ≈ 30 µL) | 1 gota no(s) olho(s) afetado(s), **1×/dia**, preferencialmente à noite | Referência histórica; menor custo |
 | **Bimatoprost** | 0,01 % ou 0,03 % | 1 gota, **1×/dia**, à noite | 0,03 % → maior eficácia; 0,01 % → menor hiperemia |
 | **Travoprost** | 0,004 % | 1 gota, **1×/dia**, à noite | Meia-vida intraocular mais longa |
@@ -113,7 +113,7 @@ O maleato de timolol é um **β-bloqueador não seletivo (β₁/β₂)** de uso 
 ## Alternativas de segunda linha (seguras cardiovascularmente)
 
 | Classe | Fármaco | Concentração | Posologia |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Inibidor da anidrase carbônica (IAC) | **Dorzolamida** | 2 % | 1 gota, **3×/dia** (manhã, tarde, noite) |
 | Inibidor da anidrase carbônica (IAC) | **Brinzolamida** | 1 % | 1 gota, **3×/dia** |
 | Agonista α₂-adrenérgico | **Apraclonidina** | 1 % | 1 gota, **3–4×/dia** (uso mais restrito) |

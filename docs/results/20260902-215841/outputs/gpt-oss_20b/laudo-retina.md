@@ -41,6 +41,7 @@ Referente: Retinografia macular para avaliação de retinopatia diabética.
 Exame realizado em pupila dilatada (midazolam 1 % + tropicamida 1 %) com câmera de fluorescência (Canon CR‑2000). Foi obtida imagem de alta resolução da região macular, com registro de 30° de campo.  
 
 **Descrição**  
+
 - **Córnea**: transparente, sem opacidades.  
 - **Cristalino**: opacidades posteriores incipientes (classificação NO2NC2).  
 - **Mídias**: transparência regular.  
@@ -51,10 +52,12 @@ Exame realizado em pupila dilatada (midazolam 1 % + tropicamida 1 %) com câ
 - **Mácula**: reflexo foveal preservado, sem alteração de densidade ou deslocamento.  
 
 **Impressão Diagnóstica (CID‑10)**  
+
 - **H35.01** – Retinopatia diabética, não proliferativa.  
 - **E11.321** – Diabetes mellitus tipo 2 com retinopatia diabética, não especificada.  
 
 **Conduta**  
+
 1. **Controle glicêmico**: manter HbA1c < 7 %. Reavaliação com endocrinologista em 3 meses.  
 2. **Reexame oftalmológico**: retinografia macular em 3 meses ou antes, se houver piora clínica.  
 3. **Tratamento local**: não há indicação de laser fotocoagulação ou terapia anti‑VEGF neste momento.  

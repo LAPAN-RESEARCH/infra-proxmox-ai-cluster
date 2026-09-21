@@ -38,4 +38,3 @@ lspci -nn | grep -i nvidia
 ```
 
 ---
-

@@ -45,7 +45,7 @@ O clínico seleciona "LAPAN Laudos" e só cola os achados — sem escrever promp
 *Workspace → Prompts → +* — comandos que expandem no chat:
 
 | Comando | Conteúdo | Origem |
-|---|---|---|
+| --- | --- | --- |
 | `/laudo` | estrutura completa de laudo oftalmológico | `configs/prompts/laudo-oftalmologia.md` |
 | `/soap` | nota SOAP a partir de anamnese | `configs/prompts/transcricao-para-laudo.md` |
 | `/extracao` | extrair campos estruturados (JSON) | `configs/prompts/extracao-estruturada.md` |

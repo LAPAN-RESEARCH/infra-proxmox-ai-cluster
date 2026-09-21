@@ -6,7 +6,6 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
 [![CITATION.cff](https://img.shields.io/badge/CITATION.cff-cited-blue?style=for-the-badge&logo=github)](CITATION.cff)
 
-
 Production-grade notes for a local AI research stack running on Proxmox with a GPU-passthrough Ubuntu Server VM.
 
 ## Target Architecture
@@ -46,6 +45,7 @@ Validated on 2026-05-21:
 - AI services bind to `127.0.0.1` except SSH on port 22. Includes the `ai-api` gateway (FastAPI, OpenAI-compatible with RAG citations, port 8088) since 2026-06; see `services/ai-api/`.
 
 Upgrade 2026-09 (validated): GPU inference restored (container had silently fallen back to CPU), titular model `gpt-oss:20b` (see the [2026-09-02 benchmark](docs/04-docker-and-services/06-llm-benchmark-2026-09-02.md)), Speaches fixed to multilingual `large-v3-turbo` (previous model was English-only), WhisperLiveKit realtime transcription with 2-speaker diarization on port 8010, and external API access via Tailscale serve + LiteLLM/n8n on the VPS — see [External API Architecture](docs/00-project-context/06-external-api-architecture.md).
+
 - Jupyter base image tag: `JUPYTER_BASE_TAG=2026-05-11`.
 
 See [Validated State](docs/00-project-context/03-validated-state-2026-05-21.md) for the measured output summary.

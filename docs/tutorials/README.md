@@ -4,7 +4,7 @@ Guias práticos para acessar e consumir os serviços. Veja a arquitetura
 completa em [../00-project-context/06-external-api-architecture.md](../00-project-context/06-external-api-architecture.md).
 
 | # | Tutorial | Para quem |
-|---|---|---|
+| --- | --- | --- |
 | 00 | [Visão geral e acesso](00-visao-geral-e-acesso.md) | todos |
 | 01 | [API pública — quickstart](01-api-publica-quickstart.md) | desenvolvedores |
 | 02 | [Chaves virtuais (LiteLLM)](02-chaves-virtuais-litellm.md) | administradores |

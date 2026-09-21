@@ -9,32 +9,42 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Stop the VM**
+
 - **Purpose:** PCI hardware changes require the VM to be stopped.
 - **Command(s):**
+
 ```bash
 qm shutdown ${VMID}
 qm status ${VMID}
 ```
+
 - **Explanation:** A full stop/start is safer than an in-guest reboot for PCI device model changes.
 - **Expected Output:**
+
 ```text
 status: stopped
 ```
+
 - **Verification:** `qm status ${VMID}` -> `stopped`.
 - **⚠️ Caveats/Traps:** If shutdown fails because guest agent is not working, use `qm stop ${VMID}` only as a last resort.
 
 **Step 2: Add PCI passthrough device**
+
 - **Purpose:** Give Ubuntu direct ownership of the GPU.
 - **Command(s):**
+
 ```bash
 qm set ${VMID} -hostpci0 ${GPU_SLOT},pcie=1
 qm start ${VMID}
 ```
+
 - **Explanation:** `${GPU_SLOT}` should be the slot such as `01:00`; all-functions passthrough is preferred from the GUI when available.
 - **Expected Output:**
+
 ```text
 update VM ${VMID}: -hostpci0 ${GPU_SLOT},pcie=1
 ```
+
 - **Verification:** Inside Ubuntu: `lspci -nn | grep -i nvidia` -> NVIDIA device visible.
 - **⚠️ Caveats/Traps:** Initially keep `Primary GPU` disabled unless the VM needs physical display output.
 

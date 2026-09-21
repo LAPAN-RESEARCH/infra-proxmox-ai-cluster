@@ -78,15 +78,17 @@ Retinografia colorida de alta resolução com foco em região macular e mapeamen
 **DESCRIÇÃO**
 **Segmento Anterior:** Córnea transparente, sem evidências de edema ou infiltrados. Cristalino apresentando opacidades posteriores incipientes (classificação NO2NC2).
 
-**Segmento Posterior:** Mídias de transparência regular. Disco óptico com escavação fisiológica (0,3) e bordas bem definidas. Relação artéria/veia (A/V) de 2/3. 
+**Segmento Posterior:** Mídias de transparência regular. Disco óptico com escavação fisiológica (0,3) e bordas bem definidas. Relação artéria/veia (A/V) de 2/3.
 **Retina:** Presença de microaneurismas e exsudatos duros agrupados em arcada temporal superior, localizados a aproximadamente dois diâmetros de disco da fóvea. Observa-se pequena hemorragia em chama na região supramencionada. Ausência de sinais de neovascularização (intraretiniana ou discais).
 **Mácula:** Reflexo foveal preservado.
 
 **IMPRESSÃO DIAGNÓSTICA**
+
 1. Retinopatia Diabética Não Proliferativa (RDNP) — **CID-10: E11.3**
 2. Catarata incipiente (opacidades posteriores) — **CID-10: H25.9**
 
 **CONDUTA**
+
 1. **Controle Metabólico:** Recomenda-se encaminhamento/relatório ao endocrinologista para otimização do controle glicêmico (HbA1c atual acima da meta terapêutica).
 2. **Exames Complementares:** Sugere-se realização de OCT (Tomografia de Coerência Óptica) para avaliação de possível edema macular subclínico, dada a proximidade dos exsudatos duros à região foveal.
 3. **Acompanhamento:** Retorno para controle clínico e de imagem em [X] meses ou conforme evolução clínica.

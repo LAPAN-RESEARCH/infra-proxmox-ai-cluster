@@ -56,16 +56,16 @@ Resuma em no máximo 10 bullets o texto a seguir e responda ao final: qual a imp
 
 Aqui está o resumo do texto:
 
-* **Impacto clínico:** O edema macular diabético (EMD) é a principal causa de perda visual em diabéticos em idade produtiva.
-* **Controle sistêmico:** O manejo da glicemia e da pressão arterial é essencial para reduzir a incidência e a progressão da doença.
-* **Mudança de paradigma:** A terapia anti-VEGF substituiu a fotocoagulação macular focal como padrão-ouro para ganho de acuidade visual.
-* **Agentes anti-VEGF:** Ranibizumabe, aflibercepte e bevacizumabe são os mais utilizados, com escolhas baseadas em custo, regulação e resposta individual.
-* **Uso do aflibercepte:** Indicado para pacientes com perda visual moderada a grave no primeiro ano, seguido de desaceleração do regime.
-* **Corticosteroides intravítreos:** Reservados para olhos pseudofácicos ou casos refratários, exigindo vigilância para catarata e hipertensão ocular.
-* **Otimização de protocolos:** Estratégias como *treat-and-extend* e terapia combinada visam manter resultados anatômicos reduzindo a carga de injeções.
-* **Novas terapias:** Inibidores de angiopoietina-2 e inibidores de tirosina-quinase oferecem ganhos incrementais ao arsenal disponível.
-* **Monitorização:** A OCT com angiografia (OCTA) permite o acompanhamento não invasivo, embora ainda careça de validação como desfecho substituto.
-* **Requisitos de manejo:** O sucesso terapêutico depende de infraestrutura de imagem, pessoal treinado e agilidade no fluxo de retratamento.
+- **Impacto clínico:** O edema macular diabético (EMD) é a principal causa de perda visual em diabéticos em idade produtiva.
+- **Controle sistêmico:** O manejo da glicemia e da pressão arterial é essencial para reduzir a incidência e a progressão da doença.
+- **Mudança de paradigma:** A terapia anti-VEGF substituiu a fotocoagulação macular focal como padrão-ouro para ganho de acuidade visual.
+- **Agentes anti-VEGF:** Ranibizumabe, aflibercepte e bevacizumabe são os mais utilizados, com escolhas baseadas em custo, regulação e resposta individual.
+- **Uso do aflibercepte:** Indicado para pacientes com perda visual moderada a grave no primeiro ano, seguido de desaceleração do regime.
+- **Corticosteroides intravítreos:** Reservados para olhos pseudofácicos ou casos refratários, exigindo vigilância para catarata e hipertensão ocular.
+- **Otimização de protocolos:** Estratégias como *treat-and-extend* e terapia combinada visam manter resultados anatômicos reduzindo a carga de injeções.
+- **Novas terapias:** Inibidores de angiopoietina-2 e inibidores de tirosina-quinase oferecem ganhos incrementais ao arsenal disponível.
+- **Monitorização:** A OCT com angiografia (OCTA) permite o acompanhamento não invasivo, embora ainda careça de validação como desfecho substituto.
+- **Requisitos de manejo:** O sucesso terapêutico depende de infraestrutura de imagem, pessoal treinado e agilidade no fluxo de retratamento.
 
 ***
 

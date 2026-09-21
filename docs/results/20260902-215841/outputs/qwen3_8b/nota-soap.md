@@ -41,6 +41,7 @@ Okay, putting it all together now.
 Paciente relatou ardência e sensação de areia nos dois olhos há 3 meses, piorando no fim do dia. Trabalha no computador o dia todo. Já utilizou lágrima artificial de tubinho sem melhora significativa.  
 
 **Objetivo (O):**  
+
 - **Exame clínico:** Hiperemia conjuntival leve bilateral.  
 - **Testes:**  
   - MEI diminuído com fluoresceína.  
@@ -53,6 +54,7 @@ Paciente relatou ardência e sensação de areia nos dois olhos há 3 meses, pio
 Síndrome de olho seco (evaporativo) associada à exposição prolongada à tela de computador. A diminuição da produção lacrimal (Schirmer) e o tempo de tolerância da película lacrimal (TBUT) curto, além das alterações epiteliais detectadas por fluoresceína e rosa bengal, reforçam o diagnóstico.  
 
 **Plano (P):**  
+
 - Continuar uso de lágrimas artificiais (preferencialmente preservante-free).  
 - Recomendar compressa quente e higiene das pálpebras.  
 - Avaliar uso de lubrificantes oculares de longa duração (ex.: ciclosporina 0,05% ou lifitegrast 5%).  

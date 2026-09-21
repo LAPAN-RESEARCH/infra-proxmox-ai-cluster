@@ -33,7 +33,7 @@ curl https://api.lapan.cloud/v1/chat/completions \
 ## Modelos disponíveis
 
 | `model` na chamada | O que atende | Uso típico |
-|---|---|---|
+| --- | --- | --- |
 | `lapan` | `gpt-oss:20b` (titular) | laudos, chat, extração |
 | `lapan/gemma4:26b` | gemma4:26b | alternativa de qualidade |
 | `lapan/qwen3.8:27b` | qwen3.8:27b | batch lento (8 tok/s), contexto longo |
@@ -57,7 +57,7 @@ Saída: SSE (`data: {...}` por linha, terminando em `data: [DONE]`).
 ## Códigos de erro que importam
 
 | HTTP | Causa | O que fazer |
-|---|---|---|
+| --- | --- | --- |
 | 401 | chave inválida/bloqueada | conferir chave; ver tutorial 02 |
 | 429 | rpm/budget estourados ou VPS rate-limit | reduzir ritmo ou pedir limite maior |
 | 502/504 | modelo demorou (frio/offload) | repetir; ver troubleshooting 10 |

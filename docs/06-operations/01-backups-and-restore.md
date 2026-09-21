@@ -9,16 +9,21 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Run backup script**
+
 - **Purpose:** Capture critical service state before updates or major changes.
 - **Command(s):**
+
 ```bash
 scripts/backup_ai_stack.sh
 ```
+
 - **Explanation:** The script backs up Compose files and selected service directories.
 - **Expected Output:**
+
 ```text
 Wrote /srv/ai/backups/ai-stack-${STAMP}.tar.gz
 ```
+
 - **Verification:** `tar -tzf /srv/ai/backups/ai-stack-${STAMP}.tar.gz | head` -> Archive is readable.
 - **⚠️ Caveats/Traps:** Large model files may be excluded unless explicitly added.
 

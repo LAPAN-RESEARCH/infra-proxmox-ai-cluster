@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## 2026-05-21 — Validation Pass 1
 
 - Incorporated host-state output from `VMID=2020 scripts/gather_host_state.sh`.

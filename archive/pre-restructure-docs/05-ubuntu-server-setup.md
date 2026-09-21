@@ -49,4 +49,3 @@ ssh-ed25519 AAAA... hugo@hugodepaula
 is only a label and does not need to match the Ubuntu VM username.
 
 ---
-

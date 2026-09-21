@@ -64,8 +64,8 @@ Aqui estão três opções de reescrita, dependendo do contexto (prontuário mé
 > "Paciente apresenta retorno com queixa de dor ocular importante. Constatada PIO de 32 mmHg em OD, com suspeita de reação ao colírio prescrito anteriormente. Conduta: suspensão da medicação anterior e prescrição de novo agente hipotensor. Retorno agendado para uma semana. Em caso de ausência de melhora, será considerada a conduta cirúrgica."
 
 **Principais alterações terminológicas realizadas:**
-*   *“Olho doendo bastante”* $\rightarrow$ **Dor ocular intensa / Quadro álgico.**
-*   *“Pressão subiu pra 32”* $\rightarrow$ **Elevação da pressão intraocular (PIO) para 32 mmHg.**
-*   *“Reação do remédio/gota”* $\rightarrow$ **Reação adversa / Efeito adverso ao fármaco tópico.**
-*   *“Mandei parar/passei outra”* $\rightarrow$ **Suspensão da medicação / Prescrição de nova terapia.**
-*   *“Pensar em cirurgia”* $\rightarrow$ **Avaliar necessidade de intervenção cirúrgica.**
+- *“Olho doendo bastante”* $\rightarrow$ **Dor ocular intensa / Quadro álgico.**
+- *“Pressão subiu pra 32”* $\rightarrow$ **Elevação da pressão intraocular (PIO) para 32 mmHg.**
+- *“Reação do remédio/gota”* $\rightarrow$ **Reação adversa / Efeito adverso ao fármaco tópico.**
+- *“Mandei parar/passei outra”* $\rightarrow$ **Suspensão da medicação / Prescrição de nova terapia.**
+- *“Pensar em cirurgia”* $\rightarrow$ **Avaliar necessidade de intervenção cirúrgica.**

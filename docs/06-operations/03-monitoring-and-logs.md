@@ -9,27 +9,34 @@
 ### 2. Step-by-Step Execution
 
 **Step 1: Check capacity and GPU**
+
 - **Purpose:** Catch storage and GPU failures before workloads fail.
 - **Command(s):**
+
 ```bash
 df -h
 free -h
 nvidia-smi
 sudo docker system df
 ```
+
 - **Explanation:** These commands reveal disk, memory, GPU, and Docker usage.
 - **Expected Output:**
+
 ```text
 Filesystem ...
 NVIDIA-SMI ...
 TYPE            TOTAL     ACTIVE    SIZE
 ```
+
 - **Verification:** `/`, `/srv/ai`, and Docker usage have safe free space.
 - **⚠️ Caveats/Traps:** Model pulls can consume storage quickly.
 
 **Step 2: Inspect service logs**
+
 - **Purpose:** Diagnose failed or restarting containers.
 - **Command(s):**
+
 ```bash
 cd /srv/ai/compose/core
 sudo docker compose ps
@@ -40,11 +47,14 @@ sudo docker compose logs --tail=100 neo4j
 sudo docker compose logs --tail=100 jupyter
 sudo docker compose logs --tail=100 speaches
 ```
+
 - **Explanation:** Tail recent logs by service to avoid huge output.
 - **Expected Output:**
+
 ```text
 No repeated restart loops, permission errors, model download failures, or GPU runtime errors.
 ```
+
 - **Verification:** No repeated crash loops or permission errors.
 - **⚠️ Caveats/Traps:** Do not paste secrets from logs into public issues.
 

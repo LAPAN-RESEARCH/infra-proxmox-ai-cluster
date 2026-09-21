@@ -109,7 +109,7 @@ Let me structure a comprehensive response in Portuguese since the question is in
 ## 1. Síntese do Caso
 
 | Parâmetro | OD | OE |
-|---|---|---|
+| --- | --- | --- |
 | Refração | −6,50 D | −6,00 D |
 | Ceratometria | 47,2 / 48,9 D (Δ 1,7 D) | 46,8 / 47,4 D (Δ 0,6 D) |
 | Paquimetria | **498 µm** | 506 µm |
@@ -122,9 +122,11 @@ Let me structure a comprehensive response in Portuguese since the question is in
 ## 2. Diagnósticos Diferenciais (ordem decrescente de probabilidade)
 
 ### ① Ceratocone OD (ativo/progressivo) + alterações subclínicas OE
+
 **Probabilidade: ALTA (~85–90 %)**
 
 Justificativa cumulativa:
+
 - **Padrão topográfico clássico:** afinamento inferior (zona 3–5) + elevação posterior no mapa de elevação é o achado com maior especificidade (>95 %) para ceratocone em tomografia anterior-posterior (Pentacam/SiS).
 - **Paquimetria < 500 µm OD** (498 µm) – limiar de alerta; em OE 506 µm ainda "na borda".
 - **Astigmatismo irregular assimétrico** (Δ 1,7 D OD vs 0,6 D OE) coerente com cone inferior.
@@ -135,6 +137,7 @@ Justificativa cumulativa:
 - **LCR há 15 anos:** pode ser *consequência* de ceratocone incipiente (fornecimento de LCR para regularizar astigmatismo) ou fator contributivo (evidência epidemiológica controversa, mas fricção crônica é gatilho reconhecido).
 
 ### ② Pellucidus marginalis (PM)
+
 **Probabilidade: BAIXA-MODERADA (~5–8 %)**
 
 - Também apresenta afinamento inferior, porém em **faixa periférica (inferior 1/3)** com aplanamento central, e a elevação posterior no mapa de elevação é **menos proeminente** que no ceratocone.

@@ -45,6 +45,7 @@ Histórico clínico: Diabetes mellitus tipo 2 há 12 anos, com HbA1c de 8,4%.
 Retinografia foi realizada com uso de câmara de fundo digital, em condições de iluminação adequada e sem dilatação pupilar. As imagens foram obtidas com foco na área macular, incluindo a fóvea e os vasos retinianos periféricos.  
 
 **Descrição**  
+
 - **Biomicroscopia:** Córdula transparente, cristalino com opacidades posteriores incipientes (NO2NC2).  
 - **Fundo de olho:** Mídias de transparência regular.  
 - **Discos ópticos:** Disco óptico com escavação de 0,3 mm, bordas definidas, relação A/V de 2/3.  
@@ -54,10 +55,12 @@ Retinografia foi realizada com uso de câmara de fundo digital, em condições d
 - **Mácula:** Reflexo foveal preservado, sem alterações de densidade ou descolamento.  
 
 **Impressão Diagnóstica (CID-10)**  
+
 - **H36.9 – Retinopatia diabética não especificada**  
   A presença de microaneurismas, exsudatos duros e hemorragias intravasculares na área macular, associada à história de diabetes mellitus tipo 2 com HbA1c elevada (8,4%), sugere retinopatia diabética não proliferativa. A ausência de neovascularização e a preservação do reflexo foveal indicam que o estágio da doença está limitado à fase não proliferativa.  
 
 **Conduta**  
+
 1. **Controle clínico:** Reavaliação da glicemia e HbA1c com objetivo de reduzir o risco de progressão da retinopatia.  
 2. **Monitoramento oftalmológico:** Encaminhamento para acompanhamento oftalmológico periódico, com retinografia e exame de fundo de olho, com intervalo de 6 a 12 meses, conforme critérios de risco.  
 3. **Tratamento farmacológico:** Manutenção da terapia antidiabética, com atenção à pressão arterial e lipídeos.  

@@ -26,7 +26,7 @@ flowchart TD
 ### 2. Service Map
 
 | Service | Local URL | Main use | Persistent data |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Ollama | `http://127.0.0.1:11434` | Local chat, coding, embeddings | `/srv/ai/ollama` |
 | Open WebUI | `http://127.0.0.1:3000` | Browser UI for Ollama | `/srv/ai/open-webui` |
 | Speaches | `http://127.0.0.1:8000` | Local Whisper transcription | `/srv/ai/models/huggingface`, `/srv/ai/logs/speaches` |
@@ -49,6 +49,7 @@ ssh -L 3000:127.0.0.1:3000 \
 ### 3. Daily Workflows
 
 **Start and validate the stack**
+
 ```bash
 cd /srv/ai/compose/core
 sudo docker compose --env-file .env up -d
@@ -63,6 +64,7 @@ sudo -n /usr/local/sbin/lapan-ai-validate
 ```
 
 **Use local LLMs and embeddings**
+
 ```bash
 curl -fsS http://127.0.0.1:11434/api/tags
 curl -fsS http://127.0.0.1:11434/api/embed \
@@ -72,6 +74,7 @@ curl -fsS http://127.0.0.1:11434/api/embed \
 Use Open WebUI at `http://127.0.0.1:3000` through the SSH tunnel for interactive chat. Keep model pulls limited and check `/srv/ai` capacity first.
 
 **Use local transcription**
+
 ```bash
 source /srv/ai/compose/core/.env
 curl -fsS -H "Authorization: Bearer ${SPEACHES_API_KEY}" \
@@ -101,6 +104,7 @@ Run the bootstrap first to create the Qdrant collection, Neo4j constraints, and 
 7. Save benchmark questions and retrieval results under `/srv/ai/rag/benchmarks`.
 
 **Use the graph**
+
 ```bash
 source /srv/ai/compose/core/.env
 neo4j_password="${NEO4J_AUTH#neo4j/}"
