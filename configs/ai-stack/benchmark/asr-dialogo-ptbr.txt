@@ -1,0 +1,32 @@
+# Diálogo sintético de consulta oftalmológica (pt-BR) para benchmark ASR.
+# Fictício; sem dados de paciente real. Linhas "M:" = médico, "P:" = paciente.
+# O gerador de corpus (scripts/bench_asr.py) repete este roteiro até atingir a
+# duração alvo e sintetiza cada fala com TTS (vozes diferentes por papel).
+M: Bom dia, pode sentar. O que está sentindo hoje?
+P: Doutor, meus olhos estão ardendo muito, principalmente no fim do dia.
+M: Há quanto tempo começou esse desconforto?
+P: Uns dois meses, mas piorou nas últimas semanas.
+M: Usa computador por quanto tempo por dia?
+P: Quase oito horas no trabalho, sem parar.
+M: Já usou algum colírio de lubrificante artificial antes?
+P: Usei um de carboximetilcelulose a um por cento, mas parei.
+M: Tem sensibilidade à luz ou sensação de areia nos olhos?
+P: Sensação de areia, sim, e visão embaça quando piso menos.
+M: Vou examinar. Olhe para a luz... a córnea está pontilhada no terço inferior.
+P: É grave, doutor?
+M: É ceratopatia por olho seco moderada, tem tratamento.
+P: Precisa fazer alguma cirurgia?
+M: Não. Vamos tratar com lubrificante e oclusão puntual se não melhorar.
+M: Vou prescrever colírio de lubrificante sem conservante, uma gota quatro vezes ao dia.
+P: De quanto em quanto tempo, doutor?
+M: De quatro em quatro horas, por trinta dias. Também compressa morna duas vezes ao dia.
+P: Preciso voltar quando?
+M: Retorno em trinta dias com reavaliação do teste de Schirmer e da fluoresceína.
+P: Pode dirigir à noite assim?
+M: Enquanto a visão embaçar, evite dirigir à noite. Melhora com o tratamento.
+M: Tem alguma alergia a medicamento?
+P: Só a dipirona, que me dá urticária.
+M: Certo. Anotei. Alguma outra dúvida?
+P: Não, doutor. Obrigado pela atenção.
+M: Bom, vamos fazer a biomicroscopia completa agora para documentar.
+P: Tudo bem, doutor.
