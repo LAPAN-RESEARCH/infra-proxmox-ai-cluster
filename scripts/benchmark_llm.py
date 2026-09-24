@@ -51,10 +51,10 @@ class VramSampler(threading.Thread):
         super().__init__(daemon=True)
         self.interval_s = interval_s
         self.peak_mib = 0
-        self._stop = threading.Event()
+        self._halt = threading.Event()
 
     def run(self) -> None:
-        while not self._stop.is_set():
+        while not self._halt.is_set():
             try:
                 out = subprocess.run(
                     ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
@@ -63,10 +63,10 @@ class VramSampler(threading.Thread):
                 self.peak_mib = max(self.peak_mib, max(int(x) for x in out.stdout.split()))
             except Exception:
                 pass
-            self._stop.wait(self.interval_s)
+            self._halt.wait(self.interval_s)
 
     def stop(self) -> int:
-        self._stop.set()
+        self._halt.set()
         self.join(timeout=15)
         return self.peak_mib
 
