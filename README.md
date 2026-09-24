@@ -70,6 +70,7 @@ Follow-up review on 2026-06-03 found `/` at 83% and `/srv/ai` at 3%. Ollama mode
 - [Remediation Plan — 2026-06-03](docs/00-project-context/04-remediation-plan-2026-06-03.md)
 - [Architecture and Usage Guide](docs/00-project-context/05-architecture-and-usage-guide.md)
 - [Next Steps — 2026-06-03](docs/00-project-context/06-next-steps-2026-06-03.md)
+- [Clinical Listening Solution Plan — 2026-09-24](docs/00-project-context/07-clinical-listening-solution-plan.md)
 
 ### Host Preparation
 
