@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escuta Clínica — LAPAN</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>Escuta Clínica <span class="badge">local · LAPAN</span></h1>
+    <span id="conn" class="dot" title="desconectado"></span>
+  </header>
+
+  <main>
+    <!-- Tela 1: dois cliques (clique 1) -->
+    <section id="home" class="screen">
+      <label for="doctor">Médico</label>
+      <input id="doctor" placeholder="Seu nome (para a trilha de auditoria)">
+      <button id="btn-start" class="primary big">▶ Iniciar atendimento</button>
+      <p class="hint">Ao iniciar, a conversa é gravada no servidor e transcrita
+      ao vivo. Tudo permanece na rede local do hospital.</p>
+    </section>
+
+    <!-- Tela 2: gravação em curso -->
+    <section id="live" class="screen hidden">
+      <div class="livebar">
+        <span class="rec">● GRAVANDO</span>
+        <span id="timer">00:00</span>
+        <button id="btn-stop" class="danger big">■ Finalizar atendimento</button>
+      </div>
+      <div id="livetext" class="livetext"></div>
+    </section>
+
+    <!-- Tela 3: processamento em background -->
+    <section id="proc" class="screen hidden">
+      <h2>Processando a consulta…</h2>
+      <div class="bar"><div id="prog"></div></div>
+      <p id="stage">na fila</p>
+      <p class="hint">Pode minimizar esta aba — o processamento continua no servidor.</p>
+    </section>
+
+    <!-- Tela 4: revisão em tela dividida -->
+    <section id="review" class="screen hidden">
+      <div id="papeis-warning" class="warn hidden">
+        ⚠ Papéis médico/paciente divergiram entre as fontes — confira e, se
+        preciso, use “Trocar papéis e regenerar”.
+        <button id="btn-enroll" class="small">Ensinar voz do médico (enrollment)</button>
+      </div>
+      <div class="split">
+        <div class="pane">
+          <h2>Prontuário (SOAP) — editável</h2>
+          <div id="soap-fields"></div>
+          <h3>Laudo</h3>
+          <pre id="laudo" contenteditable="true"></pre>
+          <div id="verify" class="verify"></div>
+          <div class="actions">
+            <button id="btn-save" class="primary">Salvar revisão</button>
+            <button id="btn-sign" class="primary">✍ Assinar prontuário</button>
+            <button id="btn-swap" class="ghost">Trocar papéis e regenerar</button>
+          </div>
+          <p id="signed-note" class="ok hidden"></p>
+        </div>
+        <div class="pane">
+          <h2>Transcrição literal — auditoria</h2>
+          <audio id="player" controls></audio>
+          <div id="transcript" class="transcript"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="error" class="screen hidden">
+      <h2>Algo falhou</h2>
+      <p id="errmsg"></p>
+      <button onclick="location.reload()" class="ghost">Recomeçar</button>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
