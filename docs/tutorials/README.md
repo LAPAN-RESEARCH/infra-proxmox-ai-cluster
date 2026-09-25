@@ -17,3 +17,4 @@ completa em [../00-project-context/06-external-api-architecture.md](../00-projec
 | 09 | [Padrões de prompt para laudos](09-padroes-de-prompt-laudo.md) | clínicos/devs |
 | 10 | [Troubleshooting](10-troubleshooting.md) | todos |
 | 11 | [Restauração do backup de segredos](11-restore.md) | administradores |
+| 12 | [App de escuta clínica (dois cliques)](12-escuta-clinica-app.md) | clínicos / sala de consulta |
