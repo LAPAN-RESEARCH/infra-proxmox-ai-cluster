@@ -1,0 +1,101 @@
+"""Diarização offline (pyannote-audio 4.x) e enrollment ECAPA — opcionais.
+
+Sem pyannote/torch instalados (imagem base), o worker segue com
+`turns=[]` e o transcript sai mono-falante sinalizado; sem speechbrain, o
+enrollment é pulado e a atribuição de papéis cai para heurística + LLM.
+"""
+from __future__ import annotations
+
+import struct
+from pathlib import Path
+from typing import Any
+
+from .config import Settings
+
+
+class Diarizer:
+    """pyannote-audio: segmentação + embeddings + clustering (máx. N falantes)."""
+
+    def __init__(self, settings: Settings) -> None:
+        try:
+            from pyannote.audio import Pipeline
+        except ImportError as exc:  # pragma: no cover
+            raise RuntimeError(
+                "diarização requer pyannote.audio (pip install -r requirements-gpu.txt)"
+                " e HF_TOKEN com aceitação dos termos dos modelos pyannote"
+            ) from exc
+        import os
+
+        self._settings = settings
+        token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        self._pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1",
+                                                  use_auth_token=token)
+
+    def turns(self, wav16k: Path) -> list[dict[str, Any]]:
+        diar = self._pipeline(str(wav16k), max_speakers=self._settings.diar_max_speakers)
+        return [{"start": float(t.start), "end": float(t.end), "speaker": sp}
+                for t, _, sp in diar.itertracks(yield_label=True)]
+
+
+class EcapaEnroller:
+    """Enrollment do médico: embedding ECAPA-TDNN (192-dim) por cosine matching."""
+
+    def __init__(self) -> None:
+        try:
+            from speechbrain.inference.speaker import EncoderClassifier
+        except ImportError as exc:  # pragma: no cover
+            raise RuntimeError(
+                "enrollment requer speechbrain (pip install -r requirements-gpu.txt)"
+            ) from exc
+        self._model = EncoderClassifier.from_hparams(
+            source="speechbrain/spkrec-ecapa-voxceleb",
+            savedir="/tmp/ecapa", run_opts={"device": "cpu"},
+        )
+
+    def embed(self, wav16k: Path, start_s: float | None = None, end_s: float | None = None) -> bytes:
+        import torch
+
+        clip = wav16k
+        if start_s is not None or end_s is not None:
+            clip = wav16k.with_suffix(f".clip{wav16k.suffix}")
+            _cut_wav(wav16k, clip, start_s or 0.0, end_s)
+        wav = self._model.load_audio(str(clip))
+        emb = self._model.encode_batch(torch.tensor(wav).unsqueeze(0))
+        return _pack_embedding(emb.squeeze().detach().cpu().numpy())
+
+
+def _cut_wav(src: Path, dst: Path, start_s: float, end_s: float | None) -> None:
+    import wave
+
+    with wave.open(str(src), "rb") as w:
+        rate = w.getframerate()
+        w.setpos(int(start_s * rate))
+        frames = w.readframes(int(((end_s if end_s is not None else w.getnframes() / rate) - start_s) * rate))
+    with wave.open(str(dst), "wb") as out:
+        out.setnchannels(1)
+        out.setsampwidth(2)
+        out.setframerate(rate)
+        out.writeframes(frames)
+
+
+def _pack_embedding(vec: Any) -> bytes:
+    return struct.pack(f"<{len(vec)}f", * [float(x) for x in vec])
+
+
+def _unpack_embedding(blob: bytes) -> list[float]:
+    n = len(blob) // 4
+    return list(struct.unpack(f"<{n}f", blob[: n * 4]))
+
+
+def cosine(a: list[float], b: list[float]) -> float:
+    if not a or not b or len(a) != len(b):
+        return -1.0
+    num = sum(x * y for x, y in zip(a, b))
+    na = sum(x * x for x in a) ** 0.5 or 1e-9
+    nb = sum(y * y for y in b) ** 0.5 or 1e-9
+    return num / (na * nb)
+
+
+def match_speaker(turn_embedding: bytes, reference: bytes, threshold: float = 0.5) -> float:
+    """Score contra o enrollment do médico; >= threshold => é o médico."""
+    return cosine(_unpack_embedding(turn_embedding), _unpack_embedding(reference))
