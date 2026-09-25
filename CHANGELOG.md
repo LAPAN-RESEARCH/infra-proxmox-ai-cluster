@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-24 — Escuta clínica: plano, benchmark ASR e implementação
+
+- Plano arquitetural completo da solução local de escuta clínica com revisão
+  de estado da arte 2026 (`docs/00-project-context/07-clinical-listening-solution-plan.md`).
+- Decisões registradas: microfone de mesa podcast, retenção de áudio de 90
+  dias no piloto, rapidez como gate primário do benchmark, prioridade clínica
+  na GPU.
+- `scripts/bench_asr.py`: benchmark de RTF/VRAM/WER contra Speaches/WLK com
+  corpus sintético pt-BR por TTS (espeak-ng/piper) — valida o pipeline sem a
+  sala de gravação.
+- Novo serviço `services/escuta/` (porta 8020): app de dois cliques com
+  gravação servidor-side e transcrição ao vivo (proxy WLK), worker batch de
+  fidelidade (ASR determinístico, diarização pyannote opcional, alinhamento
+  palavra×locutor, atribuição Médico/Paciente por tripla checagem), SOAP por
+  `gpt-oss:20b` com verificação cruzada (`qwen3:8b`), transcript imutável
+  (SQLite WAL + SHA-256), revisão em tela dividida com timestamps clicáveis,
+  assinatura com versionamento, lock de GPU clínica-first e expurgo seguro
+  após retenção. 31 testes (CPU, backends stub).
+- Fix: `benchmark_llm.py` quebrava no Python 3.12 (atributo `_stop` do
+  `VramSampler` colidia com `Thread._stop`).
+
 ## 2026-05-21 — Validation Pass 1
 
 - Incorporated host-state output from `VMID=2020 scripts/gather_host_state.sh`.
