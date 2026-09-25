@@ -294,3 +294,18 @@ def _avg_embedding(new: bytes, old: bytes, weight_new: float) -> bytes:
     if not b or len(a) != len(b):
         return new
     return _pack_embedding([weight_new * x + (1 - weight_new) * y for x, y in zip(a, b)])
+
+
+if __name__ == "__main__":  # python -m escuta.worker (sem a API/UI)
+    import time
+
+    settings = Settings()
+    settings.ensure_dirs()
+    standalone = ScribeWorker(Database(settings.db_path), settings)
+    standalone.start()
+    print(f"scribe-worker rodando — dados em {settings.data_dir} (Ctrl+C sai)")
+    try:
+        while True:
+            time.sleep(3600)
+    except KeyboardInterrupt:
+        standalone.stop()

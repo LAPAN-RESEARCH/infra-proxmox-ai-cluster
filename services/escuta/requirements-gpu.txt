@@ -1,0 +1,9 @@
+# Extras de GPU (build arg EXTRAS=gpu): ASR embedded determinístico +
+# diarização pyannote 4.x + enrollment ECAPA. Requer NVIDIA Container Toolkit.
+#
+# pyannote/speaker-diarization-3.1 exige aceite dos termos no Hugging Face e
+# HF_TOKEN no ambiente. speechbrain roda o ECAPA em CPU mesmo dentro da imagem.
+faster-whisper>=1.0
+torch>=2.2
+pyannote.audio>=3.3
+speechbrain>=1.0
