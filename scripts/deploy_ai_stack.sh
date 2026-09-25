@@ -41,6 +41,8 @@ mkdir -p \
   "${live_root}/jupyter/work" \
   "${live_root}/logs/speaches" \
   "${live_root}/models/huggingface" \
+  "${live_root}/clinical/audio" \
+  "${live_root}/clinical/tmp" \
   "${live_root}/neo4j/data" \
   "${live_root}/neo4j/logs" \
   "${live_root}/neo4j/import" \
@@ -74,5 +76,9 @@ append_if_missing "SPEACHES_MODEL" "Systran/faster-distil-whisper-large-v3"
 append_if_missing "SPEACHES_API_KEY" "$(generate_secret)"
 append_if_missing "RAG_COLLECTION" "research_chunks_bge_m3"
 append_if_missing "RERANKER_MODEL" "BAAI/bge-reranker-v2-m3"
+append_if_missing "ESCUTA_PORT" "8020"
+append_if_missing "ESCUTA_EXTRAS" "gpu"
+append_if_missing "ESCUTA_RETENTION_DAYS" "90"
+append_if_missing "ESCUTA_API_TOKEN" "$(generate_secret)"
 
 echo "Deployed Compose source to ${live_compose}"

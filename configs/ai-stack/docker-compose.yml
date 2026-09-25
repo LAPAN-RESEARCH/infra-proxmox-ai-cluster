@@ -91,6 +91,58 @@ services:
     networks:
       - lapan-ai-net
 
+  escuta:
+    build:
+      context: ../../services/escuta
+      args:
+        EXTRAS: ${ESCUTA_EXTRAS:-gpu}
+    container_name: escuta
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - speaches
+      - whisper-livekit
+      - ai-api
+    environment:
+      TZ: ${TZ}
+      ESCUTA_DATA_DIR: /srv/ai/clinical
+      ESCUTA_RUN_DIR: /run/escuta
+      ESCUTA_ASR_BACKEND: ${ESCUTA_ASR_BACKEND:-http}
+      ESCUTA_ASR_URL: http://speaches:8000/v1/audio/transcriptions
+      ESCUTA_ASR_MODEL: ${SPEACHES_MODEL:-Systran/faster-whisper-large-v3-turbo}
+      ESCUTA_WLK_URL: ws://whisper-livekit:8000/asr
+      ESCUTA_LLM_URL: http://ai-api:8080/v1/chat/completions
+      ESCUTA_SOAP_MODEL: ${ESCUTA_SOAP_MODEL:-gpt-oss:20b}
+      ESCUTA_VERIFY_MODEL: ${ESCUTA_VERIFY_MODEL:-qwen3:8b}
+      ESCUTA_RETENTION_DAYS: ${ESCUTA_RETENTION_DAYS:-90}
+      ESCUTA_API_TOKEN: ${ESCUTA_API_TOKEN:-}
+      # Preemptação do titular (ollama stop) exige docker.sock; sem ele,
+      # use OLLAMA_KEEP_ALIVE=0 durante consultas (runbook do tutorial 12).
+      ESCUTA_OLLAMA_CONTAINER: ${ESCUTA_OLLAMA_CONTAINER:-ollama}
+      ESCUTA_OLLAMA_MODEL: ${ESCUTA_OLLAMA_MODEL:-gpt-oss:20b}
+      ESCUTA_UNLOAD_TITULAR_ON_JOB: ${ESCUTA_UNLOAD_TITULAR_ON_JOB:-0}
+      SPEACHES_API_KEY: ${SPEACHES_API_KEY:-}
+      WLK_API_TOKEN: ${WLK_API_TOKEN}
+      AI_API_KEY: ${AI_API_KEY:-}
+      HF_TOKEN: ${HF_TOKEN:-}
+    volumes:
+      - /srv/ai/clinical:/srv/ai/clinical
+      - /srv/ai/models/huggingface:/root/.cache/huggingface
+      # Para preemptar o titular automaticamente, monte também:
+      # - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "127.0.0.1:${ESCUTA_PORT:-8020}:8020"
+    gpus: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - lapan-ai-net
+
   open-webui:
     image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_TAG}
     container_name: open-webui
