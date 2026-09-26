@@ -22,14 +22,26 @@ class Diarizer:
         except ImportError as exc:  # pragma: no cover
             raise RuntimeError(
                 "diarização requer pyannote.audio (pip install -r requirements-gpu.txt)"
-                " e HF_TOKEN com aceitação dos termos dos modelos pyannote"
             ) from exc
         import os
 
         self._settings = settings
         token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
-        self._pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1",
-                                                  use_auth_token=token)
+        # 3.1 é gated (exige aceite de termos + token); community-1 é CC-BY-4.0
+        # e funciona sem token. Tenta ambos e degrada se nenhum baixar.
+        self._pipeline = None
+        last_exc: Exception | None = None
+        for model in ("pyannote/speaker-diarization-3.1", "pyannote/speaker-diarization-community-1"):
+            try:
+                self._pipeline = Pipeline.from_pretrained(model, use_auth_token=token)
+                self._model_name = model
+                break
+            except Exception as exc:
+                last_exc = exc
+        if self._pipeline is None:
+            raise RuntimeError(
+                f"nenhum pipeline pyannote disponível (HF_TOKEN ausente/gated): {last_exc}"
+            )
 
     def turns(self, wav16k: Path) -> list[dict[str, Any]]:
         diar = self._pipeline(str(wav16k), max_speakers=self._settings.diar_max_speakers)

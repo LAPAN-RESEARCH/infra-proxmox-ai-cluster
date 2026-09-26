@@ -64,6 +64,20 @@ install -m 0644 "${repo_root}/configs/ai-stack/jupyter/Dockerfile" "${live_compo
 install -m 0644 "${repo_root}/configs/ai-stack/rag/research-platform.yaml" "${live_root}/rag/configs/research-platform.yaml"
 install -m 0644 "${repo_root}/configs/ai-stack/agents/policies/default.yaml" "${live_root}/agents/policies/default.yaml"
 
+# Serviços com build no compose vivem em ${live_root}/services (convention ai-api).
+for svc in ai-api escuta; do
+  if [ -d "${repo_root}/services/${svc}" ]; then
+    mkdir -p "${live_root}/services/${svc}"
+    if command -v rsync >/dev/null 2>&1; then
+      rsync -a --delete --exclude '__pycache__' --exclude '.pytest_cache' \
+        "${repo_root}/services/${svc}/" "${live_root}/services/${svc}/"
+    else
+      cp -a "${repo_root}/services/${svc}/." "${live_root}/services/${svc}/"
+    fi
+    echo "Synced services/${svc} -> ${live_root}/services/${svc}"
+  fi
+done
+
 if [[ ! -f "${env_file}" ]]; then
   install -m 0600 "${repo_root}/configs/ai-stack/.env.example" "${env_file}"
   echo "Created ${env_file}; replace placeholder secrets before starting services."
