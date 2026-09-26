@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-09-26 — Escuta clínica validada ponta a ponta na VM (números reais)
+
+- Infra: kernel atualizado quebrou o driver NVIDIA (módulo era acoplado ao
+  kernel 7.0 removido); corrigido com `linux-modules-nvidia-595-server-generic-hwe-26.04`
+  (auto-rastreia kernels futuros). Ollama/Speaches/WLK religados.
+- Docker sem sudo (grupo `docker`); túnel persistente via systemd user
+  (`lapan-tunnels.service`, portas do usuário + 8020).
+- `escuta` em produção na porta 8020 (imagem CPU; build GPU com pyannote/ECAPA
+  em andamento). Speaches realinhado ao turbo (`deepdml/faster-whisper-large-v3-turbo-ct2`,
+  mirror no registry da versão).
+- Pipeline LLM: rota nativa Ollama `/api/chat`; decisões de latência —
+  **qwen3:8b modelo único** (SOAP+laudo+verificação; `think:false` honrado),
+  `num_ctx` 8192 (16k forçava offload CPU do gpt-oss), orçamento 16k com
+  salvage de JSON truncado. `ESCUTA_LAUDO_MODEL` permite escalar o laudo no
+  batch noturno sem tocar o fluxo do consultório.
+- Medição e2e (consulta sintética pt-BR de 60 s, TTS piper): **23 s no total** —
+  ASR 6 s (RTF ≈ 0,10), SOAP 4 s, laudo 4 s, verificação 2 s; qwen3:8b
+  residente (6,4 GB VRAM) coexistindo com Speaches. Extrapolando: consulta de
+  60 min ≈ 7–8 min de processamento.
+
 ## 2026-09-24 — Escuta clínica: plano, benchmark ASR e implementação
 
 - Plano arquitetural completo da solução local de escuta clínica com revisão

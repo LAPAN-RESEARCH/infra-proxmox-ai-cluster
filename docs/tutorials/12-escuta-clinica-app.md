@@ -94,3 +94,17 @@ Desenvolvimento sem GPU: `ESCUTA_ASR_BACKEND=stub ESCUTA_LLM_BACKEND=stub`
   `condition_on_previous_text=False`, fallback de temperatura etc.) assume o
   ASR dentro do worker; o modo `http` (Speaches) aplica o subconjunto suportado
   pelo endpoint.
+
+## Números medidos (validação 2026-09-26, consulta sintética de 60 s)
+
+| Etapa | Tempo | Observação |
+| --- | --- | --- |
+| ASR (Speaches turbo, GPU) | ~6 s | RTF ≈ 0,10 |
+| SOAP (qwen3:8b, think off) | ~4 s | JSON com citações [mm:ss] |
+| Laudo (qwen3:8b) | ~4 s | — |
+| Verificação cruzada (qwen3:8b) | ~2 s | — |
+| **Total** | **23 s** | qwen3:8b residente (6,4 GB) junto com o ASR |
+
+Estimativa para consulta de 60 min: ~7–8 min (ASR ~6 min + cadeia LLM com
+map-reduce). Modelo único por decisão de latência; `ESCUTA_LAUDO_MODEL`
+permite usar um titular maior em batch noturno.
