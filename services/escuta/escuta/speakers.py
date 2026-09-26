@@ -55,8 +55,26 @@ class Diarizer:
 
     def turns(self, wav16k: Path) -> list[dict[str, Any]]:
         diar = self._pipeline(str(wav16k), max_speakers=self._settings.diar_max_speakers)
+        ann = _as_annotation(diar)
         return [{"start": float(t.start), "end": float(t.end), "speaker": sp}
-                for t, _, sp in diar.itertracks(yield_label=True)]
+                for t, _, sp in ann.itertracks(yield_label=True)]
+
+
+def _as_annotation(diar: Any) -> Any:
+    """pyannote 3.x devolve Annotation direto; 4.x/community-1 devolve
+    DiarizeOutput — o Annotation clássico vive em .speaker_diarization."""
+    if hasattr(diar, "itertracks"):
+        return diar
+    for attr in ("speaker_diarization", "exclusive_speaker_diarization"):
+        cand = getattr(diar, attr, None)
+        if callable(cand):
+            try:
+                cand = cand()
+            except Exception:
+                continue
+        if cand is not None and hasattr(cand, "itertracks"):
+            return cand
+    raise RuntimeError(f"saída de diarização não reconhecida: {type(diar).__name__}")
 
 
 class EcapaEnroller:
