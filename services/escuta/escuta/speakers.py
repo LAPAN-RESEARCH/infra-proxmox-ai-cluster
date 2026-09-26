@@ -54,7 +54,11 @@ class Diarizer:
             )
 
     def turns(self, wav16k: Path) -> list[dict[str, Any]]:
-        diar = self._pipeline(str(wav16k), max_speakers=self._settings.diar_max_speakers)
+        # Consulta médico×paciente: nº exato de falantes (com apenas teto
+        # max_speakers, o clustering do community-1 colapsava para 1).
+        n = self._settings.diar_max_speakers
+        kwargs = {"num_speakers": n} if n == 2 else {"max_speakers": n}
+        diar = self._pipeline(str(wav16k), **kwargs)
         ann = _as_annotation(diar)
         return [{"start": float(t.start), "end": float(t.end), "speaker": sp}
                 for t, _, sp in ann.itertracks(yield_label=True)]
