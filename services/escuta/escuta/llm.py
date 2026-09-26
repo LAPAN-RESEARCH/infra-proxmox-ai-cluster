@@ -49,32 +49,37 @@ class HttpLlm:
         self._prompts = load_prompts(settings.prompts_dir)
 
     def chat(self, model: str, system: str, user: str, temperature: float = 0.3,
-             max_tokens: int = 4096) -> str:
+             max_tokens: int = 16384) -> str:
         """Modo nativo (URL .../api/chat): Ollama direto com think=false.
 
-        Modo OpenAI (URL /v1/chat/completions): duas defesas transientes —
-        5xx (titular frio) com 1 retry, e content vazio (raciocínio consumiu
-        o orçamento) com retry dobrando max_tokens.
+        Orçamento: 16384 por padrão (8x o máximo observado de raciocínio+SOAP;
+        teto alto não interfere, mas limita pior caso a ~3 min/chamada).
+        Modo OpenAI (URL /v1/chat/completions): 5xx (titular frio) com 1 retry,
+        e content vazio (raciocínio consumiu o orçamento) com retry dobrando.
         """
         headers = {"Authorization": f"Bearer {self._key}"} if self._key else {}
         native = self._s.llm_url.rstrip("/").endswith("/api/chat")
         if native:
-            payload = {
-                "model": model,
-                "messages": [{"role": "system", "content": system},
-                             {"role": "user", "content": user}],
-                "think": False,  # extração estruturada: sem canal de raciocínio
-                "stream": False,
-                "options": {"temperature": temperature, "num_predict": max_tokens},
-            }
-            resp = self._client.post(self._s.llm_url, json=payload, headers=headers)
-            if resp.status_code >= 400:
-                raise LlmError(f"LLM {resp.status_code}: {resp.text[:300]}")
-            data = resp.json()
-            content = (data.get("message") or {}).get("content") or ""
-            if not content.strip():
-                raise LlmError(f"resposta vazia do modelo {model}: {str(data)[:200]}")
-            return content
+            # think=false acelera modelos que honram a flag (qwen3); se a resposta
+            # vier vazia (modelo que ignora/estranha a flag), reintenta sem ela.
+            for think in (False, None):
+                payload = {
+                    "model": model,
+                    "messages": [{"role": "system", "content": system},
+                                 {"role": "user", "content": user}],
+                    "stream": False,
+                    "options": {"temperature": temperature, "num_predict": max_tokens},
+                }
+                if think is not None:
+                    payload["think"] = think
+                resp = self._client.post(self._s.llm_url, json=payload, headers=headers)
+                if resp.status_code >= 400:
+                    raise LlmError(f"LLM {resp.status_code}: {resp.text[:300]}")
+                data = resp.json()
+                content = (data.get("message") or {}).get("content") or ""
+                if content.strip():
+                    return content
+            raise LlmError(f"resposta vazia do modelo {model}: {str(data)[:200]}")
 
         content = ""
         for attempt in range(3):
