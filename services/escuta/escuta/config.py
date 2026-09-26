@@ -34,10 +34,11 @@ class Settings:
         "ESCUTA_WLK_URL", "ws://whisper-livekit:8000/asr"))
     wlk_token_env: str = field(default_factory=lambda: os.environ.get("ESCUTA_WLK_TOKEN_ENV", "WLK_API_TOKEN"))
 
-    # LLM via ai-api (OpenAI-compatible).
+    # LLM: nativo Ollama (/api/chat, think=false) por padrão — extração
+    # estruturada não usa raciocínio nem RAG; OpenAI-compatible também suportado.
     llm_backend: str = field(default_factory=lambda: os.environ.get("ESCUTA_LLM_BACKEND", "http"))
     llm_url: str = field(default_factory=lambda: os.environ.get(
-        "ESCUTA_LLM_URL", "http://ai-api:8080/v1/chat/completions"))
+        "ESCUTA_LLM_URL", "http://ollama:11434/api/chat"))
     llm_api_key_env: str = field(default_factory=lambda: os.environ.get("ESCUTA_LLM_API_KEY_ENV", "AI_API_KEY"))
     soap_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_SOAP_MODEL", "gpt-oss:20b"))
     verify_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_VERIFY_MODEL", "qwen3:8b"))

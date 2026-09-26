@@ -50,13 +50,32 @@ class HttpLlm:
 
     def chat(self, model: str, system: str, user: str, temperature: float = 0.3,
              max_tokens: int = 4096) -> str:
-        """Uma chamada com duas defesas transientes:
+        """Modo nativo (URL .../api/chat): Ollama direto com think=false.
 
-        - 5xx (ex.: titular frio carregando após reboot): 1 retry após 20 s;
-        - content vazio (raciocínio do modelo consumiu o orçamento):
-          reintenta com o dobro do max_tokens.
+        Modo OpenAI (URL /v1/chat/completions): duas defesas transientes —
+        5xx (titular frio) com 1 retry, e content vazio (raciocínio consumiu
+        o orçamento) com retry dobrando max_tokens.
         """
         headers = {"Authorization": f"Bearer {self._key}"} if self._key else {}
+        native = self._s.llm_url.rstrip("/").endswith("/api/chat")
+        if native:
+            payload = {
+                "model": model,
+                "messages": [{"role": "system", "content": system},
+                             {"role": "user", "content": user}],
+                "think": False,  # extração estruturada: sem canal de raciocínio
+                "stream": False,
+                "options": {"temperature": temperature, "num_predict": max_tokens},
+            }
+            resp = self._client.post(self._s.llm_url, json=payload, headers=headers)
+            if resp.status_code >= 400:
+                raise LlmError(f"LLM {resp.status_code}: {resp.text[:300]}")
+            data = resp.json()
+            content = (data.get("message") or {}).get("content") or ""
+            if not content.strip():
+                raise LlmError(f"resposta vazia do modelo {model}: {str(data)[:200]}")
+            return content
+
         content = ""
         for attempt in range(3):
             payload = {

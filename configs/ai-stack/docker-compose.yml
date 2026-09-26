@@ -111,7 +111,8 @@ services:
       ESCUTA_ASR_URL: http://speaches:8000/v1/audio/transcriptions
       ESCUTA_ASR_MODEL: ${SPEACHES_MODEL:-Systran/faster-whisper-large-v3-turbo}
       ESCUTA_WLK_URL: ws://whisper-livekit:8000/asr
-      ESCUTA_LLM_URL: http://ai-api:8080/v1/chat/completions
+      # Nativo Ollama (think=false p/ extração estruturada; sem RAG no trilho clínico)
+      ESCUTA_LLM_URL: ${ESCUTA_LLM_URL:-http://ollama:11434/api/chat}
       ESCUTA_SOAP_MODEL: ${ESCUTA_SOAP_MODEL:-gpt-oss:20b}
       ESCUTA_VERIFY_MODEL: ${ESCUTA_VERIFY_MODEL:-qwen3:8b}
       ESCUTA_RETENTION_DAYS: ${ESCUTA_RETENTION_DAYS:-90}

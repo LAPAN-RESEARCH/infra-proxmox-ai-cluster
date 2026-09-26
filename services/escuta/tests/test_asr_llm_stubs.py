@@ -47,3 +47,39 @@ def test_stub_llm_chain_shapes(tmp_path):
     roles = llm.verify_roles("dialogo", ["SPEAKER_00", "SPEAKER_01"])
     assert roles == {"SPEAKER_00": "MEDICO", "SPEAKER_01": "PACIENTE"}
     assert llm.calls == ["soap", "laudo", "verify", "roles"]
+
+
+def test_http_llm_native_ollama_mode(tmp_path, monkeypatch):
+    """Modo nativo /api/chat: think=false e conteúdo vazio é erro explícito."""
+    from escuta.config import Settings
+    from escuta.llm import HttpLlm, LlmError
+
+    settings = Settings(data_dir=tmp_path)
+    settings.llm_url = "http://ollama:11434/api/chat"
+    llm = HttpLlm(settings)
+
+    class FakeResp:
+        status_code = 200
+        def __init__(self, payload):
+            self._p = payload
+        def json(self):
+            return self._p
+
+    calls = []
+
+    class FakeClient:
+        def post(self, url, json=None, headers=None):
+            calls.append(json)
+            return FakeResp({"message": {"content": '{"ok": true}'}})
+
+    llm._client = FakeClient()
+    assert llm.chat("m", "sys", "usr") == '{"ok": true}'
+    assert calls[0]["think"] is False and calls[0]["stream"] is False
+
+    llm._client = type("C", (), {"post": staticmethod(lambda *a, **k: FakeResp({"message": {"content": ""}}))})()
+    try:
+        llm.chat("m", "s", "u")
+        raised = False
+    except LlmError:
+        raised = True
+    assert raised
