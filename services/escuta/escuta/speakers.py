@@ -27,15 +27,25 @@ class Diarizer:
 
         self._settings = settings
         token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        # pyannote >=4 aceita `token=`; `use_auth_token=` foi removido.
+        auth_kwargs = ({"token": token} if token else {})
         # 3.1 é gated (exige aceite de termos + token); community-1 é CC-BY-4.0
         # e funciona sem token. Tenta ambos e degrada se nenhum baixar.
         self._pipeline = None
         last_exc: Exception | None = None
         for model in ("pyannote/speaker-diarization-3.1", "pyannote/speaker-diarization-community-1"):
             try:
-                self._pipeline = Pipeline.from_pretrained(model, use_auth_token=token)
+                self._pipeline = Pipeline.from_pretrained(model, **auth_kwargs)
                 self._model_name = model
                 break
+            except TypeError:
+                # versões antigas do pyannote ainda usam use_auth_token
+                try:
+                    self._pipeline = Pipeline.from_pretrained(model, use_auth_token=token)
+                    self._model_name = model
+                    break
+                except Exception as exc:
+                    last_exc = exc
             except Exception as exc:
                 last_exc = exc
         if self._pipeline is None:
