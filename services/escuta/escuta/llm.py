@@ -11,7 +11,10 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from typing import Any
+
+import httpx
 
 from .config import Settings
 from .prompts import load_prompts
@@ -46,23 +49,44 @@ class HttpLlm:
         self._prompts = load_prompts(settings.prompts_dir)
 
     def chat(self, model: str, system: str, user: str, temperature: float = 0.3,
-             max_tokens: int = 2048) -> str:
+             max_tokens: int = 4096) -> str:
+        """Uma chamada com duas defesas transientes:
+
+        - 5xx (ex.: titular frio carregando após reboot): 1 retry após 20 s;
+        - content vazio (raciocínio do modelo consumiu o orçamento):
+          reintenta com o dobro do max_tokens.
+        """
         headers = {"Authorization": f"Bearer {self._key}"} if self._key else {}
-        payload = {
-            "model": model,
-            "messages": [{"role": "system", "content": system},
-                         {"role": "user", "content": user}],
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }
-        resp = self._client.post(self._s.llm_url, json=payload, headers=headers)
-        if resp.status_code >= 400:
-            raise LlmError(f"LLM {resp.status_code}: {resp.text[:300]}")
-        data = resp.json()
-        try:
-            return data["choices"][0]["message"]["content"]
-        except (KeyError, IndexError) as exc:
-            raise LlmError(f"resposta inesperada: {str(data)[:200]}") from exc
+        content = ""
+        for attempt in range(3):
+            payload = {
+                "model": model,
+                "messages": [{"role": "system", "content": system},
+                             {"role": "user", "content": user}],
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+            }
+            try:
+                resp = self._client.post(self._s.llm_url, json=payload, headers=headers)
+            except httpx.TimeoutException as exc:
+                if attempt == 0:
+                    time.sleep(20)
+                    continue
+                raise LlmError(f"timeout LLM: {exc}") from exc
+            if resp.status_code >= 500 and attempt == 0:
+                time.sleep(20)  # modelo carregando (frio) — reintenta
+                continue
+            if resp.status_code >= 400:
+                raise LlmError(f"LLM {resp.status_code}: {resp.text[:300]}")
+            data = resp.json()
+            try:
+                content = data["choices"][0]["message"]["content"] or ""
+            except (KeyError, IndexError) as exc:
+                raise LlmError(f"resposta inesperada: {str(data)[:200]}") from exc
+            if content.strip():
+                return content
+            max_tokens *= 2  # thinking consumiu o orçamento; folga e repete
+        return content
 
     # -- cadeia clínica ------------------------------------------------------
 
@@ -89,7 +113,7 @@ class HttpLlm:
         soap_text = json.dumps(soap, ensure_ascii=False)
         reply = self.chat(self._s.verify_model, self._prompts["verify_system"],
                           VERIFY_USER.format(dialogue=dialogue[:20000], soap=soap_text),
-                          temperature=0.1, max_tokens=1024)
+                          temperature=0.1, max_tokens=2048)
         data = parse_json_reply(reply)
         return {"sem_cobertura": list(data.get("sem_cobertura") or []),
                 "sem_evidencia": list(data.get("sem_evidencia") or [])}
