@@ -98,4 +98,5 @@ def test_http_llm_soap_salvage_truncated_json(tmp_path):
     soap = llm.soap("dialogo")
     assert soap["S"].startswith("Paciente relata")
     assert soap["O"].startswith("córnea")
-    assert soap["P"].startswith("colírio")
+    assert soap["A"] == "olho seco"
+    assert soap["P"] == "não informado"  # string não fechada não é recuperável
