@@ -40,7 +40,7 @@ class Settings:
     llm_url: str = field(default_factory=lambda: os.environ.get(
         "ESCUTA_LLM_URL", "http://ollama:11434/api/chat"))
     llm_api_key_env: str = field(default_factory=lambda: os.environ.get("ESCUTA_LLM_API_KEY_ENV", "AI_API_KEY"))
-    soap_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_SOAP_MODEL", "gpt-oss:20b"))
+    soap_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_SOAP_MODEL", "qwen3:8b"))
     verify_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_VERIFY_MODEL", "qwen3:8b"))
 
     # Diarização (opcional; ausente => transcript mono-falante sinalizado).

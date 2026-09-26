@@ -68,10 +68,10 @@ class HttpLlm:
                     "messages": [{"role": "system", "content": system},
                                  {"role": "user", "content": user}],
                     "stream": False,
-                    # num_ctx explícito: default do Ollama (4096) trunca
-                    # prompt+raciocínio+resposta no meio do JSON.
+                    # num_ctx explícito: default (4096) trunca no meio do JSON; 8192
+                    # cabe na VRAM junto com o ASR (16k forçava offload p/ CPU).
                     "options": {"temperature": temperature, "num_predict": max_tokens,
-                                "num_ctx": max(max_tokens, 16384)},
+                                "num_ctx": 8192},
                 }
                 if think is not None:
                     payload["think"] = think

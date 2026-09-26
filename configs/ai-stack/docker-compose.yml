@@ -113,7 +113,7 @@ services:
       ESCUTA_WLK_URL: ws://whisper-livekit:8000/asr
       # Nativo Ollama (think=false p/ extração estruturada; sem RAG no trilho clínico)
       ESCUTA_LLM_URL: ${ESCUTA_LLM_URL:-http://ollama:11434/api/chat}
-      ESCUTA_SOAP_MODEL: ${ESCUTA_SOAP_MODEL:-gpt-oss:20b}
+      ESCUTA_SOAP_MODEL: ${ESCUTA_SOAP_MODEL:-qwen3:8b}
       ESCUTA_VERIFY_MODEL: ${ESCUTA_VERIFY_MODEL:-qwen3:8b}
       ESCUTA_RETENTION_DAYS: ${ESCUTA_RETENTION_DAYS:-90}
       ESCUTA_API_TOKEN: ${ESCUTA_API_TOKEN:-}
