@@ -108,3 +108,17 @@ Desenvolvimento sem GPU: `ESCUTA_ASR_BACKEND=stub ESCUTA_LLM_BACKEND=stub`
 Estimativa para consulta de 60 min: ~7–8 min (ASR ~6 min + cadeia LLM com
 map-reduce). Modelo único por decisão de latência; `ESCUTA_LAUDO_MODEL`
 permite usar um titular maior em batch noturno.
+
+### Diarização (estado em 2026-09-26)
+
+Pipeline pyannote community-1 operacional (HF_TOKEN configurado; `num_speakers=2`
+exato — com apenas teto `max_speakers` o clustering colapsava para 1 locutor).
+**Ressalva honesta**: em corpus sintético TTS (duas vozes piper no mesmo canal),
+o clustering fundiu boa parte dos turnos — vozes sintéticas compartilham
+características de canal e são o caso patológico. A qualidade real de separação
+só é mensurável com gravação de duas pessoas no microfone da sala (Fase 0).
+Se necessário, melhorias previstas: re-clustering por turno via
+`speaker_embeddings` exposto pelo pipeline, ou migração para
+`speaker-diarization-3.1` (aceitar termos também em `pyannote/segmentation-3.0`
+e `pyannote/wespeaker-embeddings`). A tripla checagem de papéis e a revisão em
+tela dividida cobrem o resto do risco (matriz de falhas #5).
