@@ -68,7 +68,10 @@ class HttpLlm:
                     "messages": [{"role": "system", "content": system},
                                  {"role": "user", "content": user}],
                     "stream": False,
-                    "options": {"temperature": temperature, "num_predict": max_tokens},
+                    # num_ctx explícito: default do Ollama (4096) trunca
+                    # prompt+raciocínio+resposta no meio do JSON.
+                    "options": {"temperature": temperature, "num_predict": max_tokens,
+                                "num_ctx": max(max_tokens, 16384)},
                 }
                 if think is not None:
                     payload["think"] = think
@@ -115,11 +118,23 @@ class HttpLlm:
     # -- cadeia clínica ------------------------------------------------------
 
     def soap(self, dialogue: str) -> dict[str, Any]:
+        import re as _re
+
         from .prompts import SOAP_USER
 
         reply = self.chat(self._s.soap_model, self._prompts["soap_system"],
                           SOAP_USER.format(dialogue=dialogue), temperature=0.2)
-        data = parse_json_reply(reply)
+        try:
+            data = parse_json_reply(reply)
+        except LlmError:
+            # Salvamento: JSON truncado/corrompido — recupera cada seção por regex.
+            data = {}
+            for key in ("S", "O", "A", "P"):
+                m = _re.search(r'"%s"\s*:\s*"(.*?)"' % key, reply, _re.DOTALL)
+                if m:
+                    data[key] = m.group(1).strip()
+            if not data:
+                raise
         for key in ("S", "O", "A", "P"):
             data.setdefault(key, "não informado")
         return data

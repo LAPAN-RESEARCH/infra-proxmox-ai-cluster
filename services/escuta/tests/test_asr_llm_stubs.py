@@ -83,3 +83,19 @@ def test_http_llm_native_ollama_mode(tmp_path, monkeypatch):
     except LlmError:
         raised = True
     assert raised
+
+
+def test_http_llm_soap_salvage_truncated_json(tmp_path):
+    """SOAP truncada no meio: regex recupera as seções fechadas."""
+    from escuta.config import Settings
+    from escuta.llm import HttpLlm
+
+    llm = HttpLlm(Settings(data_dir=tmp_path))
+    llm.chat = lambda *a, **k: (
+        '{"S":"Paciente relata ardência [00:05]","O":"córnea pontilhada [00:31]",'
+        '"A":"olho seco","P":"colírio 4x/dia [00:37]. Retorno em 30 dias. [00:41'
+    )  # truncado: sem fechação
+    soap = llm.soap("dialogo")
+    assert soap["S"].startswith("Paciente relata")
+    assert soap["O"].startswith("córnea")
+    assert soap["P"].startswith("colírio")
