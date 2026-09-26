@@ -42,6 +42,9 @@ class Settings:
     llm_api_key_env: str = field(default_factory=lambda: os.environ.get("ESCUTA_LLM_API_KEY_ENV", "AI_API_KEY"))
     soap_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_SOAP_MODEL", "qwen3:8b"))
     verify_model: str = field(default_factory=lambda: os.environ.get("ESCUTA_VERIFY_MODEL", "qwen3:8b"))
+    # Laudo pode usar titular maior (default: mesmo do SOAP; 1 env troca).
+    laudo_model: str = field(default_factory=lambda: os.environ.get(
+        "ESCUTA_LAUDO_MODEL", os.environ.get("ESCUTA_SOAP_MODEL", "qwen3:8b")))
 
     # Diarização (opcional; ausente => transcript mono-falante sinalizado).
     diar_max_speakers: int = field(default_factory=lambda: _int_env("ESCUTA_DIAR_MAX_SPEAKERS", 2))

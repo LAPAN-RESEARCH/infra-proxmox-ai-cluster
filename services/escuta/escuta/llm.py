@@ -143,7 +143,7 @@ class HttpLlm:
         from .prompts import LAUDO_USER
 
         soap_text = "\n".join(f"{k}: {v}" for k, v in soap.items() if k in "SOAP" and len(k) == 1)
-        return self.chat(self._s.soap_model, self._prompts["laudo_system"],
+        return self.chat(self._s.laudo_model, self._prompts["laudo_system"],
                          LAUDO_USER.format(soap=soap_text or str(soap)), temperature=0.3)
 
     def verify(self, dialogue: str, soap: dict[str, Any]) -> dict[str, list[str]]:

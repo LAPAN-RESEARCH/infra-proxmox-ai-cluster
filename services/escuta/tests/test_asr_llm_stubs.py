@@ -100,3 +100,18 @@ def test_http_llm_soap_salvage_truncated_json(tmp_path):
     assert soap["O"].startswith("córnea")
     assert soap["A"] == "olho seco"
     assert soap["P"] == "não informado"  # string não fechada não é recuperável
+
+
+def test_laudo_model_independente(tmp_path, monkeypatch):
+    """ESCUTA_LAUDO_MODEL isolado: laudo pode usar titular sem tocar o SOAP."""
+    from escuta.config import Settings
+    from escuta.llm import HttpLlm
+
+    settings = Settings(data_dir=tmp_path)
+    settings.soap_model = "qwen3:8b"
+    settings.laudo_model = "gpt-oss:20b"
+    llm = HttpLlm(settings)
+    seen = []
+    llm.chat = lambda model, *a, **k: seen.append(model) or "ok"
+    llm.laudo({"S": "x"})
+    assert seen == ["gpt-oss:20b"]
