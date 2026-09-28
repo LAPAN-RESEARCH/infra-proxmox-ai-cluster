@@ -24,8 +24,10 @@ tar -czf "${archive}" \
   --exclude='ollama' \
   --exclude='docker' \
   --exclude='models/huggingface' \
+  --exclude='clinical/tmp' \
   -C "${ai_root}" \
   agents \
+  clinical \
   compose/core/docker-compose.yml \
   compose/core/jupyter/Dockerfile \
   open-webui \
