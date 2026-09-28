@@ -426,6 +426,7 @@ def main() -> int:
                     "wall_s": round(wall_s, 2),
                     "rtf": round(wall_s / duration, 4),
                     "chars": len(text),
+                    "text": text,  # hipótese completa p/ WER offline (jiwer)
                     "peak_vram_mib": peak,
                 }
                 if reference_text and not args.no_wer:
