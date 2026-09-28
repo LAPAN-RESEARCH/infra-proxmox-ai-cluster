@@ -109,6 +109,21 @@ Estimativa para consulta de 60 min: ~7–8 min (ASR ~6 min + cadeia LLM com
 map-reduce). Modelo único por decisão de latência; `ESCUTA_LAUDO_MODEL`
 permite usar um titular maior em batch noturno.
 
+### Benchmark Fase 0 — corpus sintético neuropediátrico (2026-09-26)
+
+Corpus Edge Neural TTS (21,5 min, consulta crianma 9 anos × médica, ruído HVAC
+20/15/10 dB, ground truth TXT/RTTM; gentileza agent-neurovision-assistant):
+
+| Variante | RTF (turbo, GPU) | WER normalizado | CER |
+| --- | --- | --- | --- |
+| clean | 0,055–0,067 | **5,4%** | 6,9% |
+| 15 dB SNR | 0,056–0,097 | **3,1%** | 3,9% |
+
+Gate da Fase 0 (WER < 12%, RTF ≤ 0,15): **aprovado com folga**. 21,5 min de
+áudio transcrevem em ~70–90 s. Curiosamente 15 dB ficou levemente abaixo do
+clean (ruído como dither; dentro da variabilidade). DER da diarização contra
+o RTTM em avaliação (pyannote no container roda em CPU — ver limitações).
+
 ### Diarização (estado em 2026-09-26)
 
 Pipeline pyannote community-1 operacional (HF_TOKEN configurado; `num_speakers=2`
