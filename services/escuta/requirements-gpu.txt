@@ -4,6 +4,7 @@
 # pyannote/speaker-diarization-3.1 exige aceite dos termos no Hugging Face e
 # HF_TOKEN no ambiente. speechbrain roda o ECAPA em CPU mesmo dentro da imagem.
 faster-whisper>=1.0
+--extra-index-url https://download.pytorch.org/whl/cu129
 torch>=2.2
 pyannote.audio>=3.3
 speechbrain>=1.0

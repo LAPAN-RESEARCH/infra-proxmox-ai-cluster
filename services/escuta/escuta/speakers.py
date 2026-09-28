@@ -52,6 +52,13 @@ class Diarizer:
             raise RuntimeError(
                 f"nenhum pipeline pyannote disponível (HF_TOKEN ausente/gated): {last_exc}"
             )
+        try:  # GPU: RTF ~0.05-0.15 (CPU: ~0.7) — obrigatório p/ consultas longas
+            import torch
+
+            if torch.cuda.is_available():
+                self._pipeline = self._pipeline.cuda()
+        except Exception:
+            pass  # CPU wheel segue funcionando, apenas lento
 
     def turns(self, wav16k: Path) -> list[dict[str, Any]]:
         # Consulta médico×paciente: nº exato de falantes (com apenas teto
