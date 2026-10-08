@@ -117,6 +117,7 @@ fi
 append_if_missing "SPEACHES_TAG" "latest-cuda"
 append_if_missing "SPEACHES_MODEL" "Systran/faster-distil-whisper-large-v3"
 append_if_missing "SPEACHES_API_KEY" "$(generate_secret)"
+append_if_missing "OPENCLAW_AUTH_TOKEN" "$(generate_secret)"
 append_if_missing "RAG_COLLECTION" "research_chunks_bge_m3"
 append_if_missing "RERANKER_MODEL" "BAAI/bge-reranker-v2-m3"
 append_if_missing "ESCUTA_PORT" "8020"

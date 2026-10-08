@@ -8,7 +8,7 @@
     },
     "auth": {
       "mode": "token",
-      "token": "8c397302ae6442f6cbfd93474d22815f7e5eae67df57d34b7cf0754f42faea76"
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
     },
     "trustedProxies": [
       "192.168.65.0/24",
@@ -75,17 +75,6 @@
           {
             "id": "gemma4:latest",
             "name": "Gemma 4"
-          }
-        ]
-      },
-      "ai-api": {
-        "baseUrl": "http://ai-api:8080/v1",
-        "apiKey": "lapan-local",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "lapan-judge",
-            "name": "LAPAN Judge"
           }
         ]
       }
