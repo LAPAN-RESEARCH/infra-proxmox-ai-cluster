@@ -30,6 +30,8 @@ tar -czf "${archive}" \
   clinical \
   compose/core/docker-compose.yml \
   compose/core/jupyter/Dockerfile \
+  openclaw/data \
+  openclaw/workspace \
   open-webui \
   qdrant \
   neo4j \
