@@ -19,8 +19,10 @@
         "apiKey": "ollama-local",
         "api": "openai-completions",
         "models": [
+          { "id": "qwen3:8b", "name": "Qwen3 8B (Agente & Tool Calling)" },
           { "id": "gpt-oss:20b", "name": "GPT-OSS 20B" },
-          { "id": "qwen3:8b", "name": "Qwen3 8B" }
+          { "id": "qwen2.5-coder:7b", "name": "Qwen 2.5 Coder 7B" },
+          { "id": "gemma4:latest", "name": "Gemma 4" }
         ]
       },
       "ai-api": {
@@ -36,9 +38,16 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "ollama/gpt-oss:20b"
+        "primary": "ollama/qwen3:8b"
       },
       "workspace": "/home/node/workspace"
+    }
+  },
+  "tools": {
+    "toolSearch": false,
+    "exec": {
+      "security": "full",
+      "ask": "off"
     }
   },
   "browser": {
