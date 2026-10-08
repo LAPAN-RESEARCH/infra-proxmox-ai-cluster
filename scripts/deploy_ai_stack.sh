@@ -67,11 +67,26 @@ mkdir -p \
 
 install -m 0644 "${repo_root}/configs/ai-stack/docker-compose.yml" "${live_compose}/docker-compose.yml"
 install -m 0644 "${repo_root}/configs/ai-stack/jupyter/Dockerfile" "${live_compose}/jupyter/Dockerfile"
+
+# Contexto de build completo do OpenClaw: Dockerfile, openclaw.json,
+# SOUL/AGENTS/USER/IDENTITY.md, zotero_tool.py, entrypoint.sh, mcp-github.sh
+# e skills/ — o Dockerfile faz COPY de todos eles.
 if [ -d "${repo_root}/configs/ai-stack/openclaw" ]; then
   mkdir -p "${live_compose}/openclaw"
-  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/Dockerfile" "${live_compose}/openclaw/Dockerfile"
-  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/openclaw.json" "${live_compose}/openclaw/openclaw.json"
-  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/SOUL.md" "${live_compose}/openclaw/SOUL.md"
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --delete --exclude '__pycache__' --exclude '.pytest_cache' \
+      "${repo_root}/configs/ai-stack/openclaw/" "${live_compose}/openclaw/"
+  else
+    cp -a "${repo_root}/configs/ai-stack/openclaw/." "${live_compose}/openclaw/"
+  fi
+  echo "Synced configs/ai-stack/openclaw -> ${live_compose}/openclaw"
+fi
+
+# Config do SearXNG (web_search do OpenClaw), montada pelo compose em ./searxng.
+if [ -d "${repo_root}/configs/ai-stack/searxng" ]; then
+  mkdir -p "${live_compose}/searxng"
+  install -m 0644 "${repo_root}/configs/ai-stack/searxng/searxng-settings.yml" \
+    "${live_compose}/searxng/searxng-settings.yml"
 fi
 
 install -m 0644 "${repo_root}/configs/ai-stack/rag/research-platform.yaml" "${live_root}/rag/configs/research-platform.yaml"
