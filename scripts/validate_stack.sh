@@ -79,8 +79,12 @@ neo4j_password="${NEO4J_AUTH#neo4j/}"
 "${docker_cmd[@]}" exec neo4j cypher-shell -u neo4j -p "${neo4j_password}" 'RETURN 1 AS ok;' >/dev/null
 echo "OK Neo4j cypher-shell"
 
-echo "== Port bindings =="
-for port in 11434 3000 6333 6334 7474 7687 8888 8000; do
+require_curl "OpenClaw UI" curl -fsS http://127.0.0.1:18789/
+if [[ -n "${AI_API_KEY:-}" ]]; then
+  require_curl "AI-API health" curl -fsS -H "Authorization: Bearer ${AI_API_KEY}" http://127.0.0.1:8088/healthz
+fi
+
+for port in 11434 3000 6333 6334 7474 7687 8888 8000 8020 8088 18789; do
   ss -tln | grep -q "127.0.0.1:${port} " || { echo "Port ${port} is not bound to 127.0.0.1" >&2; exit 1; }
   echo "OK 127.0.0.1:${port}"
 done

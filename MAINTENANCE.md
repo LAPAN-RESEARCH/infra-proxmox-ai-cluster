@@ -42,7 +42,13 @@ nvidia-smi
 sudo docker info | grep 'Docker Root Dir'
 ```
 
-Update images:
+Update images (Automated script with disk check, backup, prune, and validation):
+
+```bash
+scripts/update_docker_stack.sh
+```
+
+Or manually:
 
 ```bash
 cd /srv/ai/compose/core
@@ -50,6 +56,7 @@ sudo docker compose pull
 sudo docker compose build --pull
 sudo docker compose up -d
 ```
+
 
 Update only the Whisper transcription service:
 

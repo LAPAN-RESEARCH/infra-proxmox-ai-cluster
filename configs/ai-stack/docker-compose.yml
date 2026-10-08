@@ -274,6 +274,35 @@ services:
     networks:
       - lapan-ai-net
 
+  openclaw:
+    build:
+      context: ./openclaw
+    container_name: openclaw
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - ai-api
+    environment:
+      TZ: ${TZ}
+      OPENCLAW_PORT: ${OPENCLAW_PORT:-18789}
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_AUTH_TOKEN:-8c397302ae6442f6cbfd93474d22815f7e5eae67df57d34b7cf0754f42faea76}
+      OPENCLAW_AUTH_TOKEN: ${OPENCLAW_AUTH_TOKEN:-8c397302ae6442f6cbfd93474d22815f7e5eae67df57d34b7cf0754f42faea76}
+      OLLAMA_BASE_URL: http://ollama:11434/v1
+      AI_API_BASE_URL: http://ai-api:8080/v1
+    volumes:
+      - /srv/ai/openclaw/data:/home/node/.openclaw
+      - /srv/ai/openclaw/workspace:/home/node/workspace
+      - /home/hugo/Zotero:/home/node/Zotero:rw
+      - /srv/ai/zotero:/srv/ai/zotero:rw
+      - ./openclaw/openclaw.json:/home/node/.openclaw/openclaw.json:ro
+      - ./openclaw/SOUL.md:/home/node/.openclaw/SOUL.md:ro
+    ports:
+
+      - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"
+    networks:
+      - lapan-ai-net
+
 networks:
   lapan-ai-net:
     driver: bridge
+

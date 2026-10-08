@@ -25,8 +25,11 @@ append_if_missing() {
 
 mkdir -p \
   "${live_compose}/jupyter" \
+  "${live_compose}/openclaw" \
   "${live_root}/backups" \
   "${live_root}/docker" \
+  "${live_root}/openclaw/data" \
+  "${live_root}/openclaw/workspace" \
   "${live_root}/agents/audit" \
   "${live_root}/agents/clinical" \
   "${live_root}/agents/coding" \
@@ -54,15 +57,26 @@ mkdir -p \
   "${live_root}/rag/benchmarks" \
   "${live_root}/rag/configs" \
   "${live_root}/rag/pipelines" \
-  "${live_root}/rag/rerankers" \
+  "${live_root}/ocr_cache" \
+  "${live_root}/evaluations" \
+  "${live_root}/inconsistencies" \
   "${live_root}/secrets" \
   "${live_root}/zotero/exports" \
   "${live_root}/zotero/pdfs"
 
+
 install -m 0644 "${repo_root}/configs/ai-stack/docker-compose.yml" "${live_compose}/docker-compose.yml"
 install -m 0644 "${repo_root}/configs/ai-stack/jupyter/Dockerfile" "${live_compose}/jupyter/Dockerfile"
+if [ -d "${repo_root}/configs/ai-stack/openclaw" ]; then
+  mkdir -p "${live_compose}/openclaw"
+  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/Dockerfile" "${live_compose}/openclaw/Dockerfile"
+  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/openclaw.json" "${live_compose}/openclaw/openclaw.json"
+  install -m 0644 "${repo_root}/configs/ai-stack/openclaw/SOUL.md" "${live_compose}/openclaw/SOUL.md"
+fi
+
 install -m 0644 "${repo_root}/configs/ai-stack/rag/research-platform.yaml" "${live_root}/rag/configs/research-platform.yaml"
 install -m 0644 "${repo_root}/configs/ai-stack/agents/policies/default.yaml" "${live_root}/agents/policies/default.yaml"
+
 
 # Serviços com build no compose vivem em ${live_root}/services (convention ai-api).
 for svc in ai-api escuta; do
