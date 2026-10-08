@@ -25,6 +25,7 @@ Regra de ouro: **dado clínico só no hospital**. O VPS vê metadados
 | 8088 | ai-api | gateway OpenAI-compatível com RAG (tailnet: <https://lapan-ai.tailf9eac9.ts.net>) |
 | 8888 | JupyterLab | notebooks |
 | 11434 | Ollama | modelos (`gpt-oss:20b` titular) |
+| 18789 | OpenClaw | gateway do agente de automação e pesquisa |
 
 ## Túnel SSH completo (uma linha, todas as portas)
 
@@ -32,11 +33,13 @@ Regra de ouro: **dado clínico só no hospital**. O VPS vê metadados
 ssh -L 3000:127.0.0.1:3000 -L 8888:127.0.0.1:8888 -L 7474:127.0.0.1:7474 \
     -L 7687:127.0.0.1:7687 -L 6333:127.0.0.1:6333 -L 11434:127.0.0.1:11434 \
     -L 8000:127.0.0.1:8000 -L 8010:127.0.0.1:8010 -L 8088:127.0.0.1:8088 \
+    -L 18789:127.0.0.1:18789 \
     hugo@lapan-ai
 ```
 
 Depois abra no navegador: Open WebUI `http://localhost:3000`, transcrição
-realtime `http://localhost:8010`, Jupyter `http://localhost:8888`.
+realtime `http://localhost:8010`, Jupyter `http://localhost:8888`, OpenClaw `http://localhost:18789`.
+
 
 ## Caminhos de acesso à IA (do mais simples ao mais programático)
 
