@@ -103,8 +103,84 @@
       "workspace": "/home/node/workspace"
     }
   },
+  "mcp": {
+    "servers": {
+      "papers": {
+        "command": "paper-search-mcp",
+        "env": {
+          "PAPER_SEARCH_MCP_UNPAYWALL_EMAIL": "hugodepaula@gmail.com"
+        }
+      },
+      "zotero": {
+        "command": "zotero-mcp",
+        "env": {
+          "ZOTERO_LOCAL": "true",
+          "ZOTERO_DB_PATH": "/home/node/Zotero/zotero.sqlite",
+          "ZOTERO_EMBEDDING_MODEL": "ollama",
+          "OLLAMA_BASE_URL": "http://ollama:11434",
+          "OLLAMA_EMBEDDING_MODEL": "bge-m3"
+        }
+      },
+      "arxiv": {
+        "command": "arxiv-mcp-server",
+        "args": ["--storage-path", "/home/node/workspace/arxiv-papers"]
+      },
+      "biomcp": {
+        "command": "biomcp",
+        "args": ["serve"]
+      },
+      "github": {
+        "command": "mcp-github"
+      },
+      "qdrant": {
+        "command": "mcp-qdrant"
+      },
+      "neo4j": {
+        "command": "mcp-neo4j"
+      }
+    }
+  },
+  "plugins": {
+    "slots": {
+      "memory": "memory-lancedb"
+    },
+    "entries": {
+      "memory-lancedb": {
+        "enabled": true,
+        "config": {
+          "embedding": {
+            "provider": "ollama",
+            "baseUrl": "http://ollama:11434",
+            "model": "bge-m3",
+            "dimensions": 1024
+          },
+          "autoRecall": true,
+          "autoCapture": true
+        }
+      },
+      "searxng": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "baseUrl": "http://searxng:8080",
+            "language": "pt-BR"
+          }
+        }
+      }
+    }
+  },
+  "skills": {
+    "load": {
+      "extraDirs": ["/opt/openclaw-skills"]
+    }
+  },
   "tools": {
-    "toolSearch": false,
+    "toolSearch": true,
+    "web": {
+      "search": {
+        "provider": "searxng"
+      }
+    },
     "exec": {
       "security": "full",
       "ask": "off"

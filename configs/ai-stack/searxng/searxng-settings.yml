@@ -1,0 +1,14 @@
+# Minimal SearXNG config for the OpenClaw web_search provider (internal
+# network only, same setup as the VPS instance). use_default_settings inherits
+# the engine list; JSON output is required by the OpenClaw searxng plugin.
+# The instance is unreachable from outside the lapan-ai-net network, so the
+# static secret_key below is safe and the limiter stays off.
+use_default_settings: true
+server:
+  secret_key: "lapan-ai-searxng-internal-only-2026"
+  limiter: false
+  image_proxy: false
+search:
+  formats:
+    - html
+    - json

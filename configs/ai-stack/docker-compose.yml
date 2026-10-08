@@ -282,6 +282,9 @@ services:
     depends_on:
       - ollama
       - ai-api
+      - searxng
+      - qdrant
+      - neo4j
     environment:
       TZ: ${TZ}
       OPENCLAW_PORT: ${OPENCLAW_PORT:-18789}
@@ -291,6 +294,13 @@ services:
       AI_API_BASE_URL: http://ai-api:8080/v1
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
+      NEO4J_AUTH: ${NEO4J_AUTH:-}
+      # PAT fine-grained opcional (GitHub MCP + gh CLI); sem ele o shim usa o
+      # oauth_token do hosts.yml do gh montado do host.
+      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PERSONAL_ACCESS_TOKEN:-}
+      # gh CLI autenticado pelo hosts.yml do host.
+      GH_CONFIG_DIR: /home/node/host_home/.config/gh
     volumes:
       - /srv/ai/openclaw/data:/home/node/.openclaw
       - /srv/ai/openclaw/workspace:/home/node/workspace
@@ -306,6 +316,18 @@ services:
     ports:
 
       - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"
+    networks:
+      - lapan-ai-net
+
+  # --- SearXNG: meta-busca self-hosted para o web_search do OpenClaw ---
+  # Interno à rede lapan-ai-net (sem porta exposta); requer format json,
+  # já habilitado em ./searxng/searxng-settings.yml.
+  searxng:
+    image: searxng/searxng:latest
+    container_name: lapan-ai-searxng
+    restart: unless-stopped
+    volumes:
+      - ./searxng/searxng-settings.yml:/etc/searxng/settings.yml:ro
     networks:
       - lapan-ai-net
 
