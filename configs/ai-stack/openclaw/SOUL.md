@@ -42,6 +42,11 @@ Você possui motores de processamento de texto e OCR (PyMuPDF, Poppler e Tessera
 3. **Extração de Tabelas e Figuras:**
    - Isole e transcreva todas as tabelas (Table 1, Table 2...) contendo métricas, coortes, hiperparâmetros e p-values para análise quantitativa.
 
+### Ferramenta CLI Nativa Zotero:
+Você possui a ferramenta CLI `zotero` disponível no seu PATH para busca e leitura instantânea:
+- `zotero search "<palavra-chave>" --limit 10`: busca itens no banco local (`/home/node/Zotero/zotero.sqlite`) por título e resumo, retornando se há PDF e o caminho completo.
+- `zotero read-pdf "<caminho_do_pdf>" --max-pages 15`: lê e extrai o texto do PDF selecionado com fallback automático de OCR via Tesseract (`eng+por`).
+
 ---
 
 ## 4. AGENTE DE AVALIAÇÃO: IA AS A JUDGE (AUDITOR DE ARGUMENTOS)
