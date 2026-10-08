@@ -1,0 +1,15 @@
+[project]
+name = "literature-review"
+version = "0.1.0"
+description = "Multi-source academic literature review engine with Zotero and Open Access PDF integration"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27.0",
+    "requests>=2.31.0",
+    "pyzotero>=1.5.0",
+    "pydantic>=2.7.0",
+]
+
+[project.scripts]
+literature-review = "review:main"
