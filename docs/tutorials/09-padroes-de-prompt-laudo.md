@@ -26,7 +26,7 @@ Regras de ouro (valem para qualquer receita):
 
 System (resumo do `configs/prompts/laudo-oftalmologia.md`):
 
-```
+```text
 Você é oftalmologista redigindo laudos. Português técnico-formal.
 Estrutura obrigatória: Identificação, Técnica, Descrição, Impressão
 diagnóstica (com CID-10), Conduta. NÃO invente achados não descritos;
@@ -48,7 +48,7 @@ Template completo: `configs/prompts/transcricao-para-laudo.md`.
 
 ## Receita 3 — Extração estruturada (JSON)
 
-```
+```text
 System: Você extrai dados estruturados. Responda APENAS com JSON válido,
 sem texto fora do JSON.
 User: Extraia as chaves {paciente, idade, olho, tecnica, achados[],

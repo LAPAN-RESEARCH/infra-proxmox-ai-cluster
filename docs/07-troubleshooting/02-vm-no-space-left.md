@@ -1,14 +1,14 @@
 # VM: No Space Left on Device
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Recover Ubuntu VM filesystem exhaustion caused by Docker, Ollama, or missing `/srv/ai` mount.
 - Required previous state: console or SSH access to the VM, or recovery-mode boot.
 - Estimated time: 10-60 minutes. Risk level: medium.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Stop Docker**
+### Step 1: Stop Docker
 
 - **Purpose:** Prevent further writes while diagnosing space usage.
 - **Command(s):**
@@ -26,7 +26,7 @@ No output on success.
 - **Verification:** `systemctl is-active docker` returns inactive.
 - **⚠️ Caveats/Traps:** Do not prune before identifying whether data should be preserved.
 
-**Step 2: Confirm mount layout**
+### Step 2: Confirm mount layout
 
 - **Purpose:** Verify `/srv/ai` is mounted on the 500G disk.
 - **Command(s):**
@@ -48,7 +48,7 @@ sudo du -xhd1 / 2>/dev/null | sort -h
 - **Verification:** `/srv/ai` is mounted; root has free space.
 - **⚠️ Caveats/Traps:** If `/srv/ai` is missing, Docker/Ollama may have written data into `/`.
 
-**Step 3: Verify Docker data-root**
+### Step 3: Verify Docker data-root
 
 - **Purpose:** Ensure Docker storage lives on the AI data disk.
 - **Command(s):**
@@ -66,7 +66,7 @@ Docker Root Dir: /srv/ai/docker
 - **Verification:** It must not be `/var/lib/docker`.
 - **⚠️ Caveats/Traps:** Moving Docker data requires Docker to be stopped.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Docker daemon:
 
@@ -87,7 +87,7 @@ Docker daemon:
 }
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If root is full, clean APT cache, journal logs, `/tmp`, and `/var/tmp`.
 - If Docker root is wrong, stop Docker, migrate `/var/lib/docker` to `/srv/ai/docker`, and restart Docker.

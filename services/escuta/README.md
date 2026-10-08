@@ -31,7 +31,7 @@ Testes: `PYTHONPATH=. python -m pytest tests/ -q` (31 testes; CPU only).
 
 ## Arquitetura em uma tela
 
-```
+```text
 navegador (2 cliques) ──WS PCM 16k──► api.py ──► WLK (transcrição ao vivo)
                                         │  gravação servidor-side (.wav→.opus)
                                         ▼

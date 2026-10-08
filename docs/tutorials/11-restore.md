@@ -17,7 +17,7 @@ produção e define a ordem de recuperação.
 
 ## Ordem de recuperação (doserviço mais básico ao mais alto)
 
-### 1. Hospital (lapan-ai) — stack base
+## 1. Hospital (lapan-ai) — stack base
 
 ```bash
 # Segredos do compose (só depois de existir /srv/ai/compose/core/)
@@ -37,13 +37,13 @@ Modelos Ollama são re-pulláveis — a lista exata está em
 `embeddinggemma`. Os modelos HuggingFace (turbo, reranker, Sortformer)
 re-baixam sozinhos no primeiro uso.
 
-### 2. Exposição tailnet (hospital)
+## 2. Exposição tailnet (hospital)
 
 ```bash
 ssh hugo@lapan-ai 'sudo tailscale serve --bg 8088'
 ```
 
-### 3. VPS — segredos e stack
+## 3. VPS — segredos e stack
 
 ```bash
 scp $B/lapan-vps/.env root@lapan-vps:/srv/vps/.env
@@ -59,7 +59,7 @@ cd configs/vps && scp docker-compose.yml litellm-config.yaml init-dbs.sh \
 ssh root@lapan-vps 'cd /srv/vps && chown 1000:1000 init-dbs.sh && docker compose up -d'
 ```
 
-### 4. VPS — bancos (LiteLLM e n8n)
+## 4. VPS — bancos (LiteLLM e n8n)
 
 Só se os bancos estiverem vazios/perdidos (o `init-dbs.sh` cria o `n8n`):
 
@@ -74,7 +74,7 @@ Isso restaura chaves virtuais (com spend), credenciais n8n **cifradas pela
 `N8N_ENCRYPTION_KEY` do `.env` restaurado no passo 3** (a chave e o dump
 precisam ser do MESMO backup) e o workflow.
 
-### 5. VPS — workflow e credencial (alternativa cirúrgica aos dumps)
+## 5. VPS — workflow e credencial (alternativa cirúrgica aos dumps)
 
 Se os bancos estão íntegros e só o workflow/credencial sumiram:
 
@@ -87,7 +87,7 @@ ssh root@lapan-vps 'chown 1000:1000 /srv/vps/n8n/files/n8n-{wf,cred}.json && \
 # Depois: abrir no n8n e PUBLICAR o workflow (modelo draft/published).
 ```
 
-### 6. Open WebUI (hospital) — se o backup manual foi feito
+## 6. Open WebUI (hospital) — se o backup manual foi feito
 
 ```bash
 scp open-webui-AAAAMMDD.tgz hugo@lapan-ai:/tmp/
@@ -95,7 +95,7 @@ ssh hugo@lapan-ai 'sudo tar xzf /tmp/open-webui-*.tgz -C /srv/ai/open-webui && \
   sudo docker restart open-webui'
 ```
 
-### 7. Verificação final (checklist)
+## 7. Verificação final (checklist)
 
 ```bash
 ssh hugo@lapan-ai 'curl -s http://127.0.0.1:11434/api/ps'        # modelo em VRAM

@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Reescreva formalmente: 'aí o paciente voltou falando que o olho tava doendo bastante de novo, a gente viu que a pressão subiu pra 32 no olho direito, acho que foi aquela reação do remédio mesmo, a gota que ele tava usando. Mandei parar a gota, passei outra pra baixar a pressão e pedi pra voltar semana que vem. Se não melhorar, vamos ter que pensar em cirurgia.'
 ```
 

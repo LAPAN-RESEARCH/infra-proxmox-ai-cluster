@@ -1,14 +1,14 @@
 # Validated State — 2026-05-21
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Capture the verified post-recovery state from `scripts/gather_host_state.sh` and `scripts/gather_vm_state.sh`.
 - Required previous state: Proxmox host reachable over SSH; Ubuntu AI VM online.
 - Estimated time: read-only reference. Risk level: low.
 
-### 2. Validated Proxmox Host State
+## 2. Validated Proxmox Host State
 
-**Step 1: Host platform**
+### Step 1: Host platform
 
 - **Purpose:** Establish the exact host version used for this deployment.
 - **Command(s):**
@@ -29,7 +29,7 @@ Linux lapan 7.0.2-4-pve ...
 - **Verification:** Proxmox VE 9.1.0 and kernel `7.0.2-4-pve` are present.
 - **⚠️ Caveats/Traps:** Earlier notes mentioning kernel `7.0.2-2-pve` are outdated.
 
-**Step 2: Host storage**
+### Step 2: Host storage
 
 - **Purpose:** Confirm the previous `local` storage exhaustion was corrected.
 - **Command(s):**
@@ -57,7 +57,7 @@ vm-2020-disk-1  lapan-vg 500.00g Vwi-aotz--  2.41
 - **Verification:** VM disks are no longer backed by root-filled `local`; they are on `local-lvm`.
 - **⚠️ Caveats/Traps:** The EFI disk remains on `local`; this is small and acceptable.
 
-**Step 3: IOMMU and VFIO**
+### Step 3: IOMMU and VFIO
 
 - **Purpose:** Confirm the GPU is bound to VFIO on the host.
 - **Command(s):**
@@ -83,7 +83,7 @@ vfio_pci: add [10de:22eb...]
 - **Verification:** Both GPU functions use `vfio-pci`.
 - **⚠️ Caveats/Traps:** Do not install NVIDIA drivers on the Proxmox host.
 
-**Step 4: VM configuration**
+### Step 4: VM configuration
 
 - **Purpose:** Confirm the VM is using the intended Proxmox hardware model.
 - **Command(s):**
@@ -109,9 +109,9 @@ scsi1: local-lvm:vm-2020-disk-1,iothread=1,size=500G
 - **Verification:** `cpu: host`, `q35`, `OVMF`, `hostpci0`, and `local-lvm` disks are present.
 - **⚠️ Caveats/Traps:** If `cpu` reverts to `x86-64-v2-AES`, Polars and other scientific packages may lose AVX/AVX2/FMA.
 
-### 3. Validated Ubuntu VM State
+## 3. Validated Ubuntu VM State
 
-**Step 1: OS and kernel**
+### Step 1: OS and kernel
 
 - **Purpose:** Record the final accepted guest OS.
 - **Command(s):**
@@ -132,7 +132,7 @@ Linux lapan-ai 7.0.0-15-generic ...
 - **Verification:** Ubuntu 26.04 LTS is the working target.
 - **⚠️ Caveats/Traps:** Any older Ubuntu 24.04 references are now historical.
 
-**Step 2: CPU features**
+### Step 2: CPU features
 
 - **Purpose:** Confirm the VM sees the real CPU feature set.
 - **Command(s):**
@@ -157,7 +157,7 @@ pclmulqdq
 - **Verification:** Polars imports without CPU feature warnings.
 - **⚠️ Caveats/Traps:** Do not suppress Polars warnings with `POLARS_SKIP_CPU_CHECK`.
 
-**Step 3: Guest storage**
+### Step 3: Guest storage
 
 - **Purpose:** Confirm `/srv/ai` is mounted to the 500 GB disk and root has space.
 - **Command(s):**
@@ -181,7 +181,7 @@ TARGET  SOURCE    FSTYPE OPTIONS
 - **Verification:** `/srv/ai` is on `/dev/sdb1`, not a directory inside `/`.
 - **⚠️ Caveats/Traps:** Root is already at 72%; keep Docker data-root on `/srv/ai/docker`.
 
-**Step 4: Swap**
+### Step 4: Swap
 
 - **Purpose:** Record current swap and identify cleanup opportunity.
 - **Command(s):**
@@ -202,7 +202,7 @@ Swap:       23Gi
 - **Verification:** Swap is functional.
 - **⚠️ Caveats/Traps:** There are two swap files. This is not urgent, but the VM can later be simplified to one swap file.
 
-**Step 5: NVIDIA driver**
+### Step 5: NVIDIA driver
 
 - **Purpose:** Confirm the guest owns the GPU and has a working NVIDIA driver.
 - **Command(s):**
@@ -228,7 +228,7 @@ Memory: 16311 MiB
 - **Verification:** `nvidia-smi` works and shows Ollama using GPU memory.
 - **⚠️ Caveats/Traps:** NVIDIA packages are the `595-server` branch; install matching `nvidia-utils-595-server` if `nvidia-smi` disappears.
 
-**Step 6: AI services**
+### Step 6: AI services
 
 - **Purpose:** Confirm the service security posture.
 - **Command(s):**
@@ -261,7 +261,7 @@ Listening ports:
 - **Verification:** AI services bind to loopback only; SSH is the only broad listener.
 - **⚠️ Caveats/Traps:** Qdrant returns HTTP 401 without the API key; that is expected when `QDRANT__SERVICE__API_KEY` is enabled.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Raw validation logs are archived in:
 
@@ -270,7 +270,7 @@ archive/validation/host-state-20260521-164641.txt
 archive/validation/vm-state-20260521-194735.txt
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If Docker commands fail with permission denied, run `sudo docker ...` or use the updated scripts that auto-fallback to `sudo`.
 - If Qdrant smoke tests return `401`, provide the API key from `/srv/ai/compose/core/.env`.

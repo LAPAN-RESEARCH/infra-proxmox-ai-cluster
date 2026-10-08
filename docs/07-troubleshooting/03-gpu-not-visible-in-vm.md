@@ -1,14 +1,14 @@
 # GPU Not Visible in VM
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Provide focused recovery steps for a known failure mode.
 - Required previous state: access to either Proxmox host shell or Ubuntu VM shell, as specified.
 - Estimated time: variable. Risk level: medium to high.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Check inside Ubuntu**
+### Step 1: Check inside Ubuntu
 
 - **Purpose:** Confirm whether the VM sees the PCI device.
 - **Command(s):**
@@ -27,7 +27,7 @@ lspci -nn | grep -Ei 'nvidia|10de|vga|3d|display|audio'
 - **Verification:** `lspci -nnk -d 10de:` -> NVIDIA device present.
 - **⚠️ Caveats/Traps:** Do not install/reinstall drivers until the PCI device is visible.
 
-**Step 2: Check Proxmox binding and VM config**
+### Step 2: Check Proxmox binding and VM config
 
 - **Purpose:** Verify host VFIO and VM hostpci settings.
 - **Command(s):**
@@ -48,13 +48,13 @@ hostpci0: ...
 - **Verification:** Both expected outputs appear.
 - **⚠️ Caveats/Traps:** VM must be stopped and started after PCI config changes.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 - `/etc/modprobe.d/vfio.conf`
 - `/etc/modules-load.d/vfio.conf`
 - `/etc/pve/qemu-server/${VMID}.conf`
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If host uses nouveau, fix blacklist and initramfs.
 - If no `hostpci0`, add the GPU to VM hardware.

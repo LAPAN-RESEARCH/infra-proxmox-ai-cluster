@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Paciente 34 anos, feminina, queixa de halos noturnos e visão embaçada bilateral há 6 meses, pior à direita. Usa lentes de contato rígidas há 15 anos. Refração: -6,50 OD / -6,00 OE. Ceratometria: 47,2/48,9 D OD, 46,8/47,4 D OE. Paquimetria: 498 µm OD, 506 µm OE. Topografia: afinamento inferior com elevação posterior em mapa de elevação em OD. Sem dor nem hiperemia. Liste os diagnósticos diferenciais ordenados por probabilidade com justificativa, e proponha conduta e exames complementares.
 ```
 

@@ -1,6 +1,6 @@
 # Target Architecture
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Defines the intended stable architecture for the local AI research stack.
 - Required previous state: hardware selected, Proxmox installed, Ubuntu VM planned or running.
@@ -30,9 +30,9 @@ flowchart TD
     R --> A[Local agents with policy and audit]
 ```
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Keep Proxmox minimal**
+### Step 1: Keep Proxmox minimal
 
 - **Purpose:** Reduce host failure modes by limiting Proxmox to virtualization, networking, storage, and VFIO.
 - **Command(s):**
@@ -55,7 +55,7 @@ Name  Type  Status ...
 - **Verification:** `dpkg -l | grep -Ei 'nvidia-driver|cuda|ollama|docker'` -> Should not show host-side AI runtime packages unless intentionally installed.
 - **⚠️ Caveats/Traps:** Do not install NVIDIA drivers on the Proxmox host when the GPU is intended to belong to the VM.
 
-**Step 2: Put all AI runtime inside Ubuntu**
+### Step 2: Put all AI runtime inside Ubuntu
 
 - **Purpose:** Make the VM the single AI appliance and keep application state reproducible.
 - **Command(s):**
@@ -80,7 +80,7 @@ ollama          Up ...
 - **Verification:** `sudo docker info | grep 'Docker Root Dir'` -> Must show `/srv/ai/docker`.
 - **⚠️ Caveats/Traps:** If Docker uses `/var/lib/docker`, model downloads can fill the VM root filesystem.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Sanitized repo configuration lives in:
 
@@ -100,7 +100,7 @@ Live server configuration is deployed to:
 
 Use `scripts/deploy_ai_stack.sh` to sync repo configuration to the live path without overwriting existing secrets.
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - Host full: see [Proxmox console no space left](../07-troubleshooting/01-proxmox-console-no-space-left.md).
 - VM root full: see [VM no space left](../07-troubleshooting/02-vm-no-space-left.md).

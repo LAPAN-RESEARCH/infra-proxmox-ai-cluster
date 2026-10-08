@@ -1,14 +1,14 @@
 # Proxmox Console: No Space Left on Device
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Recover Proxmox noVNC/xterm console failure caused by host root filesystem exhaustion.
 - Required previous state: SSH access to Proxmox host or physical shell.
 - Estimated time: 10-45 minutes. Risk level: medium.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Confirm host root is full**
+### Step 1: Confirm host root is full
 
 - **Purpose:** Distinguish Proxmox host exhaustion from Ubuntu VM exhaustion.
 - **Command(s):**
@@ -30,7 +30,7 @@ du -xhd1 /var/lib/vz 2>/dev/null | sort -h
 - **Verification:** Root is full and VM images consume `/var/lib/vz`.
 - **⚠️ Caveats/Traps:** Do not delete VM disks manually.
 
-**Step 2: Stop VM and free emergency space**
+### Step 2: Stop VM and free emergency space
 
 - **Purpose:** Stop VM disk growth and restore basic Proxmox operation.
 - **Command(s):**
@@ -53,7 +53,7 @@ df -h /
 - **Verification:** Proxmox console can open again.
 - **⚠️ Caveats/Traps:** Avoid rebooting while root is 100% unless there is no alternative.
 
-**Step 3: Move VM disks to `local-lvm`**
+### Step 3: Move VM disks to `local-lvm`
 
 - **Purpose:** Remove large VM disks from root-backed `local` storage.
 - **Command(s):**
@@ -74,7 +74,7 @@ scsi1: local-lvm:vm-2020-disk-1,iothread=1,size=500G
 - **Verification:** Large data disks are on `local-lvm`.
 - **⚠️ Caveats/Traps:** The small EFI disk may remain on `local`.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Relevant Proxmox storage config:
 
@@ -82,7 +82,7 @@ Relevant Proxmox storage config:
 cat /etc/pve/storage.cfg
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If `qm disk move` is unavailable, use `qm move_disk` on older syntax.
 - If `local-lvm` is missing, inspect `lvs` for an existing `data` thin pool before creating anything.

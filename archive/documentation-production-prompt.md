@@ -14,7 +14,7 @@ You are a Senior DevOps/AI Infrastructure Engineer and Technical Documentation S
 
 - Repository Structure:
 
-```
+```text
 README.md
 vm-config:
 etc
@@ -120,5 +120,3 @@ For EACH step, use this exact format:
 # NEXT STEP
 
 Acknowledge this prompt. Verify attachment with the repository tree, key config file contents, and relevant chat log excerpts. Then begin with TASK 1: Structure Proposal. Wait for my approval before proceeding.
-
-```

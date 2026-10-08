@@ -1,14 +1,14 @@
 # Security Model
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Defines the default security posture for a local-only AI research platform.
 - Required previous state: network subnet and VM IP known.
 - Estimated time: 20 minutes. Risk level: medium if firewall or SSH is misconfigured.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Bind services to localhost**
+### Step 1: Bind services to localhost
 
 - **Purpose:** Prevent accidental LAN or public exposure of LLM, vector DB, graph DB, and notebook services.
 - **Command(s):**
@@ -32,7 +32,7 @@ grep -n '127.0.0.1' docker-compose.yml
 - **Verification:** `ss -tlnp` -> Service listeners should be bound to `127.0.0.1` or the Docker bridge, not `0.0.0.0`.
 - **⚠️ Caveats/Traps:** Docker-published ports may bypass simplistic firewall assumptions; bind explicitly to localhost.
 
-**Step 2: Use SSH tunnels for access**
+### Step 2: Use SSH tunnels for access
 
 - **Purpose:** Access UIs securely without exposing service ports directly.
 - **Command(s):**
@@ -52,7 +52,7 @@ ${VM_USER}@${VM_HOSTNAME}:~$
 - **Verification:** Open `http://127.0.0.1:3000` from the workstation while the tunnel is active.
 - **⚠️ Caveats/Traps:** Do not expose clinical or private document services over unauthenticated LAN ports.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Use `.env.example` as the pattern for secrets. Real `.env` files must not be committed.
 
@@ -63,7 +63,7 @@ chmod 600 /srv/ai/compose/core/.env
 chmod 700 /srv/ai/secrets
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If a service listens on `0.0.0.0`, edit `docker-compose.yml` and change the port mapping to `127.0.0.1:${HOST_PORT}:${CONTAINER_PORT}`.
 - If SSH key login fails, re-enable console access before disabling passwords.

@@ -1,14 +1,14 @@
 # Assumptions and Known Conflicts
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Declare the validated baseline and remaining documentation assumptions.
 - Required previous state: host and VM state scripts have been run.
 - Estimated time: 5 minutes. Risk level: low.
 
-### 2. Resolved Conflicts
+## 2. Resolved Conflicts
 
-**Step 1: Ubuntu version**
+### Step 1: Ubuntu version
 
 - **Purpose:** Remove the prior 24.04/26.04 ambiguity.
 - **Command(s):**
@@ -27,7 +27,7 @@ VERSION="26.04 LTS (Resolute Raccoon)"
 - **Verification:** This repository now documents Ubuntu Server 26.04 LTS as the working guest OS.
 - **⚠️ Caveats/Traps:** Earlier 24.04 references are historical notes unless explicitly marked as alternate guidance.
 
-**Step 2: Current status**
+### Step 2: Current status
 
 - **Purpose:** Replace stale roadmap assumptions with measured state.
 - **Command(s):**
@@ -51,7 +51,7 @@ Ollama models listed by API
 - **Verification:** See [Validated State](03-validated-state-2026-05-21.md).
 - **⚠️ Caveats/Traps:** The old future roadmap is archived and must not be treated as current deployment state.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 The canonical validated files are under:
 
@@ -61,7 +61,7 @@ scripts/
 archive/validation/
 ```
 
-### 4. Known Open Items
+## 4. Known Open Items
 
 - Docker commands require root access; keep the user out of the Docker group by default and use the root-owned maintenance wrappers from the remediation plan for noninteractive validation.
 - Qdrant is API-key protected; unauthenticated health checks may return HTTP 401.

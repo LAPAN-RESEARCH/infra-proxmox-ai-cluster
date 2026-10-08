@@ -1,14 +1,14 @@
 # Compose Stack
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Deploy the local AI service stack with Docker Compose.
 - Required previous state: Docker installed, NVIDIA runtime working, `/srv/ai` mounted.
 - Estimated time: 15-30 minutes excluding model downloads. Risk level: medium.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Deploy repo configuration to the live server path**
+### Step 1: Deploy repo configuration to the live server path
 
 - **Purpose:** Keep sanitized tracked config in the repo while running services from `/srv/ai`.
 - **Command(s):**
@@ -27,7 +27,7 @@ Deployed Compose source to /srv/ai/compose/core
 - **Verification:** `/srv/ai/compose/core/docker-compose.yml`, `/srv/ai/compose/core/jupyter/Dockerfile`, and `/srv/ai/compose/core/.env` exist.
 - **⚠️ Caveats/Traps:** The script preserves an existing `.env` and only adds missing Speaches keys.
 
-**Step 2: Prepare environment file**
+### Step 2: Prepare environment file
 
 - **Purpose:** Keep secrets and image tags outside Compose YAML.
 - **Command(s):**
@@ -47,7 +47,7 @@ No output on successful edit.
 - **Verification:** `.env` exists and is not committed to Git.
 - **⚠️ Caveats/Traps:** Never commit real `WEBUI_SECRET_KEY`, `QDRANT_API_KEY`, `NEO4J_AUTH`, `JUPYTER_TOKEN`, or `SPEACHES_API_KEY`.
 
-**Step 3: Use the validated Jupyter base tag variable**
+### Step 3: Use the validated Jupyter base tag variable
 
 - **Purpose:** Keep the Jupyter build reproducible and aligned with the current user-selected image tag.
 - **Command(s):**
@@ -67,7 +67,7 @@ jupyter/Dockerfile:ARG JUPYTER_BASE_TAG=2026-05-11
 - **Verification:** The older date-tag variable name should no longer appear in active configuration.
 - **⚠️ Caveats/Traps:** A mismatched build arg silently falls back to the Dockerfile default.
 
-**Step 4: Start services**
+### Step 4: Start services
 
 - **Purpose:** Run Ollama, Speaches/Whisper, Open WebUI, Qdrant, Neo4j, and JupyterLab.
 - **Command(s):**
@@ -95,7 +95,7 @@ jupyter      Up
 - **Verification:** `sudo docker compose ps` shows all services up.
 - **⚠️ Caveats/Traps:** Current user is not in the Docker group; use `sudo docker`.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Required `.env` keys:
 
@@ -126,7 +126,7 @@ ARG JUPYTER_BASE_TAG=2026-05-11
 FROM quay.io/jupyter/minimal-notebook:${JUPYTER_BASE_TAG}
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If Compose cannot build Jupyter, verify that `JUPYTER_BASE_TAG` is used consistently.
 - If Docker says permission denied, run `sudo docker ...`.

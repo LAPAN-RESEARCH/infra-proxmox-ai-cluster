@@ -3,6 +3,7 @@
 Serviço de automação de revisão bibliográfica científica multi-fonte integrado ao Zotero e ao OpenClaw.
 
 ## Funcionalidades
+
 - **Busca federada em 5 bases acadêmicas:**
   - PubMed / NCBI (via E-utilities)
   - arXiv (via Atom API)

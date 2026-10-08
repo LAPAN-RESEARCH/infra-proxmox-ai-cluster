@@ -1,14 +1,14 @@
 # VM Network and SSH
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Configure reliable SSH administration and a static VM address.
 - Required previous state: Ubuntu installed and reachable by Proxmox console.
 - Estimated time: 20 minutes. Risk level: medium.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Configure static network**
+### Step 1: Configure static network
 
 - **Purpose:** Make the AI VM reachable at a predictable LAN address.
 - **Command(s):**
@@ -29,7 +29,7 @@ No error output from netplan apply.
 - **Verification:** `ip -br addr` -> VM NIC shows `${VM_IP}/${CIDR_PREFIX}`.
 - **⚠️ Caveats/Traps:** Keep console access open while applying Netplan changes.
 
-**Step 2: Install SSH public key**
+### Step 2: Install SSH public key
 
 - **Purpose:** Enable secure key-based administration.
 - **Command(s):**
@@ -49,7 +49,7 @@ ${VM_USER}@${VM_HOSTNAME}:~$
 - **Verification:** Open a second SSH session before disabling password login.
 - **⚠️ Caveats/Traps:** Never paste private keys into `authorized_keys`; only paste `.pub` content.
 
-**Step 3: Harden SSH**
+### Step 3: Harden SSH
 
 - **Purpose:** Disable root and password login after key login is proven.
 - **Command(s):**
@@ -70,7 +70,7 @@ No output from systemctl restart ssh.
 - **Verification:** `ssh -i ~/.ssh/${PRIVATE_KEY_FILE} ${VM_USER}@${VM_IP}` -> New key-based login works.
 - **⚠️ Caveats/Traps:** Do not close the current SSH session until a second login succeeds.
 
-**Step 4: Enable UFW for SSH only**
+### Step 4: Enable UFW for SSH only
 
 - **Purpose:** Restrict inbound traffic to LAN SSH before service tunnels are used.
 - **Command(s):**
@@ -93,7 +93,7 @@ sudo ufw status verbose
 - **Verification:** Open a second SSH connection from a LAN workstation.
 - **⚠️ Caveats/Traps:** Docker-published ports need explicit localhost binding; do not rely only on UFW.
 
-**Step 5: Install Tailscale for external access**
+### Step 5: Install Tailscale for external access
 
 - **Purpose:** Keep the VM static LAN IP for local services and add secure remote access from outside your network.
 - **Command(s):**
@@ -113,18 +113,18 @@ tailscale status
 ```
 
 - **Verification:**
- 	- On the VM: `ip -br addr` -> `${VM_NIC_NAME}` still shows `${VM_IP}/${CIDR_PREFIX}`.
- 	- From an external client logged into the same tailnet: `ssh ${VM_USER}@<tailscale-ip>` succeeds.
+  - On the VM: `ip -br addr` -> `${VM_NIC_NAME}` still shows `${VM_IP}/${CIDR_PREFIX}`.
+  - From an external client logged into the same tailnet: `ssh ${VM_USER}@<tailscale-ip>` succeeds.
 - **⚠️ Caveats/Traps:**
- 	- Do not remove or alter your existing Netplan static config; Tailscale is additive.
- 	- Avoid `--accept-routes` unless you explicitly need subnet routes.
- 	- If UFW is enabled, allow traffic on `tailscale0`:
+  - Do not remove or alter your existing Netplan static config; Tailscale is additive.
+  - Avoid `--accept-routes` unless you explicitly need subnet routes.
+  - If UFW is enabled, allow traffic on `tailscale0`:
 
 ```bash
 sudo ufw allow in on tailscale0
 ```
 
-**Step 5.1 (Optional): Restrict Tailscale access with ACL + tags**
+### Step 5.1 (Optional): Restrict Tailscale access with ACL + tags
 
 - **Purpose:** Limit who can SSH to the VM over Tailscale while keeping LAN static-IP access unchanged.
 - **Command(s):**
@@ -145,18 +145,18 @@ Machine shows tag:ai-vm in tailscale status/admin panel.
 ```
 
 - **Verification:**
- 	- Allowed user from outside: `ssh ${VM_USER}@<tailscale-ip>` works.
- 	- Non-allowed user: SSH is denied by tailnet ACL.
+  - Allowed user from outside: `ssh ${VM_USER}@<tailscale-ip>` works.
+  - Non-allowed user: SSH is denied by tailnet ACL.
 - **⚠️ Caveats/Traps:**
- 	- Tag ownership must be configured in tailnet policy (`tagOwners`) before tag advertisement succeeds.
- 	- ACLs apply only to Tailscale traffic; LAN access control still depends on local firewall/SSH settings.
+  - Tag ownership must be configured in tailnet policy (`tagOwners`) before tag advertisement succeeds.
+  - ACLs apply only to Tailscale traffic; LAN access control still depends on local firewall/SSH settings.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 - `configs/ubuntu-vm/netplan.example.yaml`
 - `configs/ubuntu-vm/sshd_config.hardening.example`
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If SSH fails, use Proxmox console and revert `/etc/ssh/sshd_config.bak`.
 - If UFW locks you out, use console and run `sudo ufw disable`.

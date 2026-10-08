@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Converta o relato abaixo em nota SOAP (Subjetivo, Objetivo, Avaliação, Plano). Relato: 'Doutora, a paciente veio com ardência e sensação de areia nos dois olhos, pior no fim do dia, faz três meses. Trabalha no computador o dia todo. Já usou lágrima artificial de tubinho sem melhora importante. Na observação: leve hiperemia conjuntival bilateral, MEI diminuído no exame com fluoresceína, rosa bengal mostrando pontilhado periquerático. Schirmer 6 mm OD e 5 mm OE em 5 min, TBUT 6 segundos. Sem ceratite ponteada central.'
 ```
 
@@ -49,12 +49,12 @@ Let me write this in concise technical Portuguese.
 
 ## Resposta
 
-# Nota SOAP
+### Nota SOAP
 
 **S – Subjetivo**
 Paciente refere ardência e sensação de "areia" em ambos os olhos, há 3 meses, com piora vespertina. Exposição ocupacional a tela de computador em tempo integral. Previa uso de lágrima artificial (tubinho) sem melhora relevante.
 
-**O – Objetivo**
+### O – Objetivo
 
 - Hiperemia conjuntival bilateral, leve.
 - MEI diminuído (fluoresceína).

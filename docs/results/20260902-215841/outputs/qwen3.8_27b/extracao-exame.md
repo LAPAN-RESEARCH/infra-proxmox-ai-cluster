@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Extraia os seguintes campos como JSON com as chaves: paciente, idade, olho, técnica, espessura_macular_central_micras, volume_macular_mm3, achados (lista), conclusao. Texto do exame: 'Tomografia de coerência óptica (OCT) — Spectralis. Paciente: J.M.S., 67 anos. Olho analisado: OD. Varredura macular cubo 20x25. Espessura macular central: 312 micras (limite 270). Volume macular: 11,2 mm³. Observa-se espessamento epirretiniano na região foveal com descontinuidade da linha elipsóide externa e presença de pequena cavidade cística intrarretiniana. Camada de coriocapilar preservada. Conclusão: alterações maculares sugestivas de membrana epirretiniana com edema cístico leve.'
 ```
 

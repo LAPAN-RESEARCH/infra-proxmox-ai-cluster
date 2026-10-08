@@ -1,14 +1,14 @@
 # Network and SSH Lockout
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Provide focused recovery steps for a known failure mode.
 - Required previous state: access to either Proxmox host shell or Ubuntu VM shell, as specified.
 - Estimated time: variable. Risk level: medium to high.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Use existing session or console**
+### Step 1: Use existing session or console
 
 - **Purpose:** Avoid losing the only control channel while repairing SSH/networking.
 - **Command(s):**
@@ -30,7 +30,7 @@ ssh.service active (running)
 - **Verification:** Open a second SSH session.
 - **⚠️ Caveats/Traps:** Do not close the working session until the second one works.
 
-**Step 2: Recover SSH config**
+### Step 2: Recover SSH config
 
 - **Purpose:** Restore login if hardening was too aggressive.
 - **Command(s):**
@@ -50,7 +50,7 @@ No output on success.
 - **Verification:** `ssh ${VM_USER}@${VM_IP}` -> Login works.
 - **⚠️ Caveats/Traps:** If password login is disabled and keys are absent, console access is required.
 
-**Step 3: Disable UFW temporarily if needed**
+### Step 3: Disable UFW temporarily if needed
 
 - **Purpose:** Restore access during recovery.
 - **Command(s):**
@@ -69,12 +69,12 @@ Firewall stopped and disabled on system startup
 - **Verification:** SSH login works, then re-enable correct rules.
 - **⚠️ Caveats/Traps:** Re-enable firewall after repair.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 - `/etc/netplan/01-ai-vm.yaml`
 - `/etc/ssh/sshd_config`
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If Netplan is broken, fix via Proxmox console and `sudo netplan apply`.
 - If UFW blocks SSH, use console and disable UFW.

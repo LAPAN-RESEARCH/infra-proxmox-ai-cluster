@@ -453,7 +453,6 @@ For your actual work, I would choose:
 
 Your first prototype should be the **paper summarization + taxonomy/semantic graph agent**, because it is lower-risk than clinical reporting and will validate your local model stack before touching patient data.
 
-
 ---
 
 You mentioned Qwen embeddings, but I learned that Google laouched a new embedding that is multimodal and very good, do you know anything about it?
@@ -515,7 +514,6 @@ embedding_backends:
 
 Bottom line: **Gemini Embedding 2 is likely excellent for multimodal retrieval, but it conflicts with your local-private requirement.** It should be optional, not foundational.
 
-
 ---
 
 forget cloud. I will stick with only local alternatives. which are the best embeddings? they say this makes a lot of difference.
@@ -576,7 +574,6 @@ pip install sentence-transformers FlagEmbedding faiss-cpu rank-bm25
 ```
 
 Start with **BGE-M3**. Add **Qwen3-Embedding-4B** later only after you have a benchmark set of your own papers/questions, because “best leaderboard model” is not always best for your corpus.
-
 
 ---
 
@@ -1095,7 +1092,6 @@ graph_tool:
 ```
 
 Bottom line: **keep Zotero as the library manager; let your agent index it locally.** Start with Better BibTeX auto-export, then add local API access only when you need live synchronization or writing notes back into Zotero.
-
 
 ---
 

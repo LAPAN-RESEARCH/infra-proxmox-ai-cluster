@@ -1,14 +1,14 @@
 # Docker Installation
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Install Docker Engine and configure its data root on `/srv/ai/docker`.
 - Required previous state: `/srv/ai` mounted on large AI disk.
 - Estimated time: 20 minutes. Risk level: medium.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Configure Docker data-root before heavy use**
+### Step 1: Configure Docker data-root before heavy use
 
 - **Purpose:** Prevent Docker images, layers, and build cache from filling `/`.
 - **Command(s):**
@@ -42,7 +42,7 @@ python3 -m json.tool /etc/docker/daemon.json
 - **Verification:** JSON validation succeeds.
 - **⚠️ Caveats/Traps:** If Docker is already installed, stop Docker before migrating `/var/lib/docker`.
 
-**Step 2: Install Docker packages**
+### Step 2: Install Docker packages
 
 - **Purpose:** Install Docker Engine, CLI, Buildx, and Compose plugin.
 - **Command(s):**
@@ -77,11 +77,11 @@ Setting up docker-compose-plugin ...
 - **Verification:** `sudo docker info | grep 'Docker Root Dir'` -> `/srv/ai/docker`.
 - **⚠️ Caveats/Traps:** If Docker's repository does not yet support Ubuntu 26.04 codename, use the officially supported fallback only after validating compatibility.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 `/etc/docker/daemon.json` from `configs/ubuntu-vm/docker-daemon.json`. It should include both `/srv/ai/docker` as the data root and the NVIDIA container runtime entry.
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If Docker root shows `/var/lib/docker`, stop Docker and migrate or reconfigure before pulling images.
 - If `docker.sources` fails, check `${UBUNTU_CODENAME}`.

@@ -1,14 +1,14 @@
 # Service Validation
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Validate Docker, GPU runtime, AI service bindings, and model inventory.
 - Required previous state: Compose stack started.
 - Estimated time: 5-15 minutes. Risk level: low.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Validate Docker with permission handling**
+### Step 1: Validate Docker with permission handling
 
 - **Purpose:** Confirm Docker works even when the user is not in the Docker group.
 - **Command(s):**
@@ -30,7 +30,7 @@ Docker Root Dir: /srv/ai/docker
 - **Verification:** Docker root must be `/srv/ai/docker`.
 - **⚠️ Caveats/Traps:** Adding a user to the Docker group is root-equivalent; using `sudo docker` is the safer default.
 
-**Step 2: Validate GPU runtime**
+### Step 2: Validate GPU runtime
 
 - **Purpose:** Confirm containers can see the GPU.
 - **Command(s):**
@@ -50,7 +50,7 @@ NVIDIA GeForce RTX 5060 Ti
 - **Verification:** Both commands show the GPU.
 - **⚠️ Caveats/Traps:** Host driver validation and container runtime validation are separate checks.
 
-**Step 3: Validate Ollama**
+### Step 3: Validate Ollama
 
 - **Purpose:** Confirm model server is running and models are present.
 - **Command(s):**
@@ -71,7 +71,7 @@ qwen3:8b
 - **Verification:** JSON response includes all four models.
 - **⚠️ Caveats/Traps:** Ollama is intentionally bound to localhost.
 
-**Step 4: Validate Qdrant**
+### Step 4: Validate Qdrant
 
 - **Purpose:** Confirm vector database is protected and reachable.
 - **Command(s):**
@@ -91,7 +91,7 @@ curl -fsS -H "api-key: ${QDRANT_API_KEY}" http://127.0.0.1:6333/collections
 - **Verification:** Authenticated request returns collection data or an empty collection list.
 - **⚠️ Caveats/Traps:** Do not remove `QDRANT__SERVICE__API_KEY` to make smoke tests easier.
 
-**Step 5: Validate Speaches / Whisper**
+### Step 5: Validate Speaches / Whisper
 
 - **Purpose:** Confirm local speech-to-text service is available for file, streaming, and realtime transcription clients.
 - **Command(s):**
@@ -111,7 +111,7 @@ Health endpoint succeeds and models endpoint returns JSON.
 - **Verification:** `SPEACHES_MODEL` is present in `/v1/models` and `/srv/ai/models/huggingface` is not empty.
 - **⚠️ Caveats/Traps:** Keep the service bound to localhost because medical audio/transcripts are sensitive.
 
-**Step 6: Validate loopback-only service exposure**
+### Step 6: Validate loopback-only service exposure
 
 - **Purpose:** Preserve local-only security posture.
 - **Command(s):**
@@ -137,7 +137,7 @@ ss -tlnp
 - **Verification:** AI services bind to `127.0.0.1`; only SSH binds broadly.
 - **⚠️ Caveats/Traps:** Do not bind Ollama, Speaches, Qdrant, Neo4j, or Jupyter to `0.0.0.0` without an explicit reverse-proxy/auth policy.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Validation script:
 
@@ -147,7 +147,7 @@ scripts/validate_stack.sh
 
 The script uses `sudo docker` fallback, Qdrant API-key-aware checks, Speaches bearer auth when configured, and model-storage checks for `/srv/ai/ollama` plus `/srv/ai/models/huggingface`.
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - Plain `docker` permission denied: use `sudo docker` or run the updated scripts.
 - Qdrant 401: include `-H "api-key: ${QDRANT_API_KEY}"`.

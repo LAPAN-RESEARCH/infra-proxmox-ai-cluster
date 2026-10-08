@@ -26,7 +26,8 @@ Para atualizar a biblioteca do servidor com o seu Zotero local sem travar o apli
 ./scripts/sync_zotero_to_remote.sh
 ```
 
-### O que o script faz automaticamente:
+### O que o script faz automaticamente
+
 1. Gera um snapshot atômico consistente do banco SQLite local (`.backup`), prevenindo corrupção por transações abertas em WAL.
 2. Exclui arquivos temporários e backups pesados (`*.bak`), economizando cerca de 8 GB de tráfego desnecessário.
 3. Sincroniza via `rsync` os diretórios de dados e todos os arquivos em `storage/` (PDFs e anexos).
@@ -73,6 +74,7 @@ python3 services/literature-review/review.py \
 ```
 
 Arquivos gerados:
+
 - `./revisao_glaucoma/references.bib`: arquivo BibTeX para importação no Zotero ou Overleaf.
 - `./revisao_glaucoma/literature_review_report.md`: tabela de evidências, autores, periódico, citações e resumos estruturados.
 
@@ -119,7 +121,8 @@ python3 services/literature-review/review.py \
   --output-dir ./revisao_auditada
 ```
 
-### O que o pipeline de máximo esforço executa:
+### O que o pipeline de máximo esforço executa
+
 1. **OCR Híbrido com Tesseract (`eng+por`):** Detecta automaticamente páginas escaneadas ou tabelas complexas que falham na extração digital comum, renderizando a 300 DPI e extraindo o texto completo.
 2. **IA as a Judge (Auditor de Argumentos):**
    - Extrai as alegações centrais (*Core Claims*) de cada artigo.
@@ -130,4 +133,3 @@ python3 services/literature-review/review.py \
    - **Inter-Estudos (Cross-Papers):** Mapeia contradições teóricas e empíricas entre artigos concorrentes da literatura e do acervo Zotero.
 4. **Relatório Completo:**
    - Adiciona ao final de `literature_review_report.md` a tabela com todas as avaliações do juiz e a matriz forense de contradições detectadas.
-

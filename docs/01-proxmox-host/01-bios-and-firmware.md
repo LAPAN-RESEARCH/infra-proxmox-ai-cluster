@@ -1,14 +1,14 @@
 # BIOS and Firmware
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Enable motherboard features required for virtualization and GPU passthrough.
 - Required previous state: physical access to firmware setup.
 - Estimated time: 10-20 minutes. Risk level: low.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Enable virtualization features**
+### Step 1: Enable virtualization features
 
 - **Purpose:** Allow Proxmox to run hardware-accelerated VMs and assign PCI devices to guests.
 - **Command(s):**
@@ -31,11 +31,11 @@ Manual confirmation recorded on 2026-06-03.
 - **Verification:** `journalctl -k -b | grep -Ei 'iommu|amd-vi'` -> Kernel should report AMD-Vi/IOMMU availability after boot.
 - **⚠️ Caveats/Traps:** Firmware labels vary by motherboard; do not disable CSM/UEFI settings blindly if the host already boots reliably.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 No Linux configuration files are modified in this phase.
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If IOMMU is absent in Linux, recheck BIOS IOMMU and SVM.
 - If GPU passthrough fails later with BAR errors, recheck Above 4G Decoding.

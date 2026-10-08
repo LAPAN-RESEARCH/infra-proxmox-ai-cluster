@@ -1,14 +1,14 @@
 # VM Filesystem Layout
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Ensure the Ubuntu VM separates OS data from AI service data.
 - Required previous state: VM online; second disk attached as `sdb`.
 - Estimated time: 10-30 minutes. Risk level: medium if editing `/etc/fstab`.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Verify root and AI data mounts**
+### Step 1: Verify root and AI data mounts
 
 - **Purpose:** Confirm that `/srv/ai` is a real mounted filesystem, not a directory inside `/`.
 - **Command(s):**
@@ -33,7 +33,7 @@ TARGET  SOURCE    FSTYPE OPTIONS
 - **Verification:** `/srv/ai` source is `/dev/sdb1`.
 - **⚠️ Caveats/Traps:** If `findmnt /srv/ai` returns nothing, stop Docker before pulling or building anything.
 
-**Step 2: Keep Docker storage under `/srv/ai`**
+### Step 2: Keep Docker storage under `/srv/ai`
 
 - **Purpose:** Prevent Docker image layers and build cache from filling `/`.
 - **Command(s):**
@@ -53,7 +53,7 @@ Docker Root Dir: /srv/ai/docker
 - **Verification:** `Docker Root Dir` is not `/var/lib/docker`.
 - **⚠️ Caveats/Traps:** If Docker still uses `/var/lib/docker`, stop Docker and migrate before downloading models.
 
-**Step 3: Review swap**
+### Step 3: Review swap
 
 - **Purpose:** Avoid accidental swap duplication or root consumption.
 - **Command(s):**
@@ -75,7 +75,7 @@ Swap:       23Gi
 - **Verification:** Swap exists and is unused under normal operation.
 - **⚠️ Caveats/Traps:** Two swap files are not immediately dangerous, but simplify to one later for clarity.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 `/etc/fstab` should include `/srv/ai` by UUID:
 
@@ -102,7 +102,7 @@ Docker daemon config:
 }
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If `/` fills, check `/var/lib/docker`, `/srv/ai` mount state, `/var/tmp`, and journal logs.
 - If `/srv/ai` is missing after boot, run `sudo mount -a` and inspect `/etc/fstab`.

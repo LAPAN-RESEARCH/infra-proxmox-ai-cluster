@@ -1,14 +1,14 @@
 # Embedding and Reranking
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Select local-only embedding and reranking defaults for retrieval quality.
 - Required previous state: Ollama and/or Jupyter environment available.
 - Estimated time: 30 minutes for initial tests. Risk level: low.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Start with BGE-M3**
+### Step 1: Start with BGE-M3
 
 - **Purpose:** Use a strong multilingual local default for English and Portuguese scientific text.
 - **Command(s):**
@@ -28,7 +28,7 @@ curl http://127.0.0.1:11434/api/embed -d '{"model":"bge-m3","input":"Fasciola he
 - **Verification:** The API returns a numeric embedding array.
 - **⚠️ Caveats/Traps:** Embedding dimension and model name must stay consistent per Qdrant collection.
 
-**Step 2: Add reranking after baseline retrieval**
+### Step 2: Add reranking after baseline retrieval
 
 - **Purpose:** Improve precision after BM25 + dense retrieval.
 - **Command(s):**
@@ -48,7 +48,7 @@ curl http://127.0.0.1:11434/api/embed -d '{"model":"bge-m3","input":"Fasciola he
 - **Verification:** Compare baseline hybrid retrieval against reranked retrieval on known questions.
 - **⚠️ Caveats/Traps:** Reranking is slower; use it after candidate retrieval, not over the entire corpus.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Future embedding config example:
 
@@ -62,7 +62,7 @@ reranker:
   model: ${LOCAL_RERANKER_MODEL}
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If retrieval quality is poor, inspect chunking before changing models.
 - If Qdrant collection dimension mismatches, recreate the collection or use a separate collection.

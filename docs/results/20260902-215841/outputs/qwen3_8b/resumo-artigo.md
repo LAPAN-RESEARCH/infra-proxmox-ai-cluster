@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Resuma em no máximo 10 bullets o texto a seguir e responda ao final: qual a implicação prática para um serviço de retina terciário? --- Tratamento do edema macular diabético: revisão narrativa. O edema macular diabético (EMD) permanece a principal causa de perda visual em pacientes diabéticos em idade produtiva. O controle glicêmico e da pressão arterial reduzem a incidência e a progressão do EMD, conforme demonstrado em estudos clássicos de coorte intervencional. A fotocoagulação macular focal, padrão histórico, foi amplamente suplantada pela terapia intravítrea com anti-VEGF após ensaios randomizados mostrarem superioridade em ganho de letras médias. O ranibizumabe, o aflibercepte e o bevacizumabe off-label constituem o trio mais utilizado; a escolha depende de perfil de resposta, custos e regulamentação local. Pacientes com perda visual inicial moderada a grave se beneficiam de aflibercepte no primeiro ano quando há déficit visual importante, com posterior desaceleração do regime. Os corticosteroides intravítreos (implante de dexametasona e fluocinolona) reservam-se a olhos pseudofácicos ou refratários, com vigilância de hipertensão ocular e catarata. A terapia combinada e o treat-and-extend reduzem a carga de injeções mantendo resultados anatômicos. Novas moléculas, como inibidores de angiopoietina-2 e tyrosine-kinase inhibitors conjugados, ampliaram o arsenal, com ganhos incrementais. A OCT com angiografia (OCTA) permite monitorização não invasiva da vascularização, embo
 ```
 

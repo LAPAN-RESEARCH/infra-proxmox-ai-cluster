@@ -1,6 +1,6 @@
 # Remediation Plan - 2026-06-03
 
-### 1. Objective & Current Disk Finding
+## 1. Objective & Current Disk Finding
 
 - Close every high and medium priority issue found in the 2026-06-03 review.
 - Required previous state: Ubuntu VM online, `/srv/ai` mounted, Docker stack present.
@@ -21,9 +21,9 @@ Conclusion: Ollama is not currently storing the installed model set on the root 
 
 Run repo-relative `scripts/...` commands from `/home/hugo/proxmox-lapan-ai-setup`.
 
-### 2. Infrastructure Remediation Sequence
+## 2. Infrastructure Remediation Sequence
 
-**Step 1: Deploy tracked config and create the platform directories**
+### Step 1: Deploy tracked config and create the platform directories
 
 - **Purpose:** Make the live Compose stack match the repo before recreating containers.
 - **Command(s):**
@@ -34,7 +34,7 @@ scripts/deploy_ai_stack.sh
 
 - **Verification:** `/srv/ai/compose/core/docker-compose.yml` includes explicit GPU requests, `/srv/ai/ollama` and `/srv/ai/models/huggingface` are the model caches, and `/srv/ai/agents` plus `/srv/ai/rag/{benchmarks,configs,pipelines,rerankers}` exist.
 
-**Step 2: Fix Docker GPU access for containers**
+### Step 2: Fix Docker GPU access for containers
 
 - **Purpose:** Make Ollama and Speaches use the RTX 5060 Ti from containers.
 - **Command(s):**
@@ -51,7 +51,7 @@ sudo docker compose --env-file .env up -d --force-recreate ollama speaches
 
 - **Verification:** The CUDA container shows the GPU, `nvidia-smi` shows container GPU activity during an Ollama generation, and Ollama no longer reports `size_vram: 0` for `qwen3:8b`.
 
-**Step 3: Keep all model downloads off root**
+### Step 3: Keep all model downloads off root
 
 - **Purpose:** Prevent future Ollama, Speaches, and reranker downloads from filling `/`.
 - **Command(s):**
@@ -65,7 +65,7 @@ sudo docker exec ollama ollama list
 - **Verification:** Ollama models are under `/srv/ai/ollama/models`; Hugging Face/Speaches/reranker files are under `/srv/ai/models/huggingface`; Docker root is `/srv/ai/docker`.
 - **Recovery:** If a root-side Ollama cache exists, stop Ollama, copy it into `/srv/ai/ollama` with ownership preserved, recreate the container, verify `ollama list`, then remove only the verified duplicate root cache.
 
-**Step 4: Fix Speaches model readiness**
+### Step 4: Fix Speaches model readiness
 
 - **Purpose:** Ensure transcription is ready before live use.
 - **Command(s):**
@@ -79,7 +79,7 @@ du -sh /srv/ai/models/huggingface
 
 - **Verification:** `/v1/models` lists `${SPEACHES_MODEL}` and `/srv/ai/models/huggingface` is no longer empty.
 
-**Step 5: Reduce root filesystem usage**
+### Step 5: Reduce root filesystem usage
 
 - **Purpose:** Bring `/` below the documented 80% threshold.
 - **Command(s):**
@@ -99,7 +99,7 @@ swapon --show
 
 - **Verification:** Only `/swapfile` remains active, `/etc/fstab` has one `/swapfile` entry, and `/` is below 80%.
 
-**Step 6: Fix noninteractive maintenance access without adding Docker group**
+### Step 6: Fix noninteractive maintenance access without adding Docker group
 
 - **Purpose:** Allow validation/backup automation while keeping the `docker` group disabled by default.
 - **Command(s):**
@@ -117,7 +117,7 @@ sudo visudo -cf /etc/sudoers.d/lapan-ai-maintenance
 
 - **Verification:** `sudo -n /usr/local/sbin/lapan-ai-validate` runs without prompting. Do not grant NOPASSWD to scripts in the user-writable repo path.
 
-**Step 7: Create the first backup**
+### Step 7: Create the first backup
 
 - **Purpose:** Capture the corrected base state.
 - **Command(s):**
@@ -129,9 +129,9 @@ tar -tzf /srv/ai/backups/ai-stack-*.tar.gz | head
 
 - **Verification:** `/srv/ai/backups` contains a readable archive with redacted env data, service state, RAG state, Zotero exports, and agent policy/audit state.
 
-### 3. Research Platform Completion
+## 3. Research Platform Completion
 
-**Step 1: Create the Qdrant collection**
+### Step 1: Create the Qdrant collection
 
 - **Command(s):**
 
@@ -146,7 +146,7 @@ curl -fsS -X PUT \
 
 - **Verification:** Authenticated `GET /collections` lists `research_chunks_bge_m3`.
 
-**Step 2: Apply Neo4j graph constraints**
+### Step 2: Apply Neo4j graph constraints
 
 - **Command(s):**
 
@@ -163,7 +163,7 @@ SHOW CONSTRAINTS;
 
 - **Verification:** `SHOW CONSTRAINTS` lists the three constraints.
 
-**Step 3: Add Zotero export**
+### Step 3: Add Zotero export
 
 - **Command(s):**
 
@@ -174,19 +174,19 @@ ls -lh /srv/ai/zotero/exports/library.bib
 
 - **Verification:** Better BibTeX or equivalent export exists at `/srv/ai/zotero/exports/library.bib`; PDFs are linked or mirrored under `/srv/ai/zotero/pdfs`.
 
-**Step 4: Implement RAG ingestion and reranking**
+### Step 4: Implement RAG ingestion and reranking
 
 - **Purpose:** Move from empty infrastructure to a usable research retrieval pipeline.
 - **Implementation:** Use Jupyter or scripts under `/srv/ai/rag/pipelines` to parse Zotero PDFs into `/srv/ai/ingest/parsed`, chunk into `/srv/ai/ingest/chunks`, embed chunks with Ollama `bge-m3`, store vectors in Qdrant, and rerank BM25+dense candidates with `${RERANKER_MODEL:-BAAI/bge-reranker-v2-m3}` cached under `/srv/ai/models/huggingface`.
 - **Verification:** A benchmark under `/srv/ai/rag/benchmarks` contains known questions, expected citations, baseline retrieval results, and reranked results.
 
-**Step 5: Implement local agents with policies and audit**
+### Step 5: Implement local agents with policies and audit
 
 - **Purpose:** Allow constrained automation without broad shell or data access.
 - **Implementation:** Use `/srv/ai/agents/{coding,papers,graphs,clinical,scratch}` for workspaces, `/srv/ai/agents/policies` for allowlists, and `/srv/ai/agents/audit` for append-only tool-call logs. Deny Docker socket mounts and unrestricted shell for research/clinical agents.
 - **Verification:** Every agent tool call produces an audit entry, and agents cannot write outside their workspace.
 
-### 4. Final Acceptance
+## 4. Final Acceptance
 
 - `df -h / /srv/ai` shows `/` below 80% and `/srv/ai` mounted.
 - `sudo -n /usr/local/sbin/lapan-ai-validate` passes.

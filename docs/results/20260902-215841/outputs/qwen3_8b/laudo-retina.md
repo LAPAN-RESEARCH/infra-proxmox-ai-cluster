@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Redija um laudo de retinografia macular para o seguinte paciente, estruturado em: Identificação, Técnica, Descrição, Impressão diagnóstica (CID-10) e Conduta. Achados: masculino, 58 anos, diabetes mellitus tipo 2 há 12 anos, HbA1c 8,4%. Biomicroscopia: córnea transparente, cristalino com opacidades posteriores incipientes (NO2NC2). Fundo: mídias de transparência regular; disco óptico com escavação 0,3, bordas definidas; relação A/V 2/3; presença de microaneurismas e exsudatos duros agrupados em arcada temporal superior a ~2 diâmetros de disco da fóvea; pequena hemorragia em chama; ausência de neovascularização; mácula com reflexo foveal preservado.
 ```
 

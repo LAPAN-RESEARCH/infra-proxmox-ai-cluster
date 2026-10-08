@@ -19,4 +19,3 @@ completa em [../00-project-context/06-external-api-architecture.md](../00-projec
 | 11 | [Restauração do backup de segredos](11-restore.md) | administradores |
 | 12 | [App de escuta clínica (dois cliques)](12-escuta-clinica-app.md) | clínicos / sala de consulta |
 | 13 | [Revisão bibliográfica & OpenClaw](13-revisao-bibliografica-openclaw.md) | pesquisadores / devs |
-

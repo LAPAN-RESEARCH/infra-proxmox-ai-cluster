@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Responda somente com um objeto JSON: {"classificacao": <uma de: normal | leve | moderada | grave>, "conduta": <string com até 15 palavras>, "encaminhar": <true|false>}. Caso: recém-nascido a termo, teste do reflexo vermelho ausente à direita, presente à esquerda; sem leucocoria à inspeção; mãe sem queixas; exame de estrabismo normal.
 ```
 

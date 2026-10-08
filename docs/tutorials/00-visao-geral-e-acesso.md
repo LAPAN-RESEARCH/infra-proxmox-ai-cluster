@@ -40,7 +40,6 @@ ssh -L 3000:127.0.0.1:3000 -L 8888:127.0.0.1:8888 -L 7474:127.0.0.1:7474 \
 Depois abra no navegador: Open WebUI `http://localhost:3000`, transcrição
 realtime `http://localhost:8010`, Jupyter `http://localhost:8888`, OpenClaw `http://localhost:18789`.
 
-
 ## Caminhos de acesso à IA (do mais simples ao mais programático)
 
 1. **Open WebUI** (túnel) — chat com `gpt-oss:20b`, ditado, prompts de laudo.

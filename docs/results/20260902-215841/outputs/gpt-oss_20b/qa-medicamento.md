@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Paciente com glaucoma primário de ângulo aberto usa maleato de timolol 0,5% duas vezes ao dia e apresentou bradicardia sintomática. Quais as alternativas tópicas de primeira linha, com princípio ativo, concentração usual e posologia, e qual classe é preferida neste cenário cardiovascular? Inclua ao final uma linha 'ALERTA' com o que deve ser verificado antes de qualquer troca.
 ```
 

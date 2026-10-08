@@ -1,6 +1,6 @@
 # Architecture and Usage Guide
 
-### 1. Operating Model
+## 1. Operating Model
 
 The Proxmox host is only the hypervisor. The Ubuntu VM `lapan-ai` is the AI appliance. Persistent AI state belongs under `/srv/ai`, and all application services run as Docker containers bound to `127.0.0.1`.
 
@@ -23,7 +23,7 @@ flowchart TD
     RAG --> Agents[Local agents and audit]
 ```
 
-### 2. Service Map
+## 2. Service Map
 
 | Service | Local URL | Main use | Persistent data |
 | --- | --- | --- | --- |
@@ -46,9 +46,9 @@ ssh -L 3000:127.0.0.1:3000 \
     hugo@192.168.100.60
 ```
 
-### 3. Daily Workflows
+## 3. Daily Workflows
 
-**Start and validate the stack**
+### Start and validate the stack
 
 ```bash
 cd /srv/ai/compose/core
@@ -63,7 +63,7 @@ Use the root-owned maintenance wrapper from the remediation plan when noninterac
 sudo -n /usr/local/sbin/lapan-ai-validate
 ```
 
-**Use local LLMs and embeddings**
+### Use local LLMs and embeddings
 
 ```bash
 curl -fsS http://127.0.0.1:11434/api/tags
@@ -73,7 +73,7 @@ curl -fsS http://127.0.0.1:11434/api/embed \
 
 Use Open WebUI at `http://127.0.0.1:3000` through the SSH tunnel for interactive chat. Keep model pulls limited and check `/srv/ai` capacity first.
 
-**Use local transcription**
+### Use local transcription
 
 ```bash
 source /srv/ai/compose/core/.env
@@ -103,7 +103,7 @@ Run the bootstrap first to create the Qdrant collection, Neo4j constraints, and 
 6. Retrieve with BM25 plus dense vector search, rerank candidates with `${RERANKER_MODEL:-BAAI/bge-reranker-v2-m3}`, and pass only cited chunks to the LLM.
 7. Save benchmark questions and retrieval results under `/srv/ai/rag/benchmarks`.
 
-**Use the graph**
+### Use the graph
 
 ```bash
 source /srv/ai/compose/core/.env
@@ -113,11 +113,11 @@ sudo docker exec -it neo4j cypher-shell -u neo4j -p "${neo4j_password}" 'SHOW CO
 
 Use Neo4j for entities, relationships, taxonomies, and provenance. Every graph claim should link back to a source document or chunk.
 
-**Use local agents**
+### Use local agents
 
 Agents work under `/srv/ai/agents`. Use role-specific workspaces, keep policies in `/srv/ai/agents/policies`, and write append-only tool logs to `/srv/ai/agents/audit`. Research and clinical agents should be read/query/write-scratch only by default; do not mount the Docker socket into agent runtimes.
 
-### 4. Storage and Maintenance Rules
+## 4. Storage and Maintenance Rules
 
 - `/` is for the OS, packages, and small config only.
 - `/srv/ai/docker` is Docker's data root.
@@ -143,7 +143,7 @@ Back up before major changes:
 tar -tzf /srv/ai/backups/ai-stack-*.tar.gz | head
 ```
 
-### 5. Failure Rules
+## 5. Failure Rules
 
 - If `/srv/ai` is not mounted, stop Docker before pulling models or building images.
 - If Ollama loads on CPU, validate the Docker NVIDIA runtime and recreate the Ollama container.

@@ -1,14 +1,14 @@
 # Ubuntu Installation
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Install Ubuntu Server 26.04 LTS minimally as the AI guest OS.
 - Required previous state: VM created with q35, OVMF, VirtIO, and no GPU passthrough yet.
 - Estimated time: 20-40 minutes. Risk level: low.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Install minimal Ubuntu Server**
+### Step 1: Install minimal Ubuntu Server
 
 - **Purpose:** Create a small, stable, headless base system.
 - **Command(s):**
@@ -31,7 +31,7 @@ Installation complete. Reboot now.
 - **Verification:** `cat /etc/os-release` -> Reports Ubuntu Server 26.04 LTS.
 - **⚠️ Caveats/Traps:** Do not install desktop packages or NVIDIA drivers during the installer.
 
-**Step 2: Install base tools**
+### Step 2: Install base tools
 
 - **Purpose:** Add administration tools required for the rest of the deployment.
 - **Command(s):**
@@ -54,11 +54,11 @@ Setting up openssh-server ...
 - **Verification:** `systemctl status ssh --no-pager` -> SSH service is active.
 - **⚠️ Caveats/Traps:** `qemu-guest-agent` may show `static` for enablement; active runtime status matters more.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 No static files are required in this phase.
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If SSH is missing, install `openssh-server`.
 - If guest agent does not work, enable QEMU Guest Agent in Proxmox VM Options and cold-start the VM.

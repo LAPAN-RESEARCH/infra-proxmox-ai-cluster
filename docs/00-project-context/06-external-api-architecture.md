@@ -34,7 +34,7 @@ Traefik (VPS, 72.61.60.27, TLS Let's Encrypt)
 
 ## Message exchange (sequence diagrams)
 
-### 1. Workflow "Consulta Drive → IA LAPAN" (validado 2026-09-03)
+## 1. Workflow "Consulta Drive → IA LAPAN" (validado 2026-09-03)
 
 Cada salto tem sua própria autenticação: OAuth2 do Google no Drive, chave
 virtual do LiteLLM na rota pública, `AI_API_KEY` do ai-api na tailnet.
@@ -72,7 +72,7 @@ sequenceDiagram
     N-->>U: resposta citada no chat
 ```
 
-### 2. API pública — qualquer aplicação
+## 2. API pública — qualquer aplicação
 
 ```mermaid
 sequenceDiagram
@@ -97,7 +97,7 @@ sequenceDiagram
     L-->>App: resposta OpenAI-compatible (+ uso de tokens por chave)
 ```
 
-### 3. Transcrição de consulta em tempo real (WhisperLiveKit)
+## 3. Transcrição de consulta em tempo real (WhisperLiveKit)
 
 ```mermaid
 sequenceDiagram

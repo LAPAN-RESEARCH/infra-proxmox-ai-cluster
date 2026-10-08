@@ -1,14 +1,14 @@
 # Host Networking
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Configure a stable Proxmox bridge for LAN access and VM networking.
 - Required previous state: Proxmox installed and physical NIC identified.
 - Estimated time: 10 minutes. Risk level: high if remote access is the only access path.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Identify the physical NIC**
+### Step 1: Identify the physical NIC
 
 - **Purpose:** Confirm which interface should be enslaved into `vmbr0`.
 - **Command(s):**
@@ -29,7 +29,7 @@ vmbr0           UP ${PROXMOX_HOST_IP}/${CIDR_PREFIX}
 - **Verification:** `ip route` -> Default route should use `vmbr0`.
 - **⚠️ Caveats/Traps:** Editing network remotely can lock you out. Keep local console access available.
 
-**Step 2: Configure the bridge**
+### Step 2: Configure the bridge
 
 - **Purpose:** Provide a stable host IP and bridge VM traffic through the physical NIC.
 - **Command(s):**
@@ -49,7 +49,7 @@ No error output from ifreload -a.
 - **Verification:** `ping -c 3 ${LAN_GATEWAY}` -> Successful gateway reachability.
 - **⚠️ Caveats/Traps:** Do not put the IP address on both the physical NIC and bridge.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Reference: `configs/proxmox/interfaces.example`.
 
@@ -59,7 +59,7 @@ Production file:
 /etc/network/interfaces
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If host loses network, use physical console and restore the previous `/etc/network/interfaces`.
 - If VMs have no network, verify the VM NIC is attached to `vmbr0`.

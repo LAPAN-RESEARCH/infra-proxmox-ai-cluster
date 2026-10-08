@@ -1,14 +1,14 @@
 # Whisper Transcription Service
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Add local speech-to-text for consultation transcription using Speaches, an OpenAI-compatible server backed by faster-whisper.
 - Required previous state: Docker, NVIDIA runtime, and `/srv/ai` are working.
 - Estimated time: 10-30 minutes plus model download time. Risk level: medium due to medical privacy and GPU use.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Deploy and start Speaches**
+### Step 1: Deploy and start Speaches
 
 - **Purpose:** Make Whisper transcription available as a local API.
 - **Command(s):**
@@ -28,7 +28,7 @@ Speaches model is available: Systran/faster-distil-whisper-large-v3
 - **Verification:** Authenticated `/health` succeeds, `/v1/models` lists `${SPEACHES_MODEL}`, and `/srv/ai/models/huggingface` is not empty.
 - **⚠️ Caveats/Traps:** The model download uses Hugging Face during first startup; do this before a real consultation.
 
-**Step 2: Validate file transcription**
+### Step 2: Validate file transcription
 
 - **Purpose:** Confirm the OpenAI-compatible transcription endpoint works before live use.
 - **Command(s):**
@@ -51,7 +51,7 @@ curl -fsS \
 - **Verification:** The returned text matches the test audio closely enough for your workflow.
 - **⚠️ Caveats/Traps:** Do not upload patient audio to a cloud transcription service; use this local endpoint through SSH tunnel or localhost.
 
-**Step 3: Use realtime transcription**
+### Step 3: Use realtime transcription
 
 - **Purpose:** Support live consultation transcription.
 - **Command(s):**
@@ -71,7 +71,7 @@ Realtime URL: ws://127.0.0.1:8000/v1/realtime?...
 - **Verification:** A client can stream microphone audio and receive transcription events.
 - **⚠️ Caveats/Traps:** Realtime quality depends on microphone placement, room noise, language, GPU availability, and the chosen model.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Live `.env` keys:
 
@@ -93,7 +93,7 @@ Speaches service source:
 configs/ai-stack/docker-compose.yml
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If startup is slow, check `sudo docker compose logs --tail=100 speaches`; the first run may be downloading the model.
 - If `/v1/models` is empty, run `scripts/install_whisper_service.sh`; it downloads `${SPEACHES_MODEL}` through the Speaches model API and waits for it to be listed.

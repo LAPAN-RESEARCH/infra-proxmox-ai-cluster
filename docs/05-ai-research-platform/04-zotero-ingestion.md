@@ -1,14 +1,14 @@
 # Zotero Ingestion
 
-### 1. Objective & Prerequisites
+## 1. Objective & Prerequisites
 
 - Use Zotero as the source of truth while building a local searchable index.
 - Required previous state: `/srv/ai/zotero` exists and the user has exported or synced Zotero metadata.
 - Estimated time: 30-60 minutes. Risk level: low if read-only.
 
-### 2. Step-by-Step Execution
+## 2. Step-by-Step Execution
 
-**Step 1: Use exported metadata**
+### Step 1: Use exported metadata
 
 - **Purpose:** Avoid brittle direct writes to Zotero internals.
 - **Command(s):**
@@ -29,7 +29,7 @@ pdfs/
 - **Verification:** A metadata export file exists, for example `/srv/ai/zotero/exports/library.bib`.
 - **⚠️ Caveats/Traps:** Do not flatten all PDFs into one folder as the source of truth; preserve Zotero metadata and citation keys.
 
-**Step 2: Mount Zotero read-only into Jupyter**
+### Step 2: Mount Zotero read-only into Jupyter
 
 - **Purpose:** Prevent notebooks or agents from modifying source library files.
 - **Command(s):**
@@ -48,7 +48,7 @@ grep -n '/srv/ai/zotero' /srv/ai/compose/core/docker-compose.yml
 - **Verification:** Inside Jupyter container, writes to `/srv/ai/zotero` should fail.
 - **⚠️ Caveats/Traps:** Clinical or private notes should be indexed only by local-only tools.
 
-### 3. Configuration Files
+## 3. Configuration Files
 
 Future Zotero ingestion config:
 
@@ -59,7 +59,7 @@ zotero:
   read_only: true
 ```
 
-### 4. Troubleshooting & Recovery
+## 4. Troubleshooting & Recovery
 
 - If citation keys are missing, verify Better BibTeX export settings.
 - If PDF paths break, use stable linked attachment base paths.

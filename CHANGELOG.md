@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-10-08 — VM 2020 maximizada para o host dedicado (12 vCPUs / 26 GiB)
+
+- Diagnóstico de utilização: host Ryzen 5 5500 (6c/12t, 32 GB) com VM única
+  `lapan-ai` em 8 vCPUs/24 GiB — CPU com folga, RAM como gargalo real (guest
+  acumulara 5,6 GB em swap).
+- Incidente registrado: elevar a VM a 28 GiB via hotplug + `--balloon 0`
+  exauriu a RAM do host; o OOM killer matou o processo KVM e host e VM
+  ficaram inacessíveis juntos. Recuperação a frio (config aplicada com a VM
+  parada) confirmou a causa pelo quadro clássico de OOM.
+- Config validada: `cores: 12`, `memory: 26624`, `balloon: 26624` — teto
+  seguro para o host de 32 GB (uso base ~2 GB + overhead QEMU). Regras: mudar
+  memória apenas com a VM parada; o sinal de pressão é o **swap do host**
+  crescendo (não o "livre"); recuo documentado: `24576`.
+- Pós-recuperação: os 10 containers da stack de pé, swap do guest zerado,
+  inventário Ollama íntegro (8 modelos; artefato `llamacpp:<sha>` que
+  duplicava o manifesto do `gpt-oss:20b` removido com
+  `docker exec ollama ollama rm llamacpp:<sha>`).
+- `docs/06-operations/04-capacity-planning.md`: novo step de teto de RAM do
+  host com os comandos de verificação e a regra de recuo.
+
 ## 2026-09-26 — Escuta clínica validada ponta a ponta na VM (números reais)
 
 - Infra: kernel atualizado quebrou o driver NVIDIA (módulo era acoplado ao

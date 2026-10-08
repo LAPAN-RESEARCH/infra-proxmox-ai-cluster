@@ -2,7 +2,7 @@
 
 ## Prompt
 
-```
+```text
 Redija um laudo de retinografia macular para o seguinte paciente, estruturado em: Identificação, Técnica, Descrição, Impressão diagnóstica (CID-10) e Conduta. Achados: masculino, 58 anos, diabetes mellitus tipo 2 há 12 anos, HbA1c 8,4%. Biomicroscopia: córnea transparente, cristalino com opacidades posteriores incipientes (NO2NC2). Fundo: mídias de transparência regular; disco óptico com escavação 0,3, bordas definidas; relação A/V 2/3; presença de microaneurismas e exsudatos duros agrupados em arcada temporal superior a ~2 diâmetros de disco da fóvea; pequena hemorragia em chama; ausência de neovascularização; mácula com reflexo foveal preservado.
 ```
 
@@ -65,7 +65,7 @@ Redija um laudo de retinografia macular para o seguinte paciente, estruturado em
 
 ## Resposta
 
-**LAUDO DE EXAME OFTALMOLÓGICO**
+### LAUDO DE EXAME OFTALMOLÓGICO
 
 **IDENTIFICAÇÃO**
 **Paciente:** [Nome do Paciente]
@@ -82,12 +82,12 @@ Retinografia colorida de alta resolução com foco em região macular e mapeamen
 **Retina:** Presença de microaneurismas e exsudatos duros agrupados em arcada temporal superior, localizados a aproximadamente dois diâmetros de disco da fóvea. Observa-se pequena hemorragia em chama na região supramencionada. Ausência de sinais de neovascularização (intraretiniana ou discais).
 **Mácula:** Reflexo foveal preservado.
 
-**IMPRESSÃO DIAGNÓSTICA**
+### IMPRESSÃO DIAGNÓSTICA
 
 1. Retinopatia Diabética Não Proliferativa (RDNP) — **CID-10: E11.3**
 2. Catarata incipiente (opacidades posteriores) — **CID-10: H25.9**
 
-**CONDUTA**
+### CONDUTA
 
 1. **Controle Metabólico:** Recomenda-se encaminhamento/relatório ao endocrinologista para otimização do controle glicêmico (HbA1c atual acima da meta terapêutica).
 2. **Exames Complementares:** Sugere-se realização de OCT (Tomografia de Coerência Óptica) para avaliação de possível edema macular subclínico, dada a proximidade dos exsudatos duros à região foveal.
