@@ -1,6 +1,24 @@
 # Changelog
 
-## 2026-10-08 — OpenClaw P0/P1: 5 servidores MCP, memória de longo prazo, busca web local e automações de literatura
+## 2026-10-08 — Hardening de envio: segredo do gateway fora do git, backup do OpenClaw e limpeza de config morta
+
+- Token do gateway fora do controle de versão: `openclaw.json` passa a usar
+  substituição `${OPENCLAW_GATEWAY_TOKEN}` (formato documentado do OpenClaw) e o
+  compose exige `OPENCLAW_AUTH_TOKEN` no `.env` (sintaxe `:?` — o `up` falha com
+  mensagem clara em vez de cair no default que estava commitado). O
+  `deploy_ai_stack.sh` gera o segredo automaticamente se ausente.
+  **Ação do operador:** se o `.env` da VM ainda usa o hex antigo (presente no
+  histórico do git), rotacione com `openssl rand -hex 32` no próximo deploy;
+  o token do Control UI/túneis muda junto.
+- Backup da stack agora cobre o OpenClaw: `openclaw/data` (sessões, memória
+  LanceDB, plugins) e `openclaw/workspace` (relatórios literature-watch,
+  arxiv-papers) entram no `backup_ai_stack.sh` — antes o agente inteiro ficava
+  fora do tar.
+- Removido o provider morto `ai-api`/`lapan-judge` do `openclaw.json`: o
+  serviço só espelha modelos do Ollama e não existe rota "judge"; a cadeia de
+  fallback (gemini-2.5-pro → llama-3.3-70b → qwen3:8b) não o utilizava.
+
+## 2026-10-08 — OpenClaw P0/P1: 7 servidores MCP, memória de longo prazo, busca web local e automações de literatura
 
 - MCP servers no `openclaw.json` (`mcp.servers`): `papers` (paper-search-mcp —
   PubMed/arXiv/bioRxiv/OpenAlex/Semantic Scholar + download OA com fallback),
