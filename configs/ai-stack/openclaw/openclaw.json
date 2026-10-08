@@ -10,19 +10,72 @@
       "mode": "token",
       "token": "8c397302ae6442f6cbfd93474d22815f7e5eae67df57d34b7cf0754f42faea76"
     },
-    "trustedProxies": ["192.168.65.0/24", "172.17.0.0/16", "127.0.0.1"]
+    "trustedProxies": [
+      "192.168.65.0/24",
+      "172.17.0.0/16",
+      "127.0.0.1"
+    ]
   },
   "models": {
     "providers": {
+      "google": {
+        "apiKey": {
+          "source": "env",
+          "provider": "default",
+          "id": "GEMINI_API_KEY"
+        },
+        "api": "google-generative-ai",
+        "models": [
+          {
+            "id": "gemini-2.5-pro",
+            "name": "Gemini 2.5 Pro (1M Context)"
+          },
+          {
+            "id": "gemini-2.5-flash",
+            "name": "Gemini 2.5 Flash (Rápido)"
+          }
+        ]
+      },
+      "openrouter": {
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "apiKey": {
+          "source": "env",
+          "provider": "default",
+          "id": "OPENROUTER_API_KEY"
+        },
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "meta-llama/llama-3.3-70b-instruct:free",
+            "name": "Llama 3.3 70B Free"
+          },
+          {
+            "id": "qwen/qwen-2.5-72b-instruct:free",
+            "name": "Qwen 2.5 72B Free"
+          }
+        ]
+      },
       "ollama": {
         "baseUrl": "http://ollama:11434/v1",
         "apiKey": "ollama-local",
         "api": "openai-completions",
         "models": [
-          { "id": "qwen3:8b", "name": "Qwen3 8B (Agente & Tool Calling)" },
-          { "id": "gpt-oss:20b", "name": "GPT-OSS 20B" },
-          { "id": "qwen2.5-coder:7b", "name": "Qwen 2.5 Coder 7B" },
-          { "id": "gemma4:latest", "name": "Gemma 4" }
+          {
+            "id": "qwen3:8b",
+            "name": "Qwen3 8B (Agente & Tool Calling)"
+          },
+          {
+            "id": "gpt-oss:20b",
+            "name": "GPT-OSS 20B"
+          },
+          {
+            "id": "qwen2.5-coder:7b",
+            "name": "Qwen 2.5 Coder 7B"
+          },
+          {
+            "id": "gemma4:latest",
+            "name": "Gemma 4"
+          }
         ]
       },
       "ai-api": {
@@ -30,7 +83,10 @@
         "apiKey": "lapan-local",
         "api": "openai-completions",
         "models": [
-          { "id": "lapan-judge", "name": "LAPAN Judge" }
+          {
+            "id": "lapan-judge",
+            "name": "LAPAN Judge"
+          }
         ]
       }
     }
@@ -38,7 +94,11 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "ollama/qwen3:8b"
+        "primary": "google/gemini-2.5-pro",
+        "fallbacks": [
+          "openrouter/meta-llama/llama-3.3-70b-instruct:free",
+          "ollama/qwen3:8b"
+        ]
       },
       "workspace": "/home/node/workspace"
     }
@@ -53,5 +113,12 @@
   "browser": {
     "enabled": true,
     "headless": true
+  },
+  "meta": {
+    "migrations": {
+      "modelPolicyAllowlist": true,
+      "utilityModelSeparation": true
+    },
+    "lastTouchedVersion": "2026.9.9"
   }
 }
