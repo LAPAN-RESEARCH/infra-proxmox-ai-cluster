@@ -1,5 +1,46 @@
 # Changelog
 
+## 2026-10-08 — OpenClaw P0/P1: 5 servidores MCP, memória de longo prazo, busca web local e automações de literatura
+
+- MCP servers no `openclaw.json` (`mcp.servers`): `papers` (paper-search-mcp —
+  PubMed/arXiv/bioRxiv/OpenAlex/Semantic Scholar + download OA com fallback),
+  `zotero` (zotero-mcp em modo local lendo o `zotero.sqlite` montado, com busca
+  semântica via embeddings bge-m3 do próprio Ollama), `arxiv` (leitura por
+  seção do LaTeX fonte, watches, citation graph; storage em
+  `workspace/arxiv-papers`), `biomcp` (PubMed, ClinicalTrials.gov, ClinVar,
+  gnomAD) e `github` (binário oficial v2.0.2 pinado no Dockerfile, toolsets
+  restritos a context/repos/issues/pull_requests/actions).
+- Dockerfile do OpenClaw: `uv` com `uv tool install` dos 4 MCPs Python como
+  binários globais (fail-fast com `command -v`), GitHub CLI do apt oficial,
+  binário `github-mcp-server` pinado por `ARG GITHUB_MCP_VERSION`, `entrypoint.sh`
+  e shim `mcp-github.sh` (token: PAT do `.env` → fallback oauth_token do
+  hosts.yml do gh do host; nenhum segredo no git), skills em
+  `/opt/openclaw-skills` e identidade em `/opt/openclaw-identity`.
+- Entrypoint idempotente: semeia SOUL/USER/IDENTITY/AGENTS.md no volume na
+  primeira execução (corrige o gap de o deploy copiar SOUL.md sem que o
+  Dockerfile o entregasse ao runtime) e instala os plugins oficiais ausentes
+  (`@openclaw/memory-lancedb`, `@openclaw/searxng-plugin`) — plugins são
+  stateful no volume `~/.openclaw`, insuficientes apenas no build.
+- Memória de longo prazo: plugin `memory-lancedb` com embeddings **Ollama
+  bge-m3** (1024 dims, local, LGPD-friendly), auto-recall + auto-capture;
+  `toolSearch: true` reativado para o catálogo ampliado de ferramentas.
+- Busca web self-hosted: novo serviço `searxng` na `lapan-ai-net` (mesma config
+  da VPS, format JSON habilitado, sem porta exposta) + `web.search.provider:
+  searxng`; elimina dependência de APIs pagas.
+- `scripts/openclaw_setup.sh` (pós-deploy, na VM): garante `bge-m3` no Ollama e
+  cria as automações P1 `varredura-literatura` (dias úteis 06:00) e
+  `resumo-semanal-literatura` (segundas 07:00), idempotentes por nome.
+- MCPs dos bancos da própria stack: `qdrant` (busca vetorial na coleção
+  `research_chunks_bge_m3`) e `neo4j` (Cypher no grafo semântico com
+  APOC/GDS), com shims `mcp-qdrant.sh`/`mcp-neo4j.sh` resolvendo
+  QDRANT_API_KEY e NEO4J_AUTH do `.env` da stack. Imagem ganha ainda `ruff`,
+  `ripgrep`, `fd-find`, `pandoc`, `pymupdf4llm` e `markdownlint-cli2`.
+- `deploy_ai_stack.sh`: sincroniza o contexto de build completo do OpenClaw
+  (antes copiava só Dockerfile/openclaw.json/SOUL.md e o build falharia no
+  `COPY zotero_tool.py`) e instala a config do SearXNG.
+- `.env.example`: `GITHUB_PERSONAL_ACCESS_TOKEN` opcional (fine-grained,
+  LAPAN-RESEARCH); sem ele o shim reutiliza a auth do gh do host.
+
 ## 2026-10-08 — VM 2020 maximizada para o host dedicado (12 vCPUs / 26 GiB)
 
 - Diagnóstico de utilização: host Ryzen 5 5500 (6c/12t, 32 GB) com VM única

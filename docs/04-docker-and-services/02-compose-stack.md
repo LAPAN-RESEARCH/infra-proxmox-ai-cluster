@@ -69,7 +69,7 @@ jupyter/Dockerfile:ARG JUPYTER_BASE_TAG=2026-05-11
 
 ### Step 4: Start services
 
-- **Purpose:** Run Ollama, Speaches/Whisper, Open WebUI, Qdrant, Neo4j, and JupyterLab.
+- **Purpose:** Run Ollama, Speaches/Whisper, Open WebUI, Qdrant, Neo4j, JupyterLab, OpenClaw (with 5 MCP servers) and SearXNG.
 - **Command(s):**
 
 ```bash
@@ -83,17 +83,42 @@ sudo docker compose ps
 - **Expected Output:**
 
 ```text
-NAME         STATUS
-ollama       Up
-speaches     Up
-open-webui   Up
-qdrant       Up
-neo4j        Up
-jupyter      Up
+NAME              STATUS
+ollama            Up
+speaches          Up
+open-webui        Up
+qdrant            Up
+neo4j             Up
+jupyter           Up
+openclaw          Up
+lapan-ai-searxng  Up
 ```
 
 - **Verification:** `sudo docker compose ps` shows all services up.
 - **⚠️ Caveats/Traps:** Current user is not in the Docker group; use `sudo docker`.
+
+### Step 4b: OpenClaw post-deploy (embeddings + literature automations)
+
+- **Purpose:** Ensure the `bge-m3` embedding model (long-term memory + Zotero
+  semantic search) and the literature-watch automations exist. Idempotent.
+- **Command(s):**
+
+```bash
+cd <repo>
+sudo docker exec ollama ollama pull bge-m3
+scripts/openclaw_setup.sh   # on the VM, after compose up
+```
+
+- **Explanation:** MCP servers (`papers`, `zotero`, `arxiv`, `biomcp`,
+  `github`) and the skill `github` ship inside the image; official plugins
+  (`memory-lancedb`, `searxng`) are installed on first boot by the entrypoint
+  and persist in the `/srv/ai/openclaw/data` volume.
+- **Verification:** `sudo docker exec openclaw openclaw mcp status` lists the
+  servers; `sudo docker exec openclaw openclaw automations list` shows
+  `varredura-literatura` and `resumo-semanal-literatura`.
+- **⚠️ Caveats/Traps:** If `GITHUB_PERSONAL_ACCESS_TOKEN` is unset, the GitHub
+  MCP falls back to the host `gh` OAuth token (`GH_CONFIG_DIR` mount) — push
+  operations still go through `git`.
 
 ## 3. Configuration Files
 
