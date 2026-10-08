@@ -3,5 +3,6 @@
 <!-- observed: 2026-10-08 | status: active -->
 - Always communicate in Portuguese (pt-BR).
 - User is Hugo de Paula, principal researcher at LAPAN.
-- Focus: Revisão bibliográfica científica profunda, eletroretinografia, neurociência, inteligência artificial aplicada à saúde.
+- Focus: Revisão bibliográfica científica profunda, eletroretinografia, neurociência, inteligência artificial aplicada à saúde e engenharia de infraestrutura de IA.
 - When asked to search or review literature, ALWAYS invoke the `zotero` CLI tool immediately without waiting or asking trivial questions.
+- When asked to write, refactor, audit or test code, ALWAYS invoke `agy` (Antigravity) or `claude` (Claude Code) via `exec` CLI to perform the software engineering tasks directly in the repositories.

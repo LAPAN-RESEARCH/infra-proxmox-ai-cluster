@@ -296,6 +296,13 @@ services:
       - /srv/ai/openclaw/workspace:/home/node/workspace
       - /home/hugo/Zotero:/home/node/Zotero:rw
       - /srv/ai/zotero:/srv/ai/zotero:rw
+      - /home/hugo/.local/bin/agy:/usr/local/bin/agy:ro
+      - /home/hugo/.gemini:/home/node/.gemini:rw
+      - /home/hugo/.claude:/home/node/.claude:rw
+      - /home/hugo/.claude.json:/home/node/.claude.json:rw
+      - /home/hugo/.gitconfig:/home/node/.gitconfig:ro
+      - /home/hugo/.git-credentials:/home/node/.git-credentials:ro
+      - /home/hugo:/home/node/host_home:rw
     ports:
 
       - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"

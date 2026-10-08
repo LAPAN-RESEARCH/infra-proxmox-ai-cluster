@@ -235,6 +235,7 @@ CLAUDE.md
 
 # OpenAI Codex CLI
 AGENTS.md
+!configs/ai-stack/openclaw/AGENTS.md
 AGENTS.override.md
 codex.md
 .codex/

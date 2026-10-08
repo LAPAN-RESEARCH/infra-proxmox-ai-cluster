@@ -23,9 +23,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --no-cache-dir --break-system-packages pymupdf requests httpx pydantic
 
 # Instalar Playwright, OpenClaw e dependências do Chromium headless
-RUN npm install -g playwright openclaw@latest clawhub@latest && \
+RUN npm install -g playwright openclaw@latest clawhub@latest @anthropic-ai/claude-code@latest && \
     npx playwright install-deps chromium && \
     su - node -c "npx playwright install chromium"
+
+COPY --chmod=755 zotero_tool.py /usr/local/bin/zotero
 
 USER node
 WORKDIR /home/node/workspace
