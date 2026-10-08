@@ -16,6 +16,7 @@
     "providers": {
       "ollama": {
         "baseUrl": "http://ollama:11434/v1",
+        "apiKey": "ollama-local",
         "api": "openai-completions",
         "models": [
           { "id": "gpt-oss:20b", "name": "GPT-OSS 20B" },
@@ -24,6 +25,7 @@
       },
       "ai-api": {
         "baseUrl": "http://ai-api:8080/v1",
+        "apiKey": "lapan-local",
         "api": "openai-completions",
         "models": [
           { "id": "lapan-judge", "name": "LAPAN Judge" }

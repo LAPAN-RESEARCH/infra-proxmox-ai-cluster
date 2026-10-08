@@ -294,8 +294,6 @@ services:
       - /srv/ai/openclaw/workspace:/home/node/workspace
       - /home/hugo/Zotero:/home/node/Zotero:rw
       - /srv/ai/zotero:/srv/ai/zotero:rw
-      - ./openclaw/openclaw.json:/home/node/.openclaw/openclaw.json:ro
-      - ./openclaw/SOUL.md:/home/node/.openclaw/SOUL.md:ro
     ports:
 
       - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"
