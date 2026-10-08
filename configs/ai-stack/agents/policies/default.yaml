@@ -19,6 +19,22 @@ roles:
       - read_file
       - write_scratch
       - query_qdrant
+      - process_pdf_ocr
+      - judge_arguments
+      - detect_inconsistencies
+  judge:
+    allowed_tools:
+      - read_file
+      - write_scratch
+      - query_qdrant
+      - judge_arguments
+  inconsistency_auditor:
+    allowed_tools:
+      - read_file
+      - write_scratch
+      - query_qdrant
+      - detect_inconsistencies
+
   graphs:
     allowed_tools:
       - read_file

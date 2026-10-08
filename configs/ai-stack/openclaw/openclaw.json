@@ -1,0 +1,46 @@
+{
+  "gateway": {
+    "mode": "local",
+    "bind": "lan",
+    "port": 18789,
+    "controlUi": {
+      "enabled": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "8c397302ae6442f6cbfd93474d22815f7e5eae67df57d34b7cf0754f42faea76"
+    },
+    "trustedProxies": ["192.168.65.0/24", "172.17.0.0/16", "127.0.0.1"]
+  },
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://ollama:11434/v1",
+        "api": "openai-completions",
+        "models": [
+          { "id": "gpt-oss:20b", "name": "GPT-OSS 20B" },
+          { "id": "qwen3:8b", "name": "Qwen3 8B" }
+        ]
+      },
+      "ai-api": {
+        "baseUrl": "http://ai-api:8080/v1",
+        "api": "openai-completions",
+        "models": [
+          { "id": "lapan-judge", "name": "LAPAN Judge" }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/gpt-oss:20b"
+      },
+      "workspace": "/home/node/workspace"
+    }
+  },
+  "browser": {
+    "enabled": true,
+    "headless": true
+  }
+}
