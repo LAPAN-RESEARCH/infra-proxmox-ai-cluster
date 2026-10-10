@@ -55,7 +55,7 @@ RUN pip3 install --no-cache-dir --break-system-packages pymupdf pymupdf4llm requ
 # MCP servers acadêmicos e de dados (paper-search, zotero, arxiv, biomcp,
 # qdrant, neo4j, semantic-scholar), Serena (LSP semântico p/ código) e ruff
 # como binários globais — fail-fast com `command -v` para garantir disponibilidade.
-RUN uv tool install paper-search-mcp \
+RUN uv tool install --with "mcp<2" paper-search-mcp \
     && uv tool install zotero-mcp-server \
     && uv tool install arxiv-mcp-server \
     && uv tool install biomcp-cli \
