@@ -296,11 +296,18 @@ services:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
       QDRANT_API_KEY: ${QDRANT_API_KEY:-}
       NEO4J_AUTH: ${NEO4J_AUTH:-}
+      # Chaves acadêmicas opcionais (limites de taxa maiores nos MCPs).
+      SEMANTIC_SCHOLAR_API_KEY: ${SEMANTIC_SCHOLAR_API_KEY:-}
+      PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY: ${PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY:-}
+      PAPER_SEARCH_MCP_OPENALEX_API_KEY: ${PAPER_SEARCH_MCP_OPENALEX_API_KEY:-}
+      NCBI_API_KEY: ${NCBI_API_KEY:-}
+      # Canal Telegram (plugin instalado; ativa com channels.telegram na config).
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       # PAT fine-grained opcional (GitHub MCP + gh CLI); sem ele o shim usa o
-      # oauth_token do hosts.yml do gh montado do host.
+      # oauth_token do hosts.yml do gh montado do host em /home/node/gh-config.
       GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PERSONAL_ACCESS_TOKEN:-}
-      # gh CLI autenticado pelo hosts.yml do host.
-      GH_CONFIG_DIR: /home/node/host_home/.config/gh
+      # gh CLI autenticado pelo hosts.yml do host (montagem somente-leitura).
+      GH_CONFIG_DIR: /home/node/gh-config
     volumes:
       - /srv/ai/openclaw/data:/home/node/.openclaw
       - /srv/ai/openclaw/workspace:/home/node/workspace
@@ -312,7 +319,10 @@ services:
       - /home/hugo/.claude.json:/home/node/.claude.json:rw
       - /home/hugo/.gitconfig:/home/node/.gitconfig:ro
       - /home/hugo/.git-credentials:/home/node/.git-credentials:ro
-      - /home/hugo:/home/node/host_home:rw
+      # Escopo mínimo: apenas o diretório de projetos (sem ~/.ssh, ~/.config,
+      # ~/.gnupg etc.) + config do gh somente-leitura para autenticação.
+      - /home/hugo/Documents/LAPAN:/home/node/host_home:rw
+      - /home/hugo/.config/gh:/home/node/gh-config:ro
     ports:
 
       - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"

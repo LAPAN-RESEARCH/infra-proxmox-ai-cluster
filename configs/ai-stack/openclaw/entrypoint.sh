@@ -24,6 +24,10 @@ if [ -f "/opt/openclaw-identity/AGENTS.md" ] && [ ! -f "${WORKSPACE}/AGENTS.md" 
   cp "/opt/openclaw-identity/AGENTS.md" "${WORKSPACE}/AGENTS.md"
   echo "[entrypoint] seeded ${WORKSPACE}/AGENTS.md"
 fi
+if [ -f "/opt/openclaw-identity/.markdownlint.jsonc" ] && [ ! -f "${WORKSPACE}/.markdownlint.jsonc" ]; then
+  cp "/opt/openclaw-identity/.markdownlint.jsonc" "${WORKSPACE}/.markdownlint.jsonc"
+  echo "[entrypoint] seeded ${WORKSPACE}/.markdownlint.jsonc"
+fi
 
 # --- 2. Plugins oficiais (idempotente) ---
 ensure_plugin() {
@@ -43,6 +47,13 @@ ensure_plugin() {
 # Memória de longo prazo (embeddings Ollama bge-m3) e busca web self-hosted.
 ensure_plugin "@openclaw/memory-lancedb" "memory-lancedb"
 ensure_plugin "@openclaw/searxng-plugin" "searxng"
+# Pipelines tipados com aprovações (IA-as-a-Judge multiestágio).
+ensure_plugin "@openclaw/lobster" "lobster"
+# Métricas Prometheus do runtime (sessions, tokens, falhas de MCP).
+ensure_plugin "@openclaw/diagnostics-prometheus" "diagnostics-prometheus"
+# Canal Telegram: plugin instalado, mas só ativa com channels.telegram no
+# openclaw.json + TELEGRAM_BOT_TOKEN (ver docs/08-openclaw/03-plugins-e-skills.md).
+ensure_plugin "@openclaw/telegram" "telegram"
 
 # --- 3. Gateway ---
 exec openclaw gateway run --port "${OPENCLAW_PORT:-18789}" --bind lan --allow-unconfigured

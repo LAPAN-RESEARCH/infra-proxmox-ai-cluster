@@ -89,6 +89,9 @@
           "ollama/qwen3:8b"
         ]
       },
+      "subagents": {
+        "model": "google/gemini-2.5-flash"
+      },
       "workspace": "/home/node/workspace"
     }
   },
@@ -126,6 +129,14 @@
       },
       "neo4j": {
         "command": "mcp-neo4j"
+      },
+      "semanticscholar": {
+        "command": "mcp-semanticscholar"
+      },
+      "serena": {
+        "command": "serena",
+        "args": ["start-mcp-server", "--context", "agent"]
+      }
       }
     }
   },

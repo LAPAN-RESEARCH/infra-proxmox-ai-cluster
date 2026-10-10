@@ -37,6 +37,8 @@ Você tem servidores MCP configurados com ferramentas estruturadas — **prefira
 - **`github`** (github-mcp-server oficial): issues, pull requests, code search e **execuções de GitHub Actions** (logs de CI) dos repositórios LAPAN. Toolsets restritos a leitura + issues/PRs/actions; push e commit continuam sendo feitos via `git` no `exec`.
 - **`qdrant`** (mcp-server-qdrant): busca vetorial direta nos chunks de artigos científicos indexados na coleção `research_chunks_bge_m3`. Use para recuperar trechos conceituais e evidências textuais exatas.
 - **`neo4j`** (mcp-neo4j-cypher): grafo de conhecimento e relações. Executa queries Cypher para cruzar artigos, autores, biomarcadores, metodologias e mapear contradições detectadas pelo IA-as-a-Judge.
+- **`semanticscholar`** (semantic-scholar-mcp): grafo de citações e impacto científico do Semantic Scholar. Use para mapear quem citou o artigo (`paper_citations`), referências bibliográficas estruturadas (`paper_references`), artigos influentes (`isInfluential`) e recomendações de literatura similar.
+- **`serena`** (Serena MCP): análise e edição de código **semântica** via LSP — buscar símbolos, referências, implementações e refatorar no nível de símbolo (não por regex). Use antes de delegar refatorações grandes aos subagentes para localizar exatamente o que muda; suporta Python/TypeScript e outras 40+ linguagens.
 
 ## 4. Busca Web, Memória, Linters e Ferramentas de Suporte
 
@@ -44,15 +46,21 @@ Você tem servidores MCP configurados com ferramentas estruturadas — **prefira
 - **Memória de longo prazo (`memory_recall` / `memory_store`):** memória LanceDB com embeddings locais (bge-m3 no Ollama). Use `memory_store` para registrar aprendizados duradouros (decisões de arquitetura do lab, preferências do usuário, lições de revisões) e confie no auto-recall para recuperá-los. Não armazene dados clínicos identificáveis.
 - **GitHub CLI (`gh` + skill `github`):** autenticado via `GH_CONFIG_DIR`. Use para operações interativas com git local e como alternativa ao MCP.
 - **Formatadores e Linters Locais:**
-  - `markdownlint-cli2`: auditoria e garantia de formatação estrita de relatórios em Markdown.
+  - `markdownlint-cli2`: **REGRA MANDATÓRIA:** SEMPRE que criar, editar ou gerar qualquer arquivo Markdown (`.md`), execute imediatamente `markdownlint-cli2 <arquivo.md>` (ou `markdownlint-cli2 --fix <arquivo.md>`) para auditar e corrigir cabeçalhos, tabelas, espaçamentos e blocos de código antes de entregar a resposta.
   - `ruff`: linter e formatador de código Python ultrarrápido (substitui flake8, black e pylint).
   - `pandoc`: compilação e conversão de relatórios científicos entre Markdown, LaTeX e PDF.
 
-## 5. Ferramentas Autônomas de Código (Subagentes Especializados)
+## 5. Subagentes: Nativos e CLIs Especializadas
 
-Para qualquer necessidade de codificação, refatoração, testes ou depuração de repositórios, invoque diretamente os subagentes disponíveis no PATH via ferramenta de execução (`exec`):
+### A. Subagentes nativos do OpenClaw (primeira escolha para paralelismo)
 
-### A. Antigravity CLI (`agy`)
+Para dividir trabalho em lanes paralelas (pesquisa + codificação + revisão de teste), prefira a ferramenta nativa `subagents`/`sessions_spawn`: cada subagente roda em sessão isolada, com modelo próprio (configurado para `gemini-2.5-flash`, rápido e barato), anuncia o resultado de volta e não herda o contexto inteiro da conversa. Use para tarefas medias (auditar um módulo, resumir um conjunto de papers, revisar um diff).
+
+### B. Ferramentas Autônomas de Código (CLIs no PATH)
+
+Para codificação pesada, refatoração, testes ou depuração de repositórios, invoque diretamente as CLIs via ferramenta de execução (`exec`):
+
+### C. Antigravity CLI (`agy`)
 - **Perfil:** Ideal para raciocínio arquitetural, análises multimodais de código, refatoração profunda de componentes e fluxos avançados.
 - **Invocação não-interativa:**
   ```bash
@@ -60,24 +68,24 @@ Para qualquer necessidade de codificação, refatoração, testes ou depuração
   ```
   Ou direcionado ao projeto no host:
   ```bash
-  cd /home/node/host_home/<repositorio> && agy --dangerously-skip-permissions -p "<instrução>"
+  cd /home/node/host_home/<caminho_do_projeto> && agy --dangerously-skip-permissions -p "<instrução>"
   ```
 
-### B. Claude Code CLI (`claude`)
+### D. Claude Code CLI (`claude`)
 - **Perfil:** Ideal para geração cirúrgica de código, implementação rápida de scripts, correção de bugs, execução e validação de suítes de testes unitários.
 - **Invocação não-interativa:**
   ```bash
-  claude --dangerously-skip-permissions -p "<instrução detalhada>"
+  claude --dangerously-skip-permissions -p "<instrução>"
   ```
   Ou direcionado ao projeto no host:
   ```bash
-  cd /home/node/host_home/<repositorio> && claude --dangerously-skip-permissions -p "<instrução>"
+  cd /home/node/host_home/<caminho_do_projeto> && claude --dangerously-skip-permissions -p "<instrução>"
   ```
 
-### C. Estrutura de Diretórios e Repositórios
+### E. Estrutura de Diretórios e Repositórios
 - **Workspace local do agente:** `/home/node/workspace/` (onde residem as instruções e ferramentas).
-- **Repositórios do host:** `/home/node/host_home/` (ex: `infra-proxmox-ai-cluster`, `edu-neurovision-ppgmec`, `proxmox-lapan-ai-setup`, etc.).
-- Ambas as ferramentas possuem permissões completas de leitura e escrita correspondentes ao usuário Hugo.
+- **Raiz de projetos do host:** `/home/node/host_home/` = `~/Documents/LAPAN/` do Hugo — navegue pela estrutura (`dev/apps`, `dev/research`, `dev/web`, `dev/data`, `dev/infra` etc.; ex.: `dev/infra/infra-proxmox-ai-cluster`, `dev/research/research-cca`, `dev/web/web-lapan-ufmg`).
+- Ambas as CLIs possuem permissões de leitura e escrita correspondentes ao usuário Hugo dentro dessa raiz.
 
 ## 6. Automações Agendadas
 

@@ -14,6 +14,13 @@ ENV UV_LINK_MODE=copy \
 # Versão pinada do servidor MCP oficial do GitHub (binário Go standalone).
 ARG GITHUB_MCP_VERSION=v2.0.2
 
+# Versões pinadas dos pacotes npm — builds reprodutíveis; bump deliberado via
+# ARG (o openclaw.json registra a versão tocada em meta.lastTouchedVersion).
+ARG OPENCLAW_VERSION=2026.9.9
+ARG CLAWHUB_VERSION=0.23.3
+ARG CLAUDE_CODE_VERSION=2.1.294
+ARG MARKDOWNLINT_VERSION=0.23.3
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -45,7 +52,8 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
 
 RUN pip3 install --no-cache-dir --break-system-packages pymupdf pymupdf4llm requests httpx pydantic uv
 
-# MCP servers acadêmicos e de dados (paper-search, zotero, arxiv, biomcp, qdrant, neo4j) e ruff
+# MCP servers acadêmicos e de dados (paper-search, zotero, arxiv, biomcp,
+# qdrant, neo4j, semantic-scholar), Serena (LSP semântico p/ código) e ruff
 # como binários globais — fail-fast com `command -v` para garantir disponibilidade.
 RUN uv tool install paper-search-mcp \
     && uv tool install zotero-mcp-server \
@@ -53,8 +61,10 @@ RUN uv tool install paper-search-mcp \
     && uv tool install biomcp-cli \
     && uv tool install mcp-server-qdrant \
     && uv tool install mcp-neo4j-cypher \
+    && uv tool install --with "mcp<2" semantic-scholar-mcp \
+    && uv tool install serena-agent \
     && uv tool install ruff \
-    && command -v paper-search-mcp zotero-mcp arxiv-mcp-server biomcp mcp-server-qdrant mcp-neo4j-cypher ruff
+    && command -v paper-search-mcp zotero-mcp arxiv-mcp-server biomcp mcp-server-qdrant mcp-neo4j-cypher semantic-scholar-mcp serena ruff
 
 # Servidor MCP oficial do GitHub (Go), pinado por ARG.
 RUN curl -fsSL \
@@ -67,16 +77,22 @@ RUN curl -fsSL \
     && github-mcp-server --help > /dev/null
 
 # Instalar Playwright, OpenClaw, Markdownlint e dependências do Chromium headless
-RUN npm install -g playwright openclaw@latest clawhub@latest @anthropic-ai/claude-code@latest markdownlint-cli2@latest && \
-    npx playwright install-deps chromium && \
-    su - node -c "npx playwright install chromium"
+RUN npm install -g \
+      openclaw@${OPENCLAW_VERSION} \
+      clawhub@${CLAWHUB_VERSION} \
+      @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} \
+      markdownlint-cli2@${MARKDOWNLINT_VERSION} \
+      playwright \
+    && npx playwright install-deps chromium \
+    && su - node -c "npx playwright install chromium"
 
 COPY --chmod=755 zotero_tool.py /usr/local/bin/zotero
 COPY --chmod=755 mcp-github.sh /usr/local/bin/mcp-github
 COPY --chmod=755 mcp-neo4j.sh /usr/local/bin/mcp-neo4j
 COPY --chmod=755 mcp-qdrant.sh /usr/local/bin/mcp-qdrant
+COPY --chmod=755 mcp-semanticscholar.sh /usr/local/bin/mcp-semanticscholar
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY --chmod=644 SOUL.md AGENTS.md USER.md IDENTITY.md /opt/openclaw-identity/
+COPY --chmod=644 SOUL.md AGENTS.md USER.md IDENTITY.md .markdownlint.jsonc /opt/openclaw-identity/
 COPY skills/ /opt/openclaw-skills/
 
 USER node
