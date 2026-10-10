@@ -137,7 +137,6 @@
         "command": "serena",
         "args": ["start-mcp-server", "--context", "agent"]
       }
-      }
     }
   },
   "plugins": {
