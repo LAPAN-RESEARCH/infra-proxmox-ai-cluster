@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-10-10 — OpenClaw P2/P3 + guia completo em português (docs/08-openclaw)
+
+- **MCP `semanticscholar`** (semantic-scholar-mcp 0.4.0, instalação do Hugo):
+  grafo de citações e impacto científico; padronizado em shim
+  `mcp-semanticscholar.sh` (chave opcional `SEMANTIC_SCHOLAR_API_KEY` via
+  `.env`) e regra mandatória de `markdownlint-cli2` no AGENTS/SOUL com config
+  `.markdownlint.jsonc` semeada no workspace pelo entrypoint.
+- **P2 — Serena MCP** (`serena` via `uv tool install serena-agent`): análise e
+  edição de código semântica via LSP (40+ linguagens), entrada `mcp.servers.serena`
+  com `--context agent`.
+- **P2 — Subagentes nativos**: `agents.defaults.subagents.model` =
+  `gemini-2.5-flash` para lanes paralelas; AGENTS.md reorganizado (nativos
+  como primeira escolha, CLIs agy/claude para codificação pesada).
+- **P2 — Plugins**: `@openclaw/lobster` (pipelines tipados com aprovações —
+  IA-as-a-Judge multiestágio) e `@openclaw/diagnostics-prometheus` (métricas
+  do runtime) adicionados ao bootstrap idempotente do entrypoint.
+- **P2 — Chaves acadêmicas formalizadas** no `.env.example`/compose:
+  `PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY`, `PAPER_SEARCH_MCP_OPENALEX_API_KEY`,
+  `NCBI_API_KEY` (opcionais, elevam limites de taxa).
+- **P3 — Canal Telegram**: plugin `@openclaw/telegram` no bootstrap + slot
+  `TELEGRAM_BOT_TOKEN` no `.env`; ativação passo a passo documentada
+  (BotFather → channels.telegram → bindings → `--announce` no resumo semanal).
+- **P3 — Escopo mínimo da home**: montagem trocada de `/home/hugo` inteiro
+  para **`/home/hugo/Documents/LAPAN`** (raiz de projetos) + `~/.config/gh`
+  separado em somente-leitura (`GH_CONFIG_DIR=/home/node/gh-config`); chaves
+  SSH, `.gnupg` e o resto da home fora do alcance do container. Paths em
+  AGENTS/SOUL atualizados para a nova raiz.
+- **P3 — Versões pinadas** no Dockerfile via ARG: `OPENCLAW_VERSION=2026.9.9`,
+  `CLAWHUB_VERSION=0.23.3`, `CLAUDE_CODE_VERSION=2.1.294`,
+  `MARKDOWNLINT_VERSION=0.23.3` (builds reprodutíveis; bump deliberado).
+- **Documentação**: nova seção `docs/08-openclaw/` (10 arquivos em português,
+  escrita para iniciante): conceitos, arquitetura, 9 MCPs, plugins/skills,
+  memória, automações, código/subagentes, segurança (inclui passo a passo do
+  PAT fine-grained e a decisão documentada sobre política de exec) e
+  operação/troubleshooting; índice adicionado ao README.
+
 ## 2026-10-08 — Hardening de envio: segredo do gateway fora do git, backup do OpenClaw e limpeza de config morta
 
 - Token do gateway fora do controle de versão: `openclaw.json` passa a usar
