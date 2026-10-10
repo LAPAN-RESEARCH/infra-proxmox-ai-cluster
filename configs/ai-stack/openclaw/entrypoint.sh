@@ -3,9 +3,9 @@
 #
 # 1. Semeia SOUL.md/USER.md/IDENTITY.md em ~/.openclaw e AGENTS.md no workspace
 #    na primeira execução (nunca sobrescreve edições locais).
-# 2. Instala os plugins oficiais ausentes — plugins são stateful no volume
+# 3. Instala os plugins oficiais ausentes — plugins são stateful no volume
 #    ~/.openclaw e por isso não podem ser instalados apenas no build da imagem.
-# 3. Executa o gateway (PID 1).
+# 4. Executa o gateway (PID 1).
 set -u
 
 OPENCLAW_DIR="${HOME}/.openclaw"
@@ -13,7 +13,16 @@ WORKSPACE="${HOME}/workspace"
 
 mkdir -p "${OPENCLAW_DIR}" "${WORKSPACE}/arxiv-papers"
 
-# --- 1. Identidade (primeira execução) ---
+# --- 1. Config declarativa (sempre) + identidade (primeira execução) ---
+# O openclaw.json do repo é a fonte da verdade: sobrepõe a cópia do volume a
+# cada boot (o runtime pode regravar o arquivo, mas o repo vence no próximo
+# início). Estado vivo — sessões, memória, plugins, automações — vive fora
+# dele e não é tocado.
+if [ -f /opt/openclaw-config/openclaw.json ]; then
+  cp /opt/openclaw-config/openclaw.json "${OPENCLAW_DIR}/openclaw.json"
+  echo "[entrypoint] openclaw.json sincronizado (fonte: imagem/repo)"
+fi
+# --- 2. Identidade (primeira execução) ---
 for f in SOUL.md USER.md IDENTITY.md; do
   if [ -f "/opt/openclaw-identity/${f}" ] && [ ! -f "${OPENCLAW_DIR}/${f}" ]; then
     cp "/opt/openclaw-identity/${f}" "${OPENCLAW_DIR}/${f}"
@@ -29,7 +38,7 @@ if [ -f "/opt/openclaw-identity/.markdownlint.jsonc" ] && [ ! -f "${WORKSPACE}/.
   echo "[entrypoint] seeded ${WORKSPACE}/.markdownlint.jsonc"
 fi
 
-# --- 2. Plugins oficiais (idempotente) ---
+# --- 3. Plugins oficiais (idempotente) ---
 ensure_plugin() {
   pkg="$1"
   id="$2"
@@ -55,5 +64,5 @@ ensure_plugin "@openclaw/diagnostics-prometheus" "diagnostics-prometheus"
 # openclaw.json + TELEGRAM_BOT_TOKEN (ver docs/08-openclaw/03-plugins-e-skills.md).
 ensure_plugin "@openclaw/telegram" "telegram"
 
-# --- 3. Gateway ---
+# --- 4. Gateway ---
 exec openclaw gateway run --port "${OPENCLAW_PORT:-18789}" --bind lan --allow-unconfigured

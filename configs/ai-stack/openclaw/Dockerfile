@@ -93,6 +93,7 @@ COPY --chmod=755 mcp-qdrant.sh /usr/local/bin/mcp-qdrant
 COPY --chmod=755 mcp-semanticscholar.sh /usr/local/bin/mcp-semanticscholar
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY --chmod=644 SOUL.md AGENTS.md USER.md IDENTITY.md .markdownlint.jsonc /opt/openclaw-identity/
+COPY --chmod=644 openclaw.json /opt/openclaw-config/openclaw.json
 COPY skills/ /opt/openclaw-skills/
 
 USER node
