@@ -86,6 +86,11 @@ RUN npm install -g \
     && npx playwright install-deps chromium \
     && su - node -c "npx playwright install chromium"
 
+# Diretórios pré-criados com 755: COPY --chmod=N aplica a permissão também ao
+# diretório criado implicitamente, e 644 em diretório remove o bit x — o que
+# impede o usuário node de atravessá-lo (falha silenciosa no entrypoint).
+RUN mkdir -p /opt/openclaw-config /opt/openclaw-identity /opt/openclaw-skills
+
 COPY --chmod=755 zotero_tool.py /usr/local/bin/zotero
 COPY --chmod=755 mcp-github.sh /usr/local/bin/mcp-github
 COPY --chmod=755 mcp-neo4j.sh /usr/local/bin/mcp-neo4j
