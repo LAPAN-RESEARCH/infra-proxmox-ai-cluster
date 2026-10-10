@@ -106,6 +106,19 @@ Follow-up review on 2026-06-03 found `/` at 83% and `/srv/ai` at 3%. Ollama mode
 - [Zotero Ingestion](docs/05-ai-research-platform/04-zotero-ingestion.md)
 - [Local Agents](docs/05-ai-research-platform/05-local-agents.md)
 
+### OpenClaw Agent (em português)
+
+- [Guia completo do agente](docs/08-openclaw/README.md) — índice e resumo
+- [Conceitos fundamentais](docs/08-openclaw/00-conceitos-fundamentais.md)
+- [Arquitetura no cluster](docs/08-openclaw/01-arquitetura-no-cluster.md)
+- [Servidores MCP](docs/08-openclaw/02-servidores-mcp.md)
+- [Plugins e skills](docs/08-openclaw/03-plugins-e-skills.md)
+- [Memória e aprendizado](docs/08-openclaw/04-memoria-e-aprendizado.md)
+- [Automações](docs/08-openclaw/05-automacoes.md)
+- [Código e subagentes](docs/08-openclaw/06-codigo-e-subagentes.md)
+- [Segurança](docs/08-openclaw/07-seguranca.md)
+- [Operação e manutenção](docs/08-openclaw/08-operacao-e-manutencao.md)
+
 ### Operations and Troubleshooting
 
 - [Backups and Restore](docs/06-operations/01-backups-and-restore.md)
